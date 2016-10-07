@@ -1,6 +1,6 @@
 // @flow
 import * as Immutable from 'immutable';
-import ImmutableState from './ImmutableState';
+import ImmutableState from '../ImmutableState';
 
 export type Bar = {
   fn: Function,

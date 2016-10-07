@@ -1,10 +1,10 @@
 // @flow
-import initialize from './initialize';
-import fromJS from './fromJS';
-import fromImmutable from './fromImmutable';
-import getTypeAnnotation from './getTypeAnnotation';
-import getter from './getter';
-import setter from './setter';
+import initialize from './helpers/initialize';
+import fromJS from './helpers/fromJS';
+import fromImmutable from './helpers/fromImmutable';
+import getTypeAnnotation from './helpers/getTypeAnnotation';
+import getter from './helpers/getter';
+import setter from './helpers/setter';
 
 export default function(file: Object, api: Object) {
   const j = api.jscodeshift;

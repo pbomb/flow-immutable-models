@@ -1,3 +1,4 @@
+// @flow
 export default function initialize(j: Object, prop: Object, props: Object[]) {
   const mapTypeAnnotation = j.typeAnnotation(
     j.genericTypeAnnotation(
