@@ -1,7 +1,12 @@
 // @flow
 import getTypeAnnotation from './getTypeAnnotation';
 
-export default function setterBody(j: Object, prop: Object, modelTypeAnnotation: Object, className: string) {
+export default function setterBody(
+  j: Object,
+  prop: Object,
+  modelTypeAnnotation: Object,
+  className: string
+) {
 
   function capitalize(str: string) {
     return `${str[0].toUpperCase()}${str.slice(1)}`;
@@ -12,7 +17,7 @@ export default function setterBody(j: Object, prop: Object, modelTypeAnnotation:
   const func = j.functionExpression(
     null,
     [
-      param
+      param,
     ],
     j.blockStatement(
       [
@@ -30,12 +35,11 @@ export default function setterBody(j: Object, prop: Object, modelTypeAnnotation:
                 ),
                 [
                   j.literal(prop.key.name),
-
                 ]
-              )
+              ),
             ]
           )
-        )
+        ),
       ],
     )
   );
@@ -45,5 +49,5 @@ export default function setterBody(j: Object, prop: Object, modelTypeAnnotation:
     'method',
     j.identifier(`set${capitalize(prop.key.name)}`),
     func
-  )
+  );
 }

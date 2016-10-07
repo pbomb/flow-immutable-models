@@ -1,5 +1,5 @@
 // @flow
-import ImmutableState from '../ImmutableState';
+import ImmutableState from '../src/ImmutableState';
 
 export type Bar = {
   str: string,
@@ -11,4 +11,6 @@ export type Foo = {
   str: ?string,
   num: ?number,
   obj: ?Object,
+  bar: Bar,
+  fn: Function
 };

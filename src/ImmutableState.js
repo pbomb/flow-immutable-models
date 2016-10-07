@@ -5,14 +5,11 @@ export type Updater<TProp> = (oldValue: TProp) => TProp;
 
 export default class ImmutableState {
   _state: Immutable.Map<string, any>;
-  static required: string[];
   initialize: () => Immutable.Map<string, any>;
 
-  constructor(_state?: Immutable.Map<string, any>) {
-    this._state = _state || this.initialize();
+  constructor(state?: Immutable.Map<string, any>) {
+    this._state = state || this.initialize();
   }
-
-  required(): string[] { return []; }
 
   getState() {
     return this._state;

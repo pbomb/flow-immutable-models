@@ -18,7 +18,7 @@ export default function getter(j: Object, prop: Object) {
               j.literal(prop.key.name),
             ]
           )
-        )
+        ),
       ]
     )
   );

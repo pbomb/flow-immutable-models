@@ -6,7 +6,7 @@ export default function fromJS(j: Object, objectTypeAnnotation: Object, classNam
   const func = j.functionExpression(
     null,
     [
-      param
+      param,
     ],
     j.blockStatement(
       [
@@ -23,12 +23,12 @@ export default function fromJS(j: Object, objectTypeAnnotation: Object, classNam
                   fromJSIdentifier
                 ),
                 [
-                  stateIdentifier
+                  stateIdentifier,
                 ]
               ),
             ]
           )
-        )
+        ),
       ]
     )
   );

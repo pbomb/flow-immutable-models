@@ -2,7 +2,7 @@
 import initialize from './helpers/initialize';
 import fromJS from './helpers/fromJS';
 import fromImmutable from './helpers/fromImmutable';
-import getTypeAnnotation from './helpers/getTypeAnnotation';
+import getReferenceProps from './helpers/getReferenceProps';
 import getter from './helpers/getter';
 import setter from './helpers/setter';
 
@@ -11,24 +11,31 @@ export default function(file: Object, api: Object) {
 
   function makeClass(className, type) {
     const classNameIdentifier = j.identifier(className);
-    const variable = j.variableDeclarator(
-      classNameIdentifier,
-      j.literal('xxxxx')
+    const modelTypeAnnotation = j.typeAnnotation(
+      j.genericTypeAnnotation(
+        j.identifier(className),
+        null
+      )
     );
-    const modelTypeAnnotation = j.typeAnnotation(j.genericTypeAnnotation(j.identifier(className), null));
-    const objectTypeAnnotation = j.typeAnnotation(j.genericTypeAnnotation(j.identifier(`${className}Type`), null));
+    const objectTypeAnnotation = j.typeAnnotation(
+      j.genericTypeAnnotation(
+        j.identifier(`${className}Type`),
+        null
+      )
+    );
     const staticMethods = [
       fromJS(j, objectTypeAnnotation, className),
-      fromImmutable(j, className)
+      fromImmutable(j, className),
     ];
     const instanceMethods = type.properties.reduce((methods, prop) => {
       methods.push(
-        initialize(j, prop, type.properties),
         getter(j, prop),
         setter(j, prop, modelTypeAnnotation, className)
       );
       return methods;
-    }, []);
+    }, [
+      initialize(j, getReferenceProps(j, type.properties)),
+    ]);
     return j.exportNamedDeclaration(
       j.classDeclaration(
         classNameIdentifier,
@@ -38,27 +45,28 @@ export default function(file: Object, api: Object) {
     );
   }
 
-  function parseType(typeDef) {
-    delete typeDef["start"];
-    delete typeDef["end"];
-    delete typeDef["loc"];
-    delete typeDef["extra"];
+  function parseType(td: Object) {
+    const typeDef = Object.assign({}, td);
+    delete typeDef.start;
+    delete typeDef.end;
+    delete typeDef.loc;
+    delete typeDef.extra;
 
-    if (typeDef["id"]) {
-      typeDef["id"] = parseType(typeDef["id"]);
+    if (typeDef.id) {
+      typeDef.id = parseType(typeDef.id);
     }
-    if (typeDef["key"]) {
-      typeDef["key"] = parseType(typeDef["key"]);
+    if (typeDef.key) {
+      typeDef.key = parseType(typeDef.key);
     }
-    if (typeDef["value"]) {
-      typeDef["value"] = parseType(typeDef["value"]);
+    if (typeDef.value) {
+      typeDef.value = parseType(typeDef.value);
     }
 
-    if (typeDef["types"]) {
-      typeDef["types"] = typeDef["types"].map(parseType);
+    if (typeDef.types) {
+      typeDef.types = typeDef.types.map(parseType);
     }
-    if (typeDef["properties"]) {
-      typeDef["properties"] = typeDef["properties"].map(parseType);
+    if (typeDef.properties) {
+      typeDef.properties = typeDef.properties.map(parseType);
     }
 
     return typeDef;
@@ -74,12 +82,11 @@ export default function(file: Object, api: Object) {
     .find(j.ExportNamedDeclaration)
     .filter(p => p.node.exportKind === 'type')
     .forEach(
-      p => {
+      (p) => {
         const identifier = p.node.declaration.id.name;
-        console.log('found export', identifier);
         const parsed = parseType(p.node.declaration.right);
         classes.push(makeClass(identifier, parsed));
-        j(p.node).find(j.Identifier).replaceWith(p => `${identifier}Type`);
+        j(p.node).find(j.Identifier).replaceWith(() => `${identifier}Type`);
       }
     );
 

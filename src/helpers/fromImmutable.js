@@ -14,13 +14,13 @@ export default function fromImmutable(j: Object, className: string) {
   const func = j.functionExpression(
     null,
     [
-      param
+      param,
     ],
     j.blockStatement(
       [
         j.returnStatement(
           j.newExpression(j.identifier(className), [immutableStateIdentifier])
-        )
+        ),
       ]
     )
   );
