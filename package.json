@@ -19,16 +19,23 @@
     "babel-cli": "6.16.0",
     "babel-core": "6.17.0",
     "babel-eslint": "7.0.0",
-    "babel-plugin-transform-flow-strip-types": "6.14.0",
+    "babel-jest": "^16.0.0",
+    "babel-plugin-transform-flow-strip-types": "^6.14.0",
+    "babel-polyfill": "^6.16.0",
     "babel-preset-latest": "6.16.0",
     "eslint": "3.7.1",
     "eslint-config-airbnb": "12.0.0",
-    "eslint-plugin-import": "2.0.0",
+    "eslint-plugin-import": "2.0.1",
     "eslint-plugin-jsx-a11y": "^2.2.3",
-    "eslint-plugin-react": "^6.4.1"
+    "eslint-plugin-react": "^6.4.1",
+    "jest": "^16.0.1"
   },
   "dependencies": {
     "immutable": "3.8.1",
-    "jscodeshift": "0.3.26"
+    "jscodeshift": "0.3.29"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testRegex": "/__tests__/.*\\.spec\\.js$"
   }
 }

@@ -5,6 +5,9 @@
     "mocha": true,
     "node": true
   },
+  "globals": {
+    "expect": true
+  },
   "parser": "babel-eslint",
   "rules": {
     "no-console": 0,

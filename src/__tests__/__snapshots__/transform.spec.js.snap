@@ -1,0 +1,116 @@
+exports[`transform adds default class for exported typed object 1`] = `
+"// @flow
+import ImmutableState from \'../../../src/ImmutableState\';
+
+export type BarType = {
+  BarType: string,
+  BarType: number,
+  BarType: BarType,
+};
+
+export type FooType = {
+  FooType: ?string,
+  FooType: ?number,
+  FooType: ?FooType,
+  FooType: FooType,
+  FooType: FooType
+};
+
+export class Bar extends ImmutableState {
+  static fromJS(state: BarType): Bar {
+    return this.fromImmutable(Immutable.fromJS(state));
+  }
+
+  static fromImmutable(immutableState: Immutable.Map<string, any>): Bar {
+    return new Bar(immutableState);
+  }
+
+  static initialize(): Immutable.Map<string, any> {
+    const state = Immutable.Map();
+    return state;
+  }
+
+  get str(): string {
+    return this._state.get(\"str\");
+  }
+
+  setStr(str: string): Bar {
+    return new Bar(this._state.set(\"str\"));
+  }
+
+  get num(): number {
+    return this._state.get(\"num\");
+  }
+
+  setNum(num: number): Bar {
+    return new Bar(this._state.set(\"num\"));
+  }
+
+  get obj(): Object {
+    return this._state.get(\"obj\");
+  }
+
+  setObj(obj: Object): Bar {
+    return new Bar(this._state.set(\"obj\"));
+  }
+}
+
+export class Foo extends ImmutableState {
+  static fromJS(state: FooType): Foo {
+    return this.fromImmutable(Immutable.fromJS(state));
+  }
+
+  static fromImmutable(immutableState: Immutable.Map<string, any>): Foo {
+    return new Foo(immutableState);
+  }
+
+  static initialize(): Immutable.Map<string, any> {
+    const state = Immutable.Map();
+    state = state.set(\"bar\", new Bar());
+    return state;
+  }
+
+  get str(): ?string {
+    return this._state.get(\"str\");
+  }
+
+  setStr(str: ?string): Foo {
+    return new Foo(this._state.set(\"str\"));
+  }
+
+  get num(): ?number {
+    return this._state.get(\"num\");
+  }
+
+  setNum(num: ?number): Foo {
+    return new Foo(this._state.set(\"num\"));
+  }
+
+  get obj(): ?Object {
+    return this._state.get(\"obj\");
+  }
+
+  setObj(obj: ?Object): Foo {
+    return new Foo(this._state.set(\"obj\"));
+  }
+
+  get bar(): Bar {
+    return this._state.get(\"bar\");
+  }
+
+  setBar(bar: Bar): Foo {
+    return new Foo(this._state.set(\"bar\"));
+  }
+
+  get fn(): Function {
+    return this._state.get(\"fn\");
+  }
+
+  setFn(fn: Function): Foo {
+    return new Foo(this._state.set(\"fn\"));
+  }
+}
+"
+`;
+
+exports[`transform adds default class for exported typed object 2`] = `undefined`;
