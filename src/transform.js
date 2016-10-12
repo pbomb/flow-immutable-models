@@ -86,7 +86,10 @@ export default function(file: Object, api: Object) {
         const identifier = p.node.declaration.id.name;
         const parsed = parseType(p.node.declaration.right);
         classes.push(makeClass(identifier, parsed));
-        j(p.node).find(j.Identifier).replaceWith(() => `${identifier}Type`);
+        j(p.node)
+          .find(j.Identifier)
+          .filter(path => path.parentPath.value.type === 'TypeAlias')
+          .replaceWith(() => `${identifier}Type`);
       }
     );
 

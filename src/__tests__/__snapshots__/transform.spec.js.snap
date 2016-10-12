@@ -3,17 +3,17 @@ exports[`transform adds default class for exported typed object 1`] = `
 import ImmutableState from \'../../../src/ImmutableState\';
 
 export type BarType = {
-  BarType: string,
-  BarType: number,
-  BarType: BarType,
+  str: string,
+  num: number,
+  obj: Object,
 };
 
 export type FooType = {
-  FooType: ?string,
-  FooType: ?number,
-  FooType: ?FooType,
-  FooType: FooType,
-  FooType: FooType
+  str: ?string,
+  num: ?number,
+  obj: ?Object,
+  bar: Bar,
+  fn: Function
 };
 
 export class Bar extends ImmutableState {
