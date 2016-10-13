@@ -2,7 +2,7 @@
 import * as Immutable from 'immutable';
 import ImmutableState from '../src/ImmutableState';
 
-export type Foo = {
+export type FooInterface = {
   str: string,
   num: number,
   obj: Object,

@@ -3,7 +3,7 @@ exports[`transform adds default class for exported typed object 1`] = `
 import type { Bar } from \'./bar\';
 import ImmutableState from \'../../../src/ImmutableState\';
 
-export type FooType = {
+export type FooInterface = {
   maybeStr: ?string,
   str: string,
   maybeNum: ?number,
@@ -17,7 +17,7 @@ export type FooType = {
 };
 
 export class Foo extends ImmutableState {
-  static fromJS(state: FooType): Foo {
+  static fromJS(state: FooInterface): Foo {
     return this.fromImmutable(Immutable.fromJS(state));
   }
 
@@ -120,7 +120,7 @@ import * as Immutable from \'immutable\';
 import type { Bar } from \'./bar\';
 import ImmutableState from \'../../../src/ImmutableState\';
 
-export type FooType = {
+export type FooInterface = {
   list: Immutable.List<any>,
   maybeList: ?Immutable.List<Bar>,
   map: Immutable.Map<any, any>,
@@ -128,7 +128,7 @@ export type FooType = {
 };
 
 export class Foo extends ImmutableState {
-  static fromJS(state: FooType): Foo {
+  static fromJS(state: FooInterface): Foo {
     return this.fromImmutable(Immutable.fromJS(state));
   }
 
@@ -183,14 +183,14 @@ exports[`transform initilizes referenced types 1`] = `
 import type { Bar } from \'./bar\';
 import ImmutableState from \'../../../src/ImmutableState\';
 
-export type FooType = {
+export type FooInterface = {
   ref: Bar,
   maybeRef: ?Bar,
   str: string,
 };
 
 export class Foo extends ImmutableState {
-  static fromJS(state: FooType): Foo {
+  static fromJS(state: FooInterface): Foo {
     return this.fromImmutable(Immutable.fromJS(state));
   }
 

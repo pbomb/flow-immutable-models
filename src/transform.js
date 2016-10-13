@@ -19,7 +19,7 @@ export default function(file: Object, api: Object) {
     );
     const objectTypeAnnotation = j.typeAnnotation(
       j.genericTypeAnnotation(
-        j.identifier(`${className}Type`),
+        j.identifier(`${className}Interface`),
         null
       )
     );
@@ -80,16 +80,19 @@ export default function(file: Object, api: Object) {
 
   root
     .find(j.ExportNamedDeclaration)
-    .filter(p => p.node.exportKind === 'type')
+    .filter((p) => {
+      if (p.node.exportKind === 'type') {
+        const identifier = p.node.declaration.id.name;
+        return identifier.indexOf('Interface') === identifier.length - 'Interface'.length;
+      }
+      return false;
+    })
     .forEach(
       (p) => {
         const identifier = p.node.declaration.id.name;
+        const className = identifier.substring(0, identifier.length - 'Interface'.length);
         const parsed = parseType(p.node.declaration.right);
-        classes.push(makeClass(identifier, parsed));
-        j(p.node)
-          .find(j.Identifier)
-          .filter(path => path.parentPath.value.type === 'TypeAlias')
-          .replaceWith(() => `${identifier}Type`);
+        classes.push(makeClass(className, parsed));
       }
     );
 

@@ -2,7 +2,7 @@
 import type { Bar } from './bar';
 import ImmutableState from '../../../src/ImmutableState';
 
-export type Foo = {
+export type FooInterface = {
   maybeStr: ?string,
   str: string,
   maybeNum: ?number,
