@@ -1,59 +1,20 @@
 exports[`transform adds default class for exported typed object 1`] = `
 "// @flow
+import type { Bar } from \'./bar\';
 import ImmutableState from \'../../../src/ImmutableState\';
 
-export type BarType = {
-  str: string,
-  num: number,
-  obj: Object,
-};
-
 export type FooType = {
-  str: ?string,
-  num: ?number,
-  obj: ?Object,
+  maybeStr: ?string,
+  str: string,
+  maybeNum: ?number,
+  num: number,
+  maybeObj: ?Object,
+  obj: Object,
+  maybeBar: ?Bar,
   bar: Bar,
-  fn: Function
+  maybeFn: ?Function,
+  fn: Function,
 };
-
-export class Bar extends ImmutableState {
-  static fromJS(state: BarType): Bar {
-    return this.fromImmutable(Immutable.fromJS(state));
-  }
-
-  static fromImmutable(immutableState: Immutable.Map<string, any>): Bar {
-    return new Bar(immutableState);
-  }
-
-  static initialize(): Immutable.Map<string, any> {
-    const state = Immutable.Map();
-    return state;
-  }
-
-  get str(): string {
-    return this._state.get(\"str\");
-  }
-
-  setStr(str: string): Bar {
-    return new Bar(this._state.set(\"str\"));
-  }
-
-  get num(): number {
-    return this._state.get(\"num\");
-  }
-
-  setNum(num: number): Bar {
-    return new Bar(this._state.set(\"num\"));
-  }
-
-  get obj(): Object {
-    return this._state.get(\"obj\");
-  }
-
-  setObj(obj: Object): Bar {
-    return new Bar(this._state.set(\"obj\"));
-  }
-}
 
 export class Foo extends ImmutableState {
   static fromJS(state: FooType): Foo {
@@ -65,52 +26,207 @@ export class Foo extends ImmutableState {
   }
 
   static initialize(): Immutable.Map<string, any> {
-    const state = Immutable.Map();
-    state = state.set(\"bar\", new Bar());
+    let state = Immutable.Map();
+    state = state.set(\'bar\', new Bar());
     return state;
   }
 
-  get str(): ?string {
-    return this._state.get(\"str\");
+  get maybeStr(): ?string {
+    return this._state.get(\'maybeStr\');
   }
 
-  setStr(str: ?string): Foo {
-    return new Foo(this._state.set(\"str\"));
+  setMaybeStr(maybeStr: ?string): Foo {
+    return new Foo(this._state.set(\'maybeStr\'));
   }
 
-  get num(): ?number {
-    return this._state.get(\"num\");
+  get str(): string {
+    return this._state.get(\'str\');
   }
 
-  setNum(num: ?number): Foo {
-    return new Foo(this._state.set(\"num\"));
+  setStr(str: string): Foo {
+    return new Foo(this._state.set(\'str\'));
   }
 
-  get obj(): ?Object {
-    return this._state.get(\"obj\");
+  get maybeNum(): ?number {
+    return this._state.get(\'maybeNum\');
   }
 
-  setObj(obj: ?Object): Foo {
-    return new Foo(this._state.set(\"obj\"));
+  setMaybeNum(maybeNum: ?number): Foo {
+    return new Foo(this._state.set(\'maybeNum\'));
+  }
+
+  get num(): number {
+    return this._state.get(\'num\');
+  }
+
+  setNum(num: number): Foo {
+    return new Foo(this._state.set(\'num\'));
+  }
+
+  get maybeObj(): ?Object {
+    return this._state.get(\'maybeObj\');
+  }
+
+  setMaybeObj(maybeObj: ?Object): Foo {
+    return new Foo(this._state.set(\'maybeObj\'));
+  }
+
+  get obj(): Object {
+    return this._state.get(\'obj\');
+  }
+
+  setObj(obj: Object): Foo {
+    return new Foo(this._state.set(\'obj\'));
+  }
+
+  get maybeBar(): ?Bar {
+    return this._state.get(\'maybeBar\');
+  }
+
+  setMaybeBar(maybeBar: ?Bar): Foo {
+    return new Foo(this._state.set(\'maybeBar\'));
   }
 
   get bar(): Bar {
-    return this._state.get(\"bar\");
+    return this._state.get(\'bar\');
   }
 
   setBar(bar: Bar): Foo {
-    return new Foo(this._state.set(\"bar\"));
+    return new Foo(this._state.set(\'bar\'));
+  }
+
+  get maybeFn(): ?Function {
+    return this._state.get(\'maybeFn\');
+  }
+
+  setMaybeFn(maybeFn: ?Function): Foo {
+    return new Foo(this._state.set(\'maybeFn\'));
   }
 
   get fn(): Function {
-    return this._state.get(\"fn\");
+    return this._state.get(\'fn\');
   }
 
   setFn(fn: Function): Foo {
-    return new Foo(this._state.set(\"fn\"));
+    return new Foo(this._state.set(\'fn\'));
   }
 }
 "
 `;
 
-exports[`transform adds default class for exported typed object 2`] = `undefined`;
+exports[`transform initilizes Immutable lists and maps 1`] = `
+"// @flow
+import * as Immutable from \'immutable\';
+import type { Bar } from \'./bar\';
+import ImmutableState from \'../../../src/ImmutableState\';
+
+export type FooType = {
+  list: Immutable.List<any>,
+  maybeList: ?Immutable.List<Bar>,
+  map: Immutable.Map<any, any>,
+  maybeMap: ?Immutable.Map<string, Bar>,
+};
+
+export class Foo extends ImmutableState {
+  static fromJS(state: FooType): Foo {
+    return this.fromImmutable(Immutable.fromJS(state));
+  }
+
+  static fromImmutable(immutableState: Immutable.Map<string, any>): Foo {
+    return new Foo(immutableState);
+  }
+
+  static initialize(): Immutable.Map<string, any> {
+    let state = Immutable.Map();
+    state = state.set(\'list\', Immutable.List());
+    state = state.set(\'map\', Immutable.Map());
+    return state;
+  }
+
+  get list(): Immutable.List<any> {
+    return this._state.get(\'list\');
+  }
+
+  setList(list: Immutable.List<any>): Foo {
+    return new Foo(this._state.set(\'list\'));
+  }
+
+  get maybeList(): ?Immutable.List<Bar> {
+    return this._state.get(\'maybeList\');
+  }
+
+  setMaybeList(maybeList: ?Immutable.List<Bar>): Foo {
+    return new Foo(this._state.set(\'maybeList\'));
+  }
+
+  get map(): Immutable.Map<any, any> {
+    return this._state.get(\'map\');
+  }
+
+  setMap(map: Immutable.Map<any, any>): Foo {
+    return new Foo(this._state.set(\'map\'));
+  }
+
+  get maybeMap(): ?Immutable.Map<string, Bar> {
+    return this._state.get(\'maybeMap\');
+  }
+
+  setMaybeMap(maybeMap: ?Immutable.Map<string, Bar>): Foo {
+    return new Foo(this._state.set(\'maybeMap\'));
+  }
+}
+"
+`;
+
+exports[`transform initilizes referenced types 1`] = `
+"// @flow
+import type { Bar } from \'./bar\';
+import ImmutableState from \'../../../src/ImmutableState\';
+
+export type FooType = {
+  ref: Bar,
+  maybeRef: ?Bar,
+  str: string,
+};
+
+export class Foo extends ImmutableState {
+  static fromJS(state: FooType): Foo {
+    return this.fromImmutable(Immutable.fromJS(state));
+  }
+
+  static fromImmutable(immutableState: Immutable.Map<string, any>): Foo {
+    return new Foo(immutableState);
+  }
+
+  static initialize(): Immutable.Map<string, any> {
+    let state = Immutable.Map();
+    state = state.set(\'ref\', new Bar());
+    return state;
+  }
+
+  get ref(): Bar {
+    return this._state.get(\'ref\');
+  }
+
+  setRef(ref: Bar): Foo {
+    return new Foo(this._state.set(\'ref\'));
+  }
+
+  get maybeRef(): ?Bar {
+    return this._state.get(\'maybeRef\');
+  }
+
+  setMaybeRef(maybeRef: ?Bar): Foo {
+    return new Foo(this._state.set(\'maybeRef\'));
+  }
+
+  get str(): string {
+    return this._state.get(\'str\');
+  }
+
+  setStr(str: string): Foo {
+    return new Foo(this._state.set(\'str\'));
+  }
+}
+"
+`;

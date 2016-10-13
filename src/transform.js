@@ -96,5 +96,5 @@ export default function(file: Object, api: Object) {
   body.push(...classes);
 
   return root
-    .toSource();
+    .toSource({ quote: 'single' });
 }

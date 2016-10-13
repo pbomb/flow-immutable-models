@@ -1,8 +1,37 @@
 // @flow
 
+function isImmutableType(typeAlias: Object): boolean {
+  if (typeAlias.id.type === 'QualifiedTypeIdentifier' && typeAlias.id.qualification.name === 'Immutable') {
+    return true;
+  }
+  return false;
+}
+
+function fromTypeToExpression(j: Object, typeAlias: Object): Object {
+  if (typeAlias.type === 'Identifier') {
+    return j.identifier(typeAlias.name);
+  }
+  if (typeAlias.type === 'QualifiedTypeIdentifier') {
+    return j.memberExpression(
+      fromTypeToExpression(j, typeAlias.qualification),
+      fromTypeToExpression(j, typeAlias.id)
+    );
+  }
+  return j.identifier('unknown');
+}
+
 function initializeReferencesStatements(j: Object, referenceProps: Object[]) {
-  return referenceProps.map(prop =>
-    j.expressionStatement(
+  return referenceProps.map((prop) => {
+    let valueExpression;
+    const typeAlias = prop.value;
+    const typeExpression = fromTypeToExpression(j, typeAlias.id);
+    if (isImmutableType(typeAlias)) {
+      valueExpression = j.callExpression(typeExpression, []);
+    } else {
+      valueExpression = j.newExpression(typeExpression, []);
+    }
+
+    return j.expressionStatement(
       j.assignmentExpression(
         '=',
         j.identifier('state'),
@@ -13,15 +42,12 @@ function initializeReferencesStatements(j: Object, referenceProps: Object[]) {
           ),
           [
             j.literal(prop.key.name),
-            j.newExpression(
-              j.identifier(prop.value.id.name),
-              []
-            ),
+            valueExpression,
           ]
         )
       )
-    )
-  );
+    );
+  });
 }
 
 export default function initialize(j: Object, referenceProps: Object[]) {
@@ -35,7 +61,7 @@ export default function initialize(j: Object, referenceProps: Object[]) {
   );
   const blockStatements = [
     j.variableDeclaration(
-      'const',
+      'let',
       [
         j.variableDeclarator(
           j.identifier('state'),

@@ -1,16 +1,12 @@
 // @flow
+import * as Immutable from 'immutable';
 import ImmutableState from '../src/ImmutableState';
 
-export type Bar = {
+export type Foo = {
   str: string,
   num: number,
   obj: Object,
-};
-
-export type Foo = {
-  str: ?string,
-  num: ?number,
-  obj: ?Object,
-  bar: Bar,
-  fn: Function
+  fn: Function,
+  list: Immutable.List<any>,
+  map: Immutable.Map<string, any>,
 };

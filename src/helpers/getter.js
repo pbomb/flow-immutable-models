@@ -1,6 +1,4 @@
 // @flow
-import getTypeAnnotation from './getTypeAnnotation';
-
 export default function getter(j: Object, prop: Object) {
   const func = j.functionExpression(null, [],
     j.blockStatement(
@@ -22,7 +20,7 @@ export default function getter(j: Object, prop: Object) {
       ]
     )
   );
-  func.returnType = j.typeAnnotation(getTypeAnnotation(j, prop.value));
+  func.returnType = j.typeAnnotation(prop.value);
 
   return j.methodDefinition(
     'get',

@@ -10,14 +10,14 @@ export default function transformFile(filename: string): Promise<string> {
         reject(err);
         return;
       }
-      expect(transform({
+      const output = transform({
         path: file,
         source: source.toString(),
       }, {
         jscodeshift,
         stats: () => {},
-      })).toMatchSnapshot();
-      resolve();
+      });
+      resolve(output.toString());
     });
   });
 }
