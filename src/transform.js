@@ -76,7 +76,10 @@ export default function(file: Object, api: Object) {
   const { program } = root.get().value;
   const { body } = program;
 
-  const classes = [];
+  const classes: Array<{|
+    className: string,
+    classDef: Object
+  |}> = [];
 
   root
     .find(j.ExportNamedDeclaration)
@@ -92,12 +95,24 @@ export default function(file: Object, api: Object) {
         const identifier = p.node.declaration.id.name;
         const className = identifier.substring(0, identifier.length - 'Interface'.length);
         const parsed = parseType(p.node.declaration.right);
-        classes.push(makeClass(className, parsed));
+        classes.push({
+          className,
+          classDef: makeClass(className, parsed),
+        });
       }
     );
 
-  body.push(...classes);
+  classes.forEach(({ className, classDef }) => {
+    const alreadyExportedClass = root
+      .find(j.ExportNamedDeclaration)
+      .filter(path => path.node.declaration.id.name === className);
 
-  return root
-    .toSource({ quote: 'single' });
+    if (alreadyExportedClass.size() === 1) {
+      alreadyExportedClass.replaceWith(classDef);
+    } else {
+      body.push(classDef);
+    }
+  });
+
+  return root.toSource({ quote: 'single' });
 }
