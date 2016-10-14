@@ -1,6 +1,6 @@
 // @flow
 import type { Bar } from './bar';
-import ImmutableState from '../../../src/ImmutableState';
+import ImmutableModel from '../../../src/ImmutableModel';
 
 export type FooInterface = {
   maybeStr: ?string,

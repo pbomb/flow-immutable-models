@@ -3,7 +3,7 @@ import * as Immutable from 'immutable';
 
 export type Updater<TProp> = (oldValue: TProp) => TProp;
 
-export default class ImmutableState {
+export default class ImmutableModel {
   _state: Immutable.Map<string, any>;
   initialize: () => Immutable.Map<string, any>;
 

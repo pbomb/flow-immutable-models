@@ -1,6 +1,6 @@
 // @flow
 import * as Immutable from 'immutable';
-import ImmutableState from '../src/ImmutableState';
+import ImmutableModel from '../src/ImmutableModel';
 
 export type BarInterface = {
   barStr: string,

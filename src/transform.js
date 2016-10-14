@@ -43,7 +43,7 @@ export default function(file: Object, api: Object, options: Object) {
       j.classDeclaration(
         classNameIdentifier,
         j.classBody(staticMethods.concat(instanceMethods)),
-        j.identifier('ImmutableState')
+        j.identifier('ImmutableModel')
       )
     );
   }
