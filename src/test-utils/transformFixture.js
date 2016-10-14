@@ -16,7 +16,7 @@ export default function transformFile(filename: string): Promise<string> {
       }, {
         jscodeshift,
         stats: () => {},
-      });
+      }, {});
       resolve(output.toString());
     });
   });

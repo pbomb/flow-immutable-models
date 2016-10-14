@@ -6,8 +6,11 @@ import getReferenceProps from './helpers/getReferenceProps';
 import getter from './helpers/getter';
 import setter from './helpers/setter';
 
-export default function(file: Object, api: Object) {
+const defaultPrintOptions = { quote: 'single', trailingComma: true };
+export default function(file: Object, api: Object, options: Object) {
   const j = api.jscodeshift;
+
+  const printOptions = options.printOptions || defaultPrintOptions;
 
   function makeClass(className, type) {
     const classNameIdentifier = j.identifier(className);
@@ -114,5 +117,5 @@ export default function(file: Object, api: Object) {
     }
   });
 
-  return root.toSource({ quote: 'single' });
+  return root.toSource(printOptions);
 }
