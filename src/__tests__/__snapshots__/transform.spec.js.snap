@@ -25,7 +25,7 @@ export class Foo extends ImmutableModel {
     return new Foo(ImmutableModel);
   }
 
-  static initialize(): Immutable.Map<string, any> {
+  initialize(): Immutable.Map<string, any> {
     let state = Immutable.Map();
     state = state.set(\'bar\', new Bar());
     return state;
@@ -136,7 +136,7 @@ export class Foo extends ImmutableModel {
     return new Foo(ImmutableModel);
   }
 
-  static initialize(): Immutable.Map<string, any> {
+  initialize(): Immutable.Map<string, any> {
     let state = Immutable.Map();
     state = state.set(\'list\', Immutable.List());
     state = state.set(\'map\', Immutable.Map());
@@ -198,7 +198,7 @@ export class Foo extends ImmutableModel {
     return new Foo(ImmutableModel);
   }
 
-  static initialize(): Immutable.Map<string, any> {
+  initialize(): Immutable.Map<string, any> {
     let state = Immutable.Map();
     state = state.set(\'ref\', new Bar());
     return state;

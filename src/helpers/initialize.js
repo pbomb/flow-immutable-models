@@ -91,6 +91,6 @@ export default function initialize(j: Object, referenceProps: Object[]) {
     'method',
     j.identifier('initialize'),
     func,
-    true
+    false
   );
 }
