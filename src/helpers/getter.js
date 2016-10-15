@@ -1,4 +1,6 @@
 // @flow
+import getTypeAnnotationWithoutInterface from './getTypeAnnotationWithoutInterface';
+
 export default function getter(j: Object, prop: Object) {
   const func = j.functionExpression(null, [],
     j.blockStatement(
@@ -20,7 +22,7 @@ export default function getter(j: Object, prop: Object) {
       ]
     )
   );
-  func.returnType = j.typeAnnotation(prop.value);
+  func.returnType = j.typeAnnotation(getTypeAnnotationWithoutInterface(j, prop.value));
 
   return j.methodDefinition(
     'get',

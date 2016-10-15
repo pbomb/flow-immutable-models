@@ -1,6 +1,7 @@
 exports[`transform adds default class for exported typed object 1`] = `
 "// @flow
-import type { Bar } from \'./bar\';
+import type { BarInterface } from \'./bar\';
+import { Bar } from \'./bar\';
 import ImmutableModel from \'../../../src/ImmutableModel\';
 
 export type FooInterface = {
@@ -10,8 +11,8 @@ export type FooInterface = {
   num: number,
   maybeObj: ?Object,
   obj: Object,
-  maybeBar: ?Bar,
-  bar: Bar,
+  maybeBar: ?BarInterface,
+  bar: BarInterface,
   maybeFn: ?Function,
   fn: Function,
 };
@@ -21,8 +22,8 @@ export class Foo extends ImmutableModel {
     return this.fromImmutable(Immutable.fromJS(state));
   }
 
-  static fromImmutable(ImmutableModel: Immutable.Map<string, any>): Foo {
-    return new Foo(ImmutableModel);
+  static fromImmutable(immutableState: Immutable.Map<string, any>): Foo {
+    return new Foo(immutableState);
   }
 
   initialize(): Immutable.Map<string, any> {
@@ -117,14 +118,15 @@ export class Foo extends ImmutableModel {
 exports[`transform initilizes Immutable lists and maps 1`] = `
 "// @flow
 import * as Immutable from \'immutable\';
-import type { Bar } from \'./bar\';
+import type { BarInterface } from \'./bar\';
+import { Bar } from \'./bar\';
 import ImmutableModel from \'../../../src/ImmutableModel\';
 
 export type FooInterface = {
   list: Immutable.List<any>,
-  maybeList: ?Immutable.List<Bar>,
+  maybeList: ?Immutable.List<BarInterface>,
   map: Immutable.Map<any, any>,
-  maybeMap: ?Immutable.Map<string, Bar>,
+  maybeMap: ?Immutable.Map<string, BarInterface>,
 };
 
 export class Foo extends ImmutableModel {
@@ -132,8 +134,8 @@ export class Foo extends ImmutableModel {
     return this.fromImmutable(Immutable.fromJS(state));
   }
 
-  static fromImmutable(ImmutableModel: Immutable.Map<string, any>): Foo {
-    return new Foo(ImmutableModel);
+  static fromImmutable(immutableState: Immutable.Map<string, any>): Foo {
+    return new Foo(immutableState);
   }
 
   initialize(): Immutable.Map<string, any> {
@@ -180,12 +182,13 @@ export class Foo extends ImmutableModel {
 
 exports[`transform initilizes referenced types 1`] = `
 "// @flow
-import type { Bar } from \'./bar\';
+import type { BarInterface } from \'./bar\';
+import { Bar } from \'./bar\';
 import ImmutableModel from \'../../../src/ImmutableModel\';
 
 export type FooInterface = {
-  ref: Bar,
-  maybeRef: ?Bar,
+  ref: BarInterface,
+  maybeRef: ?BarInterface,
   str: string,
 };
 
@@ -194,8 +197,8 @@ export class Foo extends ImmutableModel {
     return this.fromImmutable(Immutable.fromJS(state));
   }
 
-  static fromImmutable(ImmutableModel: Immutable.Map<string, any>): Foo {
-    return new Foo(ImmutableModel);
+  static fromImmutable(immutableState: Immutable.Map<string, any>): Foo {
+    return new Foo(immutableState);
   }
 
   initialize(): Immutable.Map<string, any> {

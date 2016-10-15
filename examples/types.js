@@ -12,7 +12,7 @@ export type FooInterface = {
   num: number,
   obj: Object,
   fn: Function,
-  bar: Bar,
-  list: Immutable.List<Bar>,
+  bar: BarInterface,
+  list: Immutable.List<BarInterface>,
   map: Immutable.Map<string, any>,
 };

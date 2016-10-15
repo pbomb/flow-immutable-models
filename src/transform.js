@@ -5,8 +5,10 @@ import fromImmutable from './helpers/fromImmutable';
 import getReferenceProps from './helpers/getReferenceProps';
 import getter from './helpers/getter';
 import setter from './helpers/setter';
+import { endsWithInterface, withoutInterfaceSuffix } from './helpers/withoutInterfaceSuffix';
 
 const defaultPrintOptions = { quote: 'single', trailingComma: true };
+
 export default function(file: Object, api: Object, options: Object) {
   const j = api.jscodeshift;
 
@@ -89,14 +91,14 @@ export default function(file: Object, api: Object, options: Object) {
     .filter((p) => {
       if (p.node.exportKind === 'type') {
         const identifier = p.node.declaration.id.name;
-        return identifier.indexOf('Interface') === identifier.length - 'Interface'.length;
+        return endsWithInterface(identifier);
       }
       return false;
     })
     .forEach(
       (p) => {
         const identifier = p.node.declaration.id.name;
-        const className = identifier.substring(0, identifier.length - 'Interface'.length);
+        const className = withoutInterfaceSuffix(identifier);
         const parsed = parseType(p.node.declaration.right);
         classes.push({
           className,

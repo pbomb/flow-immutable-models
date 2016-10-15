@@ -1,11 +1,12 @@
 // @flow
 import * as Immutable from 'immutable';
-import type { Bar } from './bar';
+import type { BarInterface } from './bar';
+import { Bar } from './bar';
 import ImmutableModel from '../../../src/ImmutableModel';
 
 export type FooInterface = {
   list: Immutable.List<any>,
-  maybeList: ?Immutable.List<Bar>,
+  maybeList: ?Immutable.List<BarInterface>,
   map: Immutable.Map<any, any>,
-  maybeMap: ?Immutable.Map<string, Bar>,
+  maybeMap: ?Immutable.Map<string, BarInterface>,
 };

@@ -1,5 +1,6 @@
 // @flow
-import type { Bar } from './bar';
+import type { BarInterface } from './bar';
+import { Bar } from './bar';
 import ImmutableModel from '../../../src/ImmutableModel';
 
 export type FooInterface = {
@@ -9,8 +10,8 @@ export type FooInterface = {
   num: number,
   maybeObj: ?Object,
   obj: Object,
-  maybeBar: ?Bar,
-  bar: Bar,
+  maybeBar: ?BarInterface,
+  bar: BarInterface,
   maybeFn: ?Function,
   fn: Function,
 };
