@@ -18,4 +18,8 @@ describe('transform', () => {
   it('initilizes referenced types', async () => {
     await snap('referenceProperties.js');
   });
+
+  it('initilizes arrays without new operator', async () => {
+    await snap('arrayType.js');
+  });
 });

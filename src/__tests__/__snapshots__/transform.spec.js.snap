@@ -180,6 +180,49 @@ export class Foo extends ImmutableModel {
 "
 `;
 
+exports[`transform initilizes arrays without new operator 1`] = `
+"// @flow
+import ImmutableModel from \'../../../src/ImmutableModel\';
+
+export type ArrInterface = {
+  arr: Array<Object>,
+  maybeArr: ?Array<Object>,
+};
+
+export class Arr extends ImmutableModel {
+  static fromJS(state: ArrInterface): Arr {
+    return this.fromImmutable(Immutable.fromJS(state));
+  }
+
+  static fromImmutable(immutableState: Immutable.Map<string, any>): Arr {
+    return new Arr(immutableState);
+  }
+
+  initialize(): Immutable.Map<string, any> {
+    let state = Immutable.Map();
+    state = state.set(\'arr\', []);
+    return state;
+  }
+
+  get arr(): Array<Object> {
+    return this._state.get(\'arr\');
+  }
+
+  setArr(arr: Array<Object>): Arr {
+    return new Arr(this._state.set(\'arr\'));
+  }
+
+  get maybeArr(): ?Array<Object> {
+    return this._state.get(\'maybeArr\');
+  }
+
+  setMaybeArr(maybeArr: ?Array<Object>): Arr {
+    return new Arr(this._state.set(\'maybeArr\'));
+  }
+}
+"
+`;
+
 exports[`transform initilizes referenced types 1`] = `
 "// @flow
 import type { BarInterface } from \'./bar\';

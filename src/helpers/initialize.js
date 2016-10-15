@@ -9,6 +9,9 @@ function isImmutableType(typeAlias: Object): boolean {
 
 function fromTypeToExpression(j: Object, typeAlias: Object): Object {
   if (typeAlias.type === 'Identifier') {
+    if (typeAlias.name === 'Array') {
+      return j.arrayExpression([]);
+    }
     return j.identifier(typeAlias.name);
   }
   if (typeAlias.type === 'QualifiedTypeIdentifier') {
@@ -27,6 +30,8 @@ function initializeReferencesStatements(j: Object, referenceProps: Object[]) {
     const typeExpression = fromTypeToExpression(j, typeAlias.id);
     if (isImmutableType(typeAlias)) {
       valueExpression = j.callExpression(typeExpression, []);
+    } else if (typeAlias.id.name === 'Array') {
+      valueExpression = typeExpression;
     } else {
       valueExpression = j.newExpression(typeExpression, []);
     }
