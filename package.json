@@ -2,7 +2,7 @@
   "name": "flow-immutable-models",
   "version": "0.0.1",
   "description": "Generates model classes from Flow types using Immutable.js",
-  "main": "src/index.js",
+  "main": "src/ImmutableModel.js",
   "scripts": {
     "build": "babel src -d lib",
     "lint": "eslint src",
