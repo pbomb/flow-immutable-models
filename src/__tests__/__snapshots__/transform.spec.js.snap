@@ -37,7 +37,7 @@ export class Foo extends ImmutableModel {
   }
 
   setMaybeStr(maybeStr: ?string): Foo {
-    return new Foo(this._state.set(\'maybeStr\'));
+    return new Foo(this._state.set(\'maybeStr\', maybeStr));
   }
 
   get str(): string {
@@ -45,7 +45,7 @@ export class Foo extends ImmutableModel {
   }
 
   setStr(str: string): Foo {
-    return new Foo(this._state.set(\'str\'));
+    return new Foo(this._state.set(\'str\', str));
   }
 
   get maybeNum(): ?number {
@@ -53,7 +53,7 @@ export class Foo extends ImmutableModel {
   }
 
   setMaybeNum(maybeNum: ?number): Foo {
-    return new Foo(this._state.set(\'maybeNum\'));
+    return new Foo(this._state.set(\'maybeNum\', maybeNum));
   }
 
   get num(): number {
@@ -61,7 +61,7 @@ export class Foo extends ImmutableModel {
   }
 
   setNum(num: number): Foo {
-    return new Foo(this._state.set(\'num\'));
+    return new Foo(this._state.set(\'num\', num));
   }
 
   get maybeObj(): ?Object {
@@ -69,7 +69,7 @@ export class Foo extends ImmutableModel {
   }
 
   setMaybeObj(maybeObj: ?Object): Foo {
-    return new Foo(this._state.set(\'maybeObj\'));
+    return new Foo(this._state.set(\'maybeObj\', maybeObj));
   }
 
   get obj(): Object {
@@ -77,7 +77,7 @@ export class Foo extends ImmutableModel {
   }
 
   setObj(obj: Object): Foo {
-    return new Foo(this._state.set(\'obj\'));
+    return new Foo(this._state.set(\'obj\', obj));
   }
 
   get maybeBar(): ?Bar {
@@ -85,7 +85,7 @@ export class Foo extends ImmutableModel {
   }
 
   setMaybeBar(maybeBar: ?Bar): Foo {
-    return new Foo(this._state.set(\'maybeBar\'));
+    return new Foo(this._state.set(\'maybeBar\', maybeBar));
   }
 
   get bar(): Bar {
@@ -93,7 +93,7 @@ export class Foo extends ImmutableModel {
   }
 
   setBar(bar: Bar): Foo {
-    return new Foo(this._state.set(\'bar\'));
+    return new Foo(this._state.set(\'bar\', bar));
   }
 
   get maybeFn(): ?Function {
@@ -101,7 +101,7 @@ export class Foo extends ImmutableModel {
   }
 
   setMaybeFn(maybeFn: ?Function): Foo {
-    return new Foo(this._state.set(\'maybeFn\'));
+    return new Foo(this._state.set(\'maybeFn\', maybeFn));
   }
 
   get fn(): Function {
@@ -109,7 +109,7 @@ export class Foo extends ImmutableModel {
   }
 
   setFn(fn: Function): Foo {
-    return new Foo(this._state.set(\'fn\'));
+    return new Foo(this._state.set(\'fn\', fn));
   }
 }
 "
@@ -150,7 +150,7 @@ export class Foo extends ImmutableModel {
   }
 
   setList(list: Immutable.List<any>): Foo {
-    return new Foo(this._state.set(\'list\'));
+    return new Foo(this._state.set(\'list\', list));
   }
 
   get maybeList(): ?Immutable.List<Bar> {
@@ -158,7 +158,7 @@ export class Foo extends ImmutableModel {
   }
 
   setMaybeList(maybeList: ?Immutable.List<Bar>): Foo {
-    return new Foo(this._state.set(\'maybeList\'));
+    return new Foo(this._state.set(\'maybeList\', maybeList));
   }
 
   get map(): Immutable.Map<any, any> {
@@ -166,7 +166,7 @@ export class Foo extends ImmutableModel {
   }
 
   setMap(map: Immutable.Map<any, any>): Foo {
-    return new Foo(this._state.set(\'map\'));
+    return new Foo(this._state.set(\'map\', map));
   }
 
   get maybeMap(): ?Immutable.Map<string, Bar> {
@@ -174,7 +174,7 @@ export class Foo extends ImmutableModel {
   }
 
   setMaybeMap(maybeMap: ?Immutable.Map<string, Bar>): Foo {
-    return new Foo(this._state.set(\'maybeMap\'));
+    return new Foo(this._state.set(\'maybeMap\', maybeMap));
   }
 }
 "
@@ -209,7 +209,7 @@ export class Arr extends ImmutableModel {
   }
 
   setArr(arr: Array<Object>): Arr {
-    return new Arr(this._state.set(\'arr\'));
+    return new Arr(this._state.set(\'arr\', arr));
   }
 
   get maybeArr(): ?Array<Object> {
@@ -217,7 +217,7 @@ export class Arr extends ImmutableModel {
   }
 
   setMaybeArr(maybeArr: ?Array<Object>): Arr {
-    return new Arr(this._state.set(\'maybeArr\'));
+    return new Arr(this._state.set(\'maybeArr\', maybeArr));
   }
 }
 "
@@ -255,7 +255,7 @@ export class Foo extends ImmutableModel {
   }
 
   setRef(ref: Bar): Foo {
-    return new Foo(this._state.set(\'ref\'));
+    return new Foo(this._state.set(\'ref\', ref));
   }
 
   get maybeRef(): ?Bar {
@@ -263,7 +263,7 @@ export class Foo extends ImmutableModel {
   }
 
   setMaybeRef(maybeRef: ?Bar): Foo {
-    return new Foo(this._state.set(\'maybeRef\'));
+    return new Foo(this._state.set(\'maybeRef\', maybeRef));
   }
 
   get str(): string {
@@ -271,7 +271,7 @@ export class Foo extends ImmutableModel {
   }
 
   setStr(str: string): Foo {
-    return new Foo(this._state.set(\'str\'));
+    return new Foo(this._state.set(\'str\', str));
   }
 }
 "

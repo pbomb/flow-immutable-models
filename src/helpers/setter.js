@@ -11,9 +11,9 @@ export default function setterBody(
   function capitalize(str: string) {
     return `${str[0].toUpperCase()}${str.slice(1)}`;
   }
-
+  const propName = prop.key.name;
   const typeAnnotation = j.typeAnnotation(getTypeAnnotationWithoutInterface(j, prop.value));
-  const param = Object.assign(j.identifier(prop.key.name), { typeAnnotation });
+  const param = Object.assign(j.identifier(propName), { typeAnnotation });
   const func = j.functionExpression(
     null,
     [
@@ -34,7 +34,8 @@ export default function setterBody(
                   j.identifier('set')
                 ),
                 [
-                  j.literal(prop.key.name),
+                  j.literal(propName),
+                  j.identifier(propName),
                 ]
               ),
             ]
@@ -47,7 +48,7 @@ export default function setterBody(
 
   return j.methodDefinition(
     'method',
-    j.identifier(`set${capitalize(prop.key.name)}`),
+    j.identifier(`set${capitalize(propName)}`),
     func
   );
 }
