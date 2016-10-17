@@ -1,4 +1,5 @@
 // @flow
+import getNonClassTypes from './getNonClassTypes';
 
 function isImmutableType(typeAlias: Object): boolean {
   if (typeAlias.id.type === 'QualifiedTypeIdentifier' && typeAlias.id.qualification.name === 'Immutable') {
@@ -23,39 +24,42 @@ function fromTypeToExpression(j: Object, typeAlias: Object): Object {
   return j.identifier('unknown');
 }
 
-function initializeReferencesStatements(j: Object, referenceProps: Object[]) {
-  return referenceProps.map((prop) => {
-    let valueExpression;
-    const typeAlias = prop.value;
-    const typeExpression = fromTypeToExpression(j, typeAlias.id);
-    if (isImmutableType(typeAlias)) {
-      valueExpression = j.callExpression(typeExpression, []);
-    } else if (typeAlias.id.name === 'Array') {
-      valueExpression = typeExpression;
-    } else {
-      valueExpression = j.newExpression(typeExpression, []);
-    }
+function initializeReferencesStatements(j: Object, referenceProps: Object[], root: Object) {
+  const nonClassTypes = getNonClassTypes(j, root);
+  return referenceProps
+    .filter(prop => nonClassTypes.indexOf(prop.value.id.name) === -1)
+    .map((prop) => {
+      let valueExpression;
+      const typeAlias = prop.value;
+      const typeExpression = fromTypeToExpression(j, typeAlias.id);
+      if (isImmutableType(typeAlias)) {
+        valueExpression = j.callExpression(typeExpression, []);
+      } else if (typeAlias.id.name === 'Array') {
+        valueExpression = typeExpression;
+      } else {
+        valueExpression = j.newExpression(typeExpression, []);
+      }
 
-    return j.expressionStatement(
-      j.assignmentExpression(
-        '=',
-        j.identifier('state'),
-        j.callExpression(
-          j.memberExpression(
-            j.identifier('state'),
-            j.identifier('set')
-          ),
-          [
-            j.literal(prop.key.name),
-            valueExpression,
-          ]
+      return j.expressionStatement(
+        j.assignmentExpression(
+          '=',
+          j.identifier('state'),
+          j.callExpression(
+            j.memberExpression(
+              j.identifier('state'),
+              j.identifier('set')
+            ),
+            [
+              j.literal(prop.key.name),
+              valueExpression,
+            ]
+          )
         )
-      )
-    );
-  });
+      );
+    });
 }
 
-export default function initialize(j: Object, referenceProps: Object[]) {
+export default function initialize(j: Object, referenceProps: Object[], root: Object) {
   const mapTypeAnnotation = j.typeAnnotation(
     j.genericTypeAnnotation(
       j.identifier('Immutable.Map'),
@@ -80,7 +84,7 @@ export default function initialize(j: Object, referenceProps: Object[]) {
         ),
       ]
     ),
-    ...initializeReferencesStatements(j, referenceProps),
+    ...initializeReferencesStatements(j, referenceProps, root),
     j.returnStatement(
       j.identifier('state')
     ),

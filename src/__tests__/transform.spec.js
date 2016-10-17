@@ -22,4 +22,12 @@ describe('transform', () => {
   it('initilizes arrays without new operator', async () => {
     await snap('arrayType.js');
   });
+
+  it('does not instantiate inline non-class props', async () => {
+    await snap('nonClassInlineTypes.js');
+  });
+
+  it('does not instantiate imported types', async () => {
+    await snap('nonClassImportedTypes.js');
+  });
 });

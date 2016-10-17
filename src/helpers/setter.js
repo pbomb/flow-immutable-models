@@ -1,6 +1,10 @@
 // @flow
 import getTypeAnnotationWithoutInterface from './getTypeAnnotationWithoutInterface';
 
+function capitalize(str: string) {
+  return `${str[0].toUpperCase()}${str.slice(1)}`;
+}
+
 export default function setterBody(
   j: Object,
   prop: Object,
@@ -8,9 +12,6 @@ export default function setterBody(
   className: string
 ) {
 
-  function capitalize(str: string) {
-    return `${str[0].toUpperCase()}${str.slice(1)}`;
-  }
   const propName = prop.key.name;
   const typeAnnotation = j.typeAnnotation(getTypeAnnotationWithoutInterface(j, prop.value));
   const param = Object.assign(j.identifier(propName), { typeAnnotation });

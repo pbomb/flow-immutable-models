@@ -14,6 +14,15 @@ export default function(file: Object, api: Object, options: Object) {
 
   const printOptions = options.printOptions || defaultPrintOptions;
 
+  const root = j(file.source);
+  const { program } = root.get().value;
+  const { body } = program;
+
+  const classes: Array<{|
+    className: string,
+    classDef: Object
+  |}> = [];
+
   function makeClass(className, type) {
     const classNameIdentifier = j.identifier(className);
     const modelTypeAnnotation = j.typeAnnotation(
@@ -39,7 +48,7 @@ export default function(file: Object, api: Object, options: Object) {
       );
       return methods;
     }, [
-      initialize(j, getReferenceProps(j, type.properties)),
+      initialize(j, getReferenceProps(j, type.properties), root),
     ]);
     return j.exportNamedDeclaration(
       j.classDeclaration(
@@ -76,15 +85,6 @@ export default function(file: Object, api: Object, options: Object) {
 
     return typeDef;
   }
-
-  const root = j(file.source);
-  const { program } = root.get().value;
-  const { body } = program;
-
-  const classes: Array<{|
-    className: string,
-    classDef: Object
-  |}> = [];
 
   root
     .find(j.ExportNamedDeclaration)
