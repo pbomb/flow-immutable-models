@@ -22,7 +22,7 @@ This repository contains a codemod script for use with
 
 ```sh
 cp /path/to/flow-immutable-models/src/ImmutableModel.js src/models
-jscodeshift -t /path/to/flow-immutable-models/src/transform.js <path>
+jscodeshift -t /path/to/flow-immutable-models/lib/transform.js <path>
 ```
 
 Use the `-d` option for a dry-run and use `-p` to print the output for comparison. For more information about the jscodeshift CLI options, check out its [README](https://github.com/facebook/jscodeshift#usage-cli).
@@ -57,7 +57,7 @@ export type UserInterface = {
 
 Each exported type matching `*Interface` (in this case `UserInterface`) must be described as an object literal. Otherwise, the script will throw an error.
 
-Running `jscodeshift -t /path/to/flow-immutable-models/src/transform.js **/models/*.js` will update `models/User.js` to be
+Running `jscodeshift -t /path/to/flow-immutable-models/lib/transform.js **/models/*.js` will update `models/User.js` to be
 ```js
 // @flow
 import * as Immutable from 'immutable'; // This is required
