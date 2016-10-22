@@ -1,5 +1,7 @@
 ## flow-immutable-models
 
+[![Stories in Ready](https://badge.waffle.io/pbomb/flow-immutable-models.svg?label=ready&title=Ready)](http://waffle.io/pbomb/flow-immutable-models)
+
 This repository contains a codemod script for use with
 [JSCodeshift](https://github.com/facebook/jscodeshift) that creates model classes backed by [Immutable.js](http://facebook.github.io/immutable-js/) data structures based on [Flow](https://flowtype.org) type interfaces.
 
