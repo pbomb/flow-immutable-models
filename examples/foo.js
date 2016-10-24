@@ -1,11 +1,8 @@
 // @flow
 import * as Immutable from 'immutable';
 import ImmutableModel from '../src/ImmutableModel';
-
-export type BarInterface = {
-  barStr: string,
-  barNum: number,
-};
+import type { BarInterface } from './bar';
+import { Bar } from './bar';
 
 export type FooInterface = {
   str: string,
