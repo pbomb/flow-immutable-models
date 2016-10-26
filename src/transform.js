@@ -1,7 +1,6 @@
 // @flow
-import initialize from './helpers/initialize';
+import capitalize from './helpers/capitalize';
 import fromJS from './helpers/fromJS';
-import fromImmutable from './helpers/fromImmutable';
 import getReferenceProps from './helpers/getReferenceProps';
 import getter from './helpers/getter';
 import setter from './helpers/setter';
@@ -20,10 +19,10 @@ export default function(file: Object, api: Object, options: Object) {
 
   const classes: Array<{|
     className: string,
-    classDef: Object
+    classDef: Array<Object>
   |}> = [];
 
-  function makeClass(className, type) {
+  function makeClass(className, type, defaultValues) {
     const classNameIdentifier = j.identifier(className);
     const modelTypeAnnotation = j.typeAnnotation(
       j.genericTypeAnnotation(
@@ -31,15 +30,10 @@ export default function(file: Object, api: Object, options: Object) {
         null
       )
     );
-    const objectTypeAnnotation = j.typeAnnotation(
-      j.genericTypeAnnotation(
-        j.identifier(`${className}Interface`),
-        null
-      )
-    );
+    const referenceProps = getReferenceProps(j, type.properties);
     const staticMethods = [
-      fromJS(j, objectTypeAnnotation, className),
-      fromImmutable(j, className),
+      fromJS(j, className, defaultValues, referenceProps, root),
+      // fromImmutable(j, className),
     ];
     const instanceMethods = type.properties.reduce((methods, prop) => {
       methods.push(
@@ -47,16 +41,27 @@ export default function(file: Object, api: Object, options: Object) {
         setter(j, prop, modelTypeAnnotation, className)
       );
       return methods;
-    }, [
-      initialize(j, getReferenceProps(j, type.properties), root),
-    ]);
-    return j.exportNamedDeclaration(
+    }, []);
+
+    const classDeclaration = j.exportNamedDeclaration(
       j.classDeclaration(
         classNameIdentifier,
         j.classBody(staticMethods.concat(instanceMethods)),
         j.identifier('ImmutableModel')
       )
     );
+    const comments = [
+      '//////////////////////////////////////////////////////////////////////////////',
+      '',
+      ' NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.',
+      '',
+      ' If you need to update this class, update the corresponding flow type above ',
+      ' and re-run the flow-immutable-models codemod',
+      '',
+      '//////////////////////////////////////////////////////////////////////////////',
+    ];
+    classDeclaration.comments = comments.map(comment => j.commentLine(comment));
+    return [classDeclaration];
   }
 
   function parseType(td: Object) {
@@ -100,9 +105,20 @@ export default function(file: Object, api: Object, options: Object) {
         const identifier = p.node.declaration.id.name;
         const className = withoutInterfaceSuffix(identifier);
         const parsed = parseType(p.node.declaration.right);
+        const defaultValuesName = `default${capitalize(className)}Values`;
+        const defaultValues = root
+          .find(j.VariableDeclaration)
+          .filter(path =>
+            path.node.declarations.some(dec => dec.id.name === defaultValuesName)
+          );
+
         classes.push({
           className,
-          classDef: makeClass(className, parsed),
+          classDef: makeClass(
+            className,
+            parsed,
+            defaultValues.size() === 1 ? defaultValuesName : null
+          ),
         });
       }
     );
@@ -110,12 +126,12 @@ export default function(file: Object, api: Object, options: Object) {
   classes.forEach(({ className, classDef }) => {
     const alreadyExportedClass = root
       .find(j.ExportNamedDeclaration)
-      .filter(path => path.node.declaration.id.name === className);
+      .filter(path => path.node.declaration.type === 'ClassDeclaration' && path.node.declaration.id.name === className);
 
     if (alreadyExportedClass.size() === 1) {
       alreadyExportedClass.replaceWith(classDef);
     } else {
-      body.push(classDef);
+      body.push(...classDef);
     }
   });
 

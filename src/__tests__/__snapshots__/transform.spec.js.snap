@@ -1,8 +1,8 @@
 exports[`transform adds default class for exported typed object 1`] = `
 "// @flow
-import type { BarInterface } from './bar';
-import { Bar } from './bar';
-import ImmutableModel from '../../../src/ImmutableModel';
+import type { BarInterface } from \'./bar\';
+import { Bar } from \'./bar\';
+import ImmutableModel from \'../../../src/ImmutableModel\';
 
 export type FooInterface = {
   maybeStr: ?string,
@@ -17,99 +17,100 @@ export type FooInterface = {
   fn: Function,
 };
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+//
+// If you need to update this class, update the corresponding flow type above 
+// and re-run the flow-immutable-models codemod
+//
+////////////////////////////////////////////////////////////////////////////////
 export class Foo extends ImmutableModel {
-  static fromJS(state: FooInterface): Foo {
-    return this.fromImmutable(Immutable.fromJS(state));
-  }
+  static fromJS(json: FooInterface): Foo {
+    // $FlowFixMe
+    const state = Object.assign({}, defaultFooValues, json);
 
-  static fromImmutable(immutableState: Immutable.Map<string, any>): Foo {
-    return new Foo(immutableState);
-  }
-
-  initialize(): Immutable.Map<string, any> {
-    let state = Immutable.Map();
-    state = state.set('bar', new Bar());
-    return state;
+    return new Foo(Immutable.fromJS(state));
   }
 
   get maybeStr(): ?string {
-    return this._state.get('maybeStr');
+    return this._state.get(\'maybeStr\');
   }
 
   setMaybeStr(maybeStr: ?string): Foo {
-    return new Foo(this._state.set('maybeStr', maybeStr));
+    return new Foo(this._state.set(\'maybeStr\', maybeStr));
   }
 
   get str(): string {
-    return this._state.get('str');
+    return this._state.get(\'str\');
   }
 
   setStr(str: string): Foo {
-    return new Foo(this._state.set('str', str));
+    return new Foo(this._state.set(\'str\', str));
   }
 
   get maybeNum(): ?number {
-    return this._state.get('maybeNum');
+    return this._state.get(\'maybeNum\');
   }
 
   setMaybeNum(maybeNum: ?number): Foo {
-    return new Foo(this._state.set('maybeNum', maybeNum));
+    return new Foo(this._state.set(\'maybeNum\', maybeNum));
   }
 
   get num(): number {
-    return this._state.get('num');
+    return this._state.get(\'num\');
   }
 
   setNum(num: number): Foo {
-    return new Foo(this._state.set('num', num));
+    return new Foo(this._state.set(\'num\', num));
   }
 
   get maybeObj(): ?Object {
-    return this._state.get('maybeObj');
+    return this._state.get(\'maybeObj\');
   }
 
   setMaybeObj(maybeObj: ?Object): Foo {
-    return new Foo(this._state.set('maybeObj', maybeObj));
+    return new Foo(this._state.set(\'maybeObj\', maybeObj));
   }
 
   get obj(): Object {
-    return this._state.get('obj');
+    return this._state.get(\'obj\');
   }
 
   setObj(obj: Object): Foo {
-    return new Foo(this._state.set('obj', obj));
+    return new Foo(this._state.set(\'obj\', obj));
   }
 
   get maybeBar(): ?Bar {
-    return this._state.get('maybeBar');
+    return this._state.get(\'maybeBar\');
   }
 
   setMaybeBar(maybeBar: ?Bar): Foo {
-    return new Foo(this._state.set('maybeBar', maybeBar));
+    return new Foo(this._state.set(\'maybeBar\', maybeBar));
   }
 
   get bar(): Bar {
-    return this._state.get('bar');
+    return this._state.get(\'bar\');
   }
 
   setBar(bar: Bar): Foo {
-    return new Foo(this._state.set('bar', bar));
+    return new Foo(this._state.set(\'bar\', bar));
   }
 
   get maybeFn(): ?Function {
-    return this._state.get('maybeFn');
+    return this._state.get(\'maybeFn\');
   }
 
   setMaybeFn(maybeFn: ?Function): Foo {
-    return new Foo(this._state.set('maybeFn', maybeFn));
+    return new Foo(this._state.set(\'maybeFn\', maybeFn));
   }
 
   get fn(): Function {
-    return this._state.get('fn');
+    return this._state.get(\'fn\');
   }
 
   setFn(fn: Function): Foo {
-    return new Foo(this._state.set('fn', fn));
+    return new Foo(this._state.set(\'fn\', fn));
   }
 }
 "
@@ -124,19 +125,20 @@ export type NonClassImportedInterface = {
   comparator: Comparator,
 };
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+//
+// If you need to update this class, update the corresponding flow type above 
+// and re-run the flow-immutable-models codemod
+//
+////////////////////////////////////////////////////////////////////////////////
 export class NonClassImported extends ImmutableModel {
-  static fromJS(state: NonClassImportedInterface): NonClassImported {
-    return this.fromImmutable(Immutable.fromJS(state));
-  }
+  static fromJS(json: NonClassImportedInterface): NonClassImported {
+    // $FlowFixMe
+    const state = Object.assign({}, defaultNonClassImportedValues, json);
 
-  static fromImmutable(immutableState: Immutable.Map<string, any>): NonClassImported {
-    return new NonClassImported(immutableState);
-  }
-
-  initialize(): Immutable.Map<string, any> {
-    let state = Immutable.Map();
-    state = state.set(\'comparator\', new Comparator());
-    return state;
+    return new NonClassImported(Immutable.fromJS(state));
   }
 
   get comparator(): Comparator {
@@ -152,44 +154,46 @@ export class NonClassImported extends ImmutableModel {
 
 exports[`transform does not instantiate inline non-class props 1`] = `
 "// @flow
-import ImmutableModel from '../../../src/ImmutableModel';
+import ImmutableModel from \'../../../src/ImmutableModel\';
 
-type Operator = "*" | "/" | "+" | "-";
-export type Comparator = "<" | ">" | "=" | "!=";
+type Operator = \"*\" | \"/\" | \"+\" | \"-\";
+export type Comparator = \"<\" | \">\" | \"=\" | \"!=\";
 
 export type NonClassInterface = {
   operator: Operator,
   comparator: Comparator,
 };
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+//
+// If you need to update this class, update the corresponding flow type above 
+// and re-run the flow-immutable-models codemod
+//
+////////////////////////////////////////////////////////////////////////////////
 export class NonClass extends ImmutableModel {
-  static fromJS(state: NonClassInterface): NonClass {
-    return this.fromImmutable(Immutable.fromJS(state));
-  }
+  static fromJS(json: NonClassInterface): NonClass {
+    // $FlowFixMe
+    const state = Object.assign({}, defaultNonClassValues, json);
 
-  static fromImmutable(immutableState: Immutable.Map<string, any>): NonClass {
-    return new NonClass(immutableState);
-  }
-
-  initialize(): Immutable.Map<string, any> {
-    let state = Immutable.Map();
-    return state;
+    return new NonClass(Immutable.fromJS(state));
   }
 
   get operator(): Operator {
-    return this._state.get('operator');
+    return this._state.get(\'operator\');
   }
 
   setOperator(operator: Operator): NonClass {
-    return new NonClass(this._state.set('operator', operator));
+    return new NonClass(this._state.set(\'operator\', operator));
   }
 
   get comparator(): Comparator {
-    return this._state.get('comparator');
+    return this._state.get(\'comparator\');
   }
 
   setComparator(comparator: Comparator): NonClass {
-    return new NonClass(this._state.set('comparator', comparator));
+    return new NonClass(this._state.set(\'comparator\', comparator));
   }
 }
 "
@@ -197,10 +201,10 @@ export class NonClass extends ImmutableModel {
 
 exports[`transform initilizes Immutable lists and maps 1`] = `
 "// @flow
-import * as Immutable from 'immutable';
-import type { BarInterface } from './bar';
-import { Bar } from './bar';
-import ImmutableModel from '../../../src/ImmutableModel';
+import * as Immutable from \'immutable\';
+import type { BarInterface } from \'./bar\';
+import { Bar } from \'./bar\';
+import ImmutableModel from \'../../../src/ImmutableModel\';
 
 export type FooInterface = {
   list: Immutable.List<any>,
@@ -209,52 +213,52 @@ export type FooInterface = {
   maybeMap: ?Immutable.Map<string, BarInterface>,
 };
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+//
+// If you need to update this class, update the corresponding flow type above 
+// and re-run the flow-immutable-models codemod
+//
+////////////////////////////////////////////////////////////////////////////////
 export class Foo extends ImmutableModel {
-  static fromJS(state: FooInterface): Foo {
-    return this.fromImmutable(Immutable.fromJS(state));
-  }
+  static fromJS(json: FooInterface): Foo {
+    // $FlowFixMe
+    const state = Object.assign({}, defaultFooValues, json);
 
-  static fromImmutable(immutableState: Immutable.Map<string, any>): Foo {
-    return new Foo(immutableState);
-  }
-
-  initialize(): Immutable.Map<string, any> {
-    let state = Immutable.Map();
-    state = state.set('list', Immutable.List());
-    state = state.set('map', Immutable.Map());
-    return state;
+    return new Foo(Immutable.fromJS(state));
   }
 
   get list(): Immutable.List<any> {
-    return this._state.get('list');
+    return this._state.get(\'list\');
   }
 
   setList(list: Immutable.List<any>): Foo {
-    return new Foo(this._state.set('list', list));
+    return new Foo(this._state.set(\'list\', list));
   }
 
   get maybeList(): ?Immutable.List<Bar> {
-    return this._state.get('maybeList');
+    return this._state.get(\'maybeList\');
   }
 
   setMaybeList(maybeList: ?Immutable.List<Bar>): Foo {
-    return new Foo(this._state.set('maybeList', maybeList));
+    return new Foo(this._state.set(\'maybeList\', maybeList));
   }
 
   get map(): Immutable.Map<any, any> {
-    return this._state.get('map');
+    return this._state.get(\'map\');
   }
 
   setMap(map: Immutable.Map<any, any>): Foo {
-    return new Foo(this._state.set('map', map));
+    return new Foo(this._state.set(\'map\', map));
   }
 
   get maybeMap(): ?Immutable.Map<string, Bar> {
-    return this._state.get('maybeMap');
+    return this._state.get(\'maybeMap\');
   }
 
   setMaybeMap(maybeMap: ?Immutable.Map<string, Bar>): Foo {
-    return new Foo(this._state.set('maybeMap', maybeMap));
+    return new Foo(this._state.set(\'maybeMap\', maybeMap));
   }
 }
 "
@@ -262,42 +266,43 @@ export class Foo extends ImmutableModel {
 
 exports[`transform initilizes arrays without new operator 1`] = `
 "// @flow
-import ImmutableModel from '../../../src/ImmutableModel';
+import ImmutableModel from \'../../../src/ImmutableModel\';
 
 export type ArrInterface = {
   arr: Array<Object>,
   maybeArr: ?Array<Object>,
 };
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+//
+// If you need to update this class, update the corresponding flow type above 
+// and re-run the flow-immutable-models codemod
+//
+////////////////////////////////////////////////////////////////////////////////
 export class Arr extends ImmutableModel {
-  static fromJS(state: ArrInterface): Arr {
-    return this.fromImmutable(Immutable.fromJS(state));
-  }
+  static fromJS(json: ArrInterface): Arr {
+    // $FlowFixMe
+    const state = Object.assign({}, defaultArrValues, json);
 
-  static fromImmutable(immutableState: Immutable.Map<string, any>): Arr {
-    return new Arr(immutableState);
-  }
-
-  initialize(): Immutable.Map<string, any> {
-    let state = Immutable.Map();
-    state = state.set('arr', []);
-    return state;
+    return new Arr(Immutable.fromJS(state));
   }
 
   get arr(): Array<Object> {
-    return this._state.get('arr');
+    return this._state.get(\'arr\');
   }
 
   setArr(arr: Array<Object>): Arr {
-    return new Arr(this._state.set('arr', arr));
+    return new Arr(this._state.set(\'arr\', arr));
   }
 
   get maybeArr(): ?Array<Object> {
-    return this._state.get('maybeArr');
+    return this._state.get(\'maybeArr\');
   }
 
   setMaybeArr(maybeArr: ?Array<Object>): Arr {
-    return new Arr(this._state.set('maybeArr', maybeArr));
+    return new Arr(this._state.set(\'maybeArr\', maybeArr));
   }
 }
 "
@@ -305,9 +310,9 @@ export class Arr extends ImmutableModel {
 
 exports[`transform initilizes referenced types 1`] = `
 "// @flow
-import type { BarInterface } from './bar';
-import { Bar } from './bar';
-import ImmutableModel from '../../../src/ImmutableModel';
+import type { BarInterface } from \'./bar\';
+import { Bar } from \'./bar\';
+import ImmutableModel from \'../../../src/ImmutableModel\';
 
 export type FooInterface = {
   ref: BarInterface,
@@ -315,43 +320,44 @@ export type FooInterface = {
   str: string,
 };
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+//
+// If you need to update this class, update the corresponding flow type above 
+// and re-run the flow-immutable-models codemod
+//
+////////////////////////////////////////////////////////////////////////////////
 export class Foo extends ImmutableModel {
-  static fromJS(state: FooInterface): Foo {
-    return this.fromImmutable(Immutable.fromJS(state));
-  }
+  static fromJS(json: FooInterface): Foo {
+    // $FlowFixMe
+    const state = Object.assign({}, defaultFooValues, json);
 
-  static fromImmutable(immutableState: Immutable.Map<string, any>): Foo {
-    return new Foo(immutableState);
-  }
-
-  initialize(): Immutable.Map<string, any> {
-    let state = Immutable.Map();
-    state = state.set('ref', new Bar());
-    return state;
+    return new Foo(Immutable.fromJS(state));
   }
 
   get ref(): Bar {
-    return this._state.get('ref');
+    return this._state.get(\'ref\');
   }
 
   setRef(ref: Bar): Foo {
-    return new Foo(this._state.set('ref', ref));
+    return new Foo(this._state.set(\'ref\', ref));
   }
 
   get maybeRef(): ?Bar {
-    return this._state.get('maybeRef');
+    return this._state.get(\'maybeRef\');
   }
 
   setMaybeRef(maybeRef: ?Bar): Foo {
-    return new Foo(this._state.set('maybeRef', maybeRef));
+    return new Foo(this._state.set(\'maybeRef\', maybeRef));
   }
 
   get str(): string {
-    return this._state.get('str');
+    return this._state.get(\'str\');
   }
 
   setStr(str: string): Foo {
-    return new Foo(this._state.set('str', str));
+    return new Foo(this._state.set(\'str\', str));
   }
 }
 "

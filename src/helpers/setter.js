@@ -1,15 +1,12 @@
 // @flow
 import getTypeAnnotationWithoutInterface from './getTypeAnnotationWithoutInterface';
-
-function capitalize(str: string) {
-  return `${str[0].toUpperCase()}${str.slice(1)}`;
-}
+import capitalize from './capitalize';
 
 export default function setterBody(
   j: Object,
   prop: Object,
   modelTypeAnnotation: Object,
-  className: string
+  className: string,
 ) {
 
   const propName = prop.key.name;

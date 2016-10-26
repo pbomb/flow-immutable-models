@@ -1,28 +1,7 @@
 // @flow
 import getNonClassTypes from './getNonClassTypes';
-
-function isImmutableType(typeAlias: Object): boolean {
-  if (typeAlias.id.type === 'QualifiedTypeIdentifier' && typeAlias.id.qualification.name === 'Immutable') {
-    return true;
-  }
-  return false;
-}
-
-function fromTypeToExpression(j: Object, typeAlias: Object): Object {
-  if (typeAlias.type === 'Identifier') {
-    if (typeAlias.name === 'Array') {
-      return j.arrayExpression([]);
-    }
-    return j.identifier(typeAlias.name);
-  }
-  if (typeAlias.type === 'QualifiedTypeIdentifier') {
-    return j.memberExpression(
-      fromTypeToExpression(j, typeAlias.qualification),
-      fromTypeToExpression(j, typeAlias.id)
-    );
-  }
-  return j.identifier('unknown');
-}
+import isImmutableType from './isImmutableType';
+import typeToExpression from './typeToExpression';
 
 function initializeReferencesStatements(j: Object, referenceProps: Object[], root: Object) {
   const nonClassTypes = getNonClassTypes(j, root);
@@ -31,7 +10,7 @@ function initializeReferencesStatements(j: Object, referenceProps: Object[], roo
     .map((prop) => {
       let valueExpression;
       const typeAlias = prop.value;
-      const typeExpression = fromTypeToExpression(j, typeAlias.id);
+      const typeExpression = typeToExpression(j, typeAlias.id);
       if (isImmutableType(typeAlias)) {
         valueExpression = j.callExpression(typeExpression, []);
       } else if (typeAlias.id.name === 'Array') {
@@ -59,7 +38,12 @@ function initializeReferencesStatements(j: Object, referenceProps: Object[], roo
     });
 }
 
-export default function initialize(j: Object, referenceProps: Object[], root: Object) {
+export default function initialize(
+  j: Object,
+  referenceProps: Object[],
+  initialValues: string | null,
+  root: Object
+) {
   const mapTypeAnnotation = j.typeAnnotation(
     j.genericTypeAnnotation(
       j.identifier('Immutable.Map'),
@@ -79,7 +63,7 @@ export default function initialize(j: Object, referenceProps: Object[], root: Ob
               j.identifier('Immutable'),
               j.identifier('Map')
             ),
-            []
+            initialValues ? [j.identifier(initialValues)] : []
           )
         ),
       ]

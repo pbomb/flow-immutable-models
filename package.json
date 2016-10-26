@@ -6,9 +6,9 @@
   "scripts": {
     "build": "babel src -d lib",
     "flow": "flow",
-    "lint": "eslint src",
-    "prepublish": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "eslint": "eslint src",
+    "prepublish": "npm run eslint && npm run flow && npm run build",
+    "test": "jest"
   },
   "keywords": [
     "flow",

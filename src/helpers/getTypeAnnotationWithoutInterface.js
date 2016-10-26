@@ -1,8 +1,6 @@
 // @flow
 
-import {
-  withoutInterfaceSuffix,
-} from './withoutInterfaceSuffix';
+import { withoutInterfaceSuffix } from './withoutInterfaceSuffix';
 
 export default function getTypeAnnotationWithoutInterface(j: Object, value: Object): Object {
   const type: string = value.type;
