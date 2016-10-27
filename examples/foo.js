@@ -25,7 +25,7 @@ const defaultFooValues: $Shape<FooInterface> = {
 //
 // NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
-// If you need to update this class, update the corresponding flow type above
+// If you need to update this class, update the corresponding flow type above 
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
@@ -39,58 +39,58 @@ export class Foo extends ImmutableModel {
   }
 
   get str(): string {
-    return this.get('str');
+    return this._state.get('str');
   }
 
   setStr(str: string): Foo {
-    return this.set('str', str);
+    return new Foo(this._state.set('str', str));
   }
 
   get num(): number {
-    return this.get('num');
+    return this._state.get('num');
   }
 
   setNum(num: number): Foo {
-    return this.set('num', num);
+    return new Foo(this._state.set('num', num));
   }
 
   get bar(): Bar {
-    return this.get('bar');
+    return this._state.get('bar');
   }
 
   setBar(bar: Bar): Foo {
-    return this.set('bar', bar);
+    return new Foo(this._state.set('bar', bar));
   }
 
   get barAry(): Array<BarInterface> {
-    return this.get('barAry');
+    return this._state.get('barAry');
   }
 
   setBarAry(barAry: Array<BarInterface>): Foo {
-    return this.set('barAry', barAry);
+    return new Foo(this._state.set('barAry', barAry));
   }
 
   get regArray(): Array<boolean> {
-    return this.get('regArray');
+    return this._state.get('regArray');
   }
 
   setRegArray(regArray: Array<boolean>): Foo {
-    return this.set('regArray', regArray);
+    return new Foo(this._state.set('regArray', regArray));
   }
 
   get lst(): Immutable.List<Bar> {
-    return this.get('lst');
+    return this._state.get('lst');
   }
 
   setLst(lst: Immutable.List<Bar>): Foo {
-    return this.set('lst', lst);
+    return new Foo(this._state.set('lst', lst));
   }
 
   get maap(): Immutable.Map<string, any> {
-    return this.get('maap');
+    return this._state.get('maap');
   }
 
   setMaap(maap: Immutable.Map<string, any>): Foo {
-    return this.set('maap', maap);
+    return new Foo(this._state.set('maap', maap));
   }
 }

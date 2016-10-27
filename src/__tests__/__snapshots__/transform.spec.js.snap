@@ -27,9 +27,6 @@ export type FooInterface = {
 ////////////////////////////////////////////////////////////////////////////////
 export class Foo extends ImmutableModel {
   static fromJS(json: FooInterface): Foo {
-    // $FlowFixMe
-    const state = Object.assign({}, defaultFooValues, json);
-
     return new Foo(Immutable.fromJS(state));
   }
 
@@ -135,9 +132,6 @@ export type NonClassImportedInterface = {
 ////////////////////////////////////////////////////////////////////////////////
 export class NonClassImported extends ImmutableModel {
   static fromJS(json: NonClassImportedInterface): NonClassImported {
-    // $FlowFixMe
-    const state = Object.assign({}, defaultNonClassImportedValues, json);
-
     return new NonClassImported(Immutable.fromJS(state));
   }
 
@@ -174,9 +168,6 @@ export type NonClassInterface = {
 ////////////////////////////////////////////////////////////////////////////////
 export class NonClass extends ImmutableModel {
   static fromJS(json: NonClassInterface): NonClass {
-    // $FlowFixMe
-    const state = Object.assign({}, defaultNonClassValues, json);
-
     return new NonClass(Immutable.fromJS(state));
   }
 
@@ -223,9 +214,6 @@ export type FooInterface = {
 ////////////////////////////////////////////////////////////////////////////////
 export class Foo extends ImmutableModel {
   static fromJS(json: FooInterface): Foo {
-    // $FlowFixMe
-    const state = Object.assign({}, defaultFooValues, json);
-
     return new Foo(Immutable.fromJS(state));
   }
 
@@ -283,9 +271,6 @@ export type ArrInterface = {
 ////////////////////////////////////////////////////////////////////////////////
 export class Arr extends ImmutableModel {
   static fromJS(json: ArrInterface): Arr {
-    // $FlowFixMe
-    const state = Object.assign({}, defaultArrValues, json);
-
     return new Arr(Immutable.fromJS(state));
   }
 
@@ -330,9 +315,6 @@ export type FooInterface = {
 ////////////////////////////////////////////////////////////////////////////////
 export class Foo extends ImmutableModel {
   static fromJS(json: FooInterface): Foo {
-    // $FlowFixMe
-    const state = Object.assign({}, defaultFooValues, json);
-
     return new Foo(Immutable.fromJS(state));
   }
 

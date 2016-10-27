@@ -29,18 +29,18 @@ export class Bar extends ImmutableModel {
   }
 
   get barStr(): string {
-    return this.get('barStr');
+    return this._state.get('barStr');
   }
 
   setBarStr(barStr: string): Bar {
-    return this.set('barStr', barStr);
+    return new Bar(this._state.set('barStr', barStr));
   }
 
   get barNum(): number {
-    return this.get('barNum');
+    return this._state.get('barNum');
   }
 
   setBarNum(barNum: number): Bar {
-    return this.set('barNum', barNum);
+    return new Bar(this._state.set('barNum', barNum));
   }
 }

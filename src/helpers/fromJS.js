@@ -92,19 +92,23 @@ export default function fromJS(
       );
     });
 
-  const assignExpression = j.variableDeclaration(
-    'const',
-    [
-      j.variableDeclarator(
-        j.identifier('state'),
-        j.callExpression(
-          j.memberExpression(j.identifier('Object'), j.identifier('assign')),
-          [j.objectExpression([]), j.identifier(`default${className}Values`), j.identifier('json')]
-        )
-      ),
-    ]
-  );
-  assignExpression.comments = [j.commentLine(' $FlowFixMe')];
+  const assignExpressions = [];
+  if (defaultValues) {
+    const assignExpression = j.variableDeclaration(
+      'const',
+      [
+        j.variableDeclarator(
+          j.identifier('state'),
+          j.callExpression(
+            j.memberExpression(j.identifier('Object'), j.identifier('assign')),
+            [j.objectExpression([]), j.identifier(`default${className}Values`), j.identifier('json')]
+          )
+        ),
+      ]
+    );
+    assignExpression.comments = [j.commentLine(' $FlowFixMe')];
+    assignExpressions.push(assignExpression);
+  }
   const param = Object.assign({}, jsonIdentifier, { typeAnnotation: paramTypeAnnotation });
   const func = j.functionExpression(
     null,
@@ -113,7 +117,7 @@ export default function fromJS(
     ],
     j.blockStatement(
       [
-        assignExpression,
+        ...assignExpressions,
         ...referenceInitializationStatements,
         j.returnStatement(
           j.newExpression(
