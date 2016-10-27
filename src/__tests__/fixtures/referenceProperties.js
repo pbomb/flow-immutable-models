@@ -1,10 +1,10 @@
 // @flow
-import type { BarInterface } from './bar';
+import type { BarModelType } from './bar';
 import { Bar } from './bar';
 import ImmutableModel from '../../../src/ImmutableModel';
 
-export type FooInterface = {
-  ref: BarInterface,
-  maybeRef: ?BarInterface,
+export type FooModelType = {
+  ref: BarModelType,
+  maybeRef: ?BarModelType,
   str: string,
 };

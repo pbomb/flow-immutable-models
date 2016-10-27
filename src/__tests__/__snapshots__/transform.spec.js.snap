@@ -1,18 +1,18 @@
 exports[`transform adds default class for exported typed object 1`] = `
 "// @flow
-import type { BarInterface } from \'./bar\';
+import type { BarModelType } from \'./bar\';
 import { Bar } from \'./bar\';
 import ImmutableModel from \'../../../src/ImmutableModel\';
 
-export type FooInterface = {
+export type FooModelType = {
   maybeStr: ?string,
   str: string,
   maybeNum: ?number,
   num: number,
   maybeObj: ?Object,
   obj: Object,
-  maybeBar: ?BarInterface,
-  bar: BarInterface,
+  maybeBar: ?BarModelType,
+  bar: BarModelType,
   maybeFn: ?Function,
   fn: Function,
 };
@@ -26,7 +26,7 @@ export type FooInterface = {
 //
 ////////////////////////////////////////////////////////////////////////////////
 export class Foo extends ImmutableModel {
-  static fromJS(json: FooInterface): Foo {
+  static fromJS(json: FooModelType): Foo {
     state.bar = Bar.fromJS(state.bar);
     return new Foo(Immutable.fromJS(json));
   }
@@ -118,7 +118,7 @@ exports[`transform converts arrays to Immutable lists 1`] = `
 "// @flow
 import ImmutableModel from \'../../../src/ImmutableModel\';
 
-export type ArrInterface = {
+export type ArrModelType = {
   arr: Array<Object>,
   maybeArr: ?Array<Object>,
 };
@@ -132,7 +132,7 @@ export type ArrInterface = {
 //
 ////////////////////////////////////////////////////////////////////////////////
 export class Arr extends ImmutableModel {
-  static fromJS(json: ArrInterface): Arr {
+  static fromJS(json: ArrModelType): Arr {
     return new Arr(Immutable.fromJS(json));
   }
 
@@ -157,13 +157,13 @@ export class Arr extends ImmutableModel {
 
 exports[`transform converts referenced types in getters and setters 1`] = `
 "// @flow
-import type { BarInterface } from \'./bar\';
+import type { BarModelType } from \'./bar\';
 import { Bar } from \'./bar\';
 import ImmutableModel from \'../../../src/ImmutableModel\';
 
-export type FooInterface = {
-  ref: BarInterface,
-  maybeRef: ?BarInterface,
+export type FooModelType = {
+  ref: BarModelType,
+  maybeRef: ?BarModelType,
   str: string,
 };
 
@@ -176,7 +176,7 @@ export type FooInterface = {
 //
 ////////////////////////////////////////////////////////////////////////////////
 export class Foo extends ImmutableModel {
-  static fromJS(json: FooInterface): Foo {
+  static fromJS(json: FooModelType): Foo {
     state.ref = Bar.fromJS(state.ref);
     return new Foo(Immutable.fromJS(json));
   }
@@ -213,7 +213,7 @@ exports[`transform does not instantiate imported types 1`] = `
 import ImmutableModel from \'../../../src/ImmutableModel\';
 import type { Comparator } from \'./Comparator\';
 
-export type NonClassImportedInterface = {
+export type NonClassImportedModelType = {
   comparator: Comparator,
 };
 
@@ -226,7 +226,7 @@ export type NonClassImportedInterface = {
 //
 ////////////////////////////////////////////////////////////////////////////////
 export class NonClassImported extends ImmutableModel {
-  static fromJS(json: NonClassImportedInterface): NonClassImported {
+  static fromJS(json: NonClassImportedModelType): NonClassImported {
     return new NonClassImported(Immutable.fromJS(json));
   }
 
@@ -248,7 +248,7 @@ import ImmutableModel from \'../../../src/ImmutableModel\';
 type Operator = \"*\" | \"/\" | \"+\" | \"-\";
 export type Comparator = \"<\" | \">\" | \"=\" | \"!=\";
 
-export type NonClassInterface = {
+export type NonClassModelType = {
   operator: Operator,
   comparator: Comparator,
 };
@@ -262,7 +262,7 @@ export type NonClassInterface = {
 //
 ////////////////////////////////////////////////////////////////////////////////
 export class NonClass extends ImmutableModel {
-  static fromJS(json: NonClassInterface): NonClass {
+  static fromJS(json: NonClassModelType): NonClass {
     return new NonClass(Immutable.fromJS(json));
   }
 
@@ -288,15 +288,15 @@ export class NonClass extends ImmutableModel {
 exports[`transform handles Immutable lists and maps 1`] = `
 "// @flow
 import * as Immutable from \'immutable\';
-import type { BarInterface } from \'./bar\';
+import type { BarModelType } from \'./bar\';
 import { Bar } from \'./bar\';
 import ImmutableModel from \'../../../src/ImmutableModel\';
 
-export type FooInterface = {
+export type FooModelType = {
   list: Immutable.List<any>,
-  maybeList: ?Immutable.List<BarInterface>,
+  maybeList: ?Immutable.List<BarModelType>,
   map: Immutable.Map<any, any>,
-  maybeMap: ?Immutable.Map<string, BarInterface>,
+  maybeMap: ?Immutable.Map<string, BarModelType>,
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -308,7 +308,7 @@ export type FooInterface = {
 //
 ////////////////////////////////////////////////////////////////////////////////
 export class Foo extends ImmutableModel {
-  static fromJS(json: FooInterface): Foo {
+  static fromJS(json: FooModelType): Foo {
     return new Foo(Immutable.fromJS(json));
   }
 

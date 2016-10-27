@@ -1,8 +1,8 @@
 // @flow
 
-import { withoutInterfaceSuffix } from './withoutInterfaceSuffix';
+import { withoutModelTypeSuffix } from './withoutModelTypeSuffix';
 
-export default function getTypeAnnotationWithoutInterface(
+export default function getTypeAnnotationWithoutModelType(
   j: Object,
   value: Object,
   convertToImmutable: boolean = false
@@ -12,7 +12,7 @@ export default function getTypeAnnotationWithoutInterface(
   switch (type) {
     case 'GenericTypeAnnotation': {
       if (value.id.type === 'Identifier') {
-        const nameWithoutSuffix = withoutInterfaceSuffix(value.id.name);
+        const nameWithoutSuffix = withoutModelTypeSuffix(value.id.name);
         let typeId;
         if (nameWithoutSuffix === 'Array' && convertToImmutable) {
           typeId = j.qualifiedTypeIdentifier(
@@ -27,7 +27,7 @@ export default function getTypeAnnotationWithoutInterface(
           value.typeParameters
             ? j.typeParameterInstantiation(
               value.typeParameters.params.map(
-                typeParam => getTypeAnnotationWithoutInterface(j, typeParam)
+                typeParam => getTypeAnnotationWithoutModelType(j, typeParam)
               )
             )
             : null
@@ -37,11 +37,11 @@ export default function getTypeAnnotationWithoutInterface(
         return j.genericTypeAnnotation(
           j.qualifiedTypeIdentifier(
             value.id.qualification,
-            j.identifier(withoutInterfaceSuffix(value.id.id.name))
+            j.identifier(withoutModelTypeSuffix(value.id.id.name))
           ),
           j.typeParameterInstantiation(
             value.typeParameters.params.map(
-              typeParam => getTypeAnnotationWithoutInterface(j, typeParam)
+              typeParam => getTypeAnnotationWithoutModelType(j, typeParam)
             )
           )
         );
@@ -49,7 +49,7 @@ export default function getTypeAnnotationWithoutInterface(
       return value;
     }
     case 'NullableTypeAnnotation':
-      return j.nullableTypeAnnotation(getTypeAnnotationWithoutInterface(j, value.typeAnnotation));
+      return j.nullableTypeAnnotation(getTypeAnnotationWithoutModelType(j, value.typeAnnotation));
     default:
       return value;
   }
