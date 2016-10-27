@@ -47,7 +47,7 @@ In your repo, `models/User.js` exists as
 ```js
 // @flow
 import * as Immutable from 'immutable'; // This is required
-import ImmutableModel from './ImmutableModel.js'; // Make sure you copied this file into your repo
+import ImmutableModel from 'flow-immutable-models'; // Make sure you copied this file into your repo
 
 export type UserInterface = {
   id: number,
@@ -61,27 +61,27 @@ Each exported type matching `*Interface` (in this case `UserInterface`) must be 
 
 Running `jscodeshift -t /path/to/flow-immutable-models/lib/transform.js **/models/*.js` will update `models/User.js` to be
 ```js
-// @flow
 import * as Immutable from 'immutable'; // This is required
-import ImmutableModel from './ImmutableModel.js'; // Make sure you copied this file into your repo
+import ImmutableModel from 'flow-immutable-models'; // Make sure you copied this file into your repo
 
 export type UserInterface = {
   id: number,
   name: string,
+  address: AddressInterface,
 };
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+//
+// If you need to update this class, update the corresponding flow type above
+// and re-run the flow-immutable-models codemod
+//
+////////////////////////////////////////////////////////////////////////////////
 export class User extends ImmutableModel {
-  static fromJS(state: UserInterface): User {
-    return this.fromImmutable(Immutable.fromJS(state));
-  }
-
-  static fromImmutable(ImmutableModel: Immutable.Map<string, any>): User {
-    return new User(ImmutableModel);
-  }
-
-  initialize(): Immutable.Map<string, any> {
-    let state = Immutable.Map();
-    return state;
+  static fromJS(json: UserInterface): User {
+    state.address = Address.fromJS(state.address);
+    return new User(Immutable.fromJS(json));
   }
 
   get id(): number {
@@ -89,7 +89,7 @@ export class User extends ImmutableModel {
   }
 
   setId(id: number): User {
-    return new User(this._state.set('id'));
+    return new User(this._state.set('id', id));
   }
 
   get name(): string {
@@ -97,13 +97,21 @@ export class User extends ImmutableModel {
   }
 
   setName(name: string): User {
-    return new User(this._state.set('name'));
+    return new User(this._state.set('name', name));
+  }
+
+  get address(): Address {
+    return this._state.get('address');
+  }
+
+  setAddress(address: Address): User {
+    return new User(this._state.set('address', address));
   }
 }
 
 ```
 
-Creating a new user can be done a few different ways. Here are some examples:
+Creating a new user can be done using the fromJS static function. Here is an example:
 
 ```js
 // Will generate Flow errors if object argument is not valid
@@ -112,26 +120,6 @@ const user = User.fromJS({
   id: 1,
   name: "Floyd O' Phone",
 });
-```
-```js
-// Will not generate Flow errors if Map argument is not valid
-// because Immutable.js collections cannot be typed well
-
-const user = User.fromImmutable(
-  Immutable.Map(
-    {
-      id: 1,
-      name: "Floyd O' Phone",
-    }
-  )
-);
-```
-```js
-// Will generate Flow errors if function call arguments are not valid
-
-const user = new User()
-  .setId(1)
-  .setName("Floyd O' Phone");
 ```
 
 Once you have a `User` instance, you can get properties using property accessor syntax. For instance, the user's name can be retrieved with:
@@ -143,7 +131,7 @@ const name = user.name;
 Setting a property will always return a new instance of `User`.
 
 ```js
-const user1 = User.fromJS({ id: 1, name: "Floyd O' Phone"});
+const user1 = User.fromJS({ id: 1, name: "Floyd O' Phone" });
 const user2 = user1.setName("leeb");
 console.log(user1 === user2); // prints "false"
 ```
@@ -155,12 +143,12 @@ If you want to have a nested model class, each nested object should be declared 
 Example:
 
 ```js
-export type User {
+export type UserInterface {
   name: string,
 };
 
-export type GithubIssue {
-  author: User,
+export type GithubIssueInterface {
+  author: UserInterface,
   body: string,
   title: string,
 }
