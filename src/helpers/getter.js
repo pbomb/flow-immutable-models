@@ -22,7 +22,7 @@ export default function getter(j: Object, prop: Object) {
       ]
     )
   );
-  func.returnType = j.typeAnnotation(getTypeAnnotationWithoutInterface(j, prop.value));
+  func.returnType = j.typeAnnotation(getTypeAnnotationWithoutInterface(j, prop.value, true));
 
   return j.methodDefinition(
     'get',

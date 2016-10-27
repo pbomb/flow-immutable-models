@@ -190,7 +190,7 @@ export class NonClass extends ImmutableModel {
 "
 `;
 
-exports[`transform initilizes Immutable lists and maps 1`] = `
+exports[`transform handles Immutable lists and maps 1`] = `
 "// @flow
 import * as Immutable from \'immutable\';
 import type { BarInterface } from \'./bar\';
@@ -252,7 +252,7 @@ export class Foo extends ImmutableModel {
 "
 `;
 
-exports[`transform initilizes arrays without new operator 1`] = `
+exports[`transform converts arrays to Immutable lists 1`] = `
 "// @flow
 import ImmutableModel from \'../../../src/ImmutableModel\';
 
@@ -293,7 +293,7 @@ export class Arr extends ImmutableModel {
 "
 `;
 
-exports[`transform initilizes referenced types 1`] = `
+exports[`transform converts referenced types in getters and setters 1`] = `
 "// @flow
 import type { BarInterface } from \'./bar\';
 import { Bar } from \'./bar\';

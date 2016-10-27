@@ -10,7 +10,7 @@ export default function setterBody(
 ) {
 
   const propName = prop.key.name;
-  const typeAnnotation = j.typeAnnotation(getTypeAnnotationWithoutInterface(j, prop.value));
+  const typeAnnotation = j.typeAnnotation(getTypeAnnotationWithoutInterface(j, prop.value, true));
   const param = Object.assign(j.identifier(propName), { typeAnnotation });
   const func = j.functionExpression(
     null,

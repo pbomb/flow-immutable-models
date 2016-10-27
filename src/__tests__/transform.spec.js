@@ -11,15 +11,15 @@ describe('transform', () => {
     await snap('exportedType.js');
   });
 
-  it('initilizes Immutable lists and maps', async () => {
+  it('handles Immutable lists and maps', async () => {
     await snap('immutableProperties.js');
   });
 
-  it('initilizes referenced types', async () => {
+  it('converts referenced types in getters and setters', async () => {
     await snap('referenceProperties.js');
   });
 
-  it('initilizes arrays without new operator', async () => {
+  it('converts arrays to Immutable lists', async () => {
     await snap('arrayType.js');
   });
 
