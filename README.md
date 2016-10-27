@@ -3,7 +3,7 @@
 [![Stories in Ready](https://badge.waffle.io/pbomb/flow-immutable-models.svg?label=ready&title=Ready)](http://waffle.io/pbomb/flow-immutable-models)
 
 This repository contains a codemod script for use with
-[JSCodeshift](https://github.com/facebook/jscodeshift) that creates model classes backed by [Immutable.js](http://facebook.github.io/immutable-js/) data structures based on [Flow](https://flowtype.org) type interfaces.
+[JSCodeshift](https://github.com/facebook/jscodeshift) that creates model classes backed by [Immutable.js](http://facebook.github.io/immutable-js/) data structures based on [Flow](https://flowtype.org) type aliases.
 
 ### Setup with yarn
 
@@ -31,7 +31,7 @@ Use the `-d` option for a dry-run and use `-p` to print the output for compariso
 
 ### How it works
 
-This codemod modifies any file that exports Flow type declarations named like `*Interface`. For each matching exported Flow type, a model class will be created. If this script is re-run and the model class already exists, it will be processed again and replaced, meaning it is safe to run this script multiple times against the same files.
+This codemod modifies any file that exports Flow type declarations named like `*ModelType`. For each matching exported Flow type, a model class will be created. If this script is re-run and the model class already exists, it will be processed again and replaced, meaning it is safe to run this script multiple times against the same files.
 
 ### Class design
 
@@ -49,25 +49,25 @@ In your repo, `models/User.js` exists as
 import * as Immutable from 'immutable'; // This is required
 import ImmutableModel from 'flow-immutable-models'; // Make sure you copied this file into your repo
 
-export type UserInterface = {
+export type UserModelType = {
   id: number,
   name: string,
-  address: AddressInterface,
+  address: AddressModelType,
 };
 
 ```
 
-Each exported type matching `*Interface` (in this case `UserInterface`) must be described as an object literal. Otherwise, the script will throw an error.
+Each exported type matching `*ModelType` (in this case `UserModelType`) must be described as an object literal. Otherwise, the script will throw an error.
 
 Running `jscodeshift -t /path/to/flow-immutable-models/lib/transform.js **/models/*.js` will update `models/User.js` to be
 ```js
 import * as Immutable from 'immutable'; // This is required
 import ImmutableModel from 'flow-immutable-models'; // Make sure you copied this file into your repo
 
-export type UserInterface = {
+export type UserModelType = {
   id: number,
   name: string,
-  address: AddressInterface,
+  address: AddressModelType,
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -79,7 +79,7 @@ export type UserInterface = {
 //
 ////////////////////////////////////////////////////////////////////////////////
 export class User extends ImmutableModel {
-  static fromJS(json: UserInterface): User {
+  static fromJS(json: UserModelType): User {
     state.address = Address.fromJS(state.address);
     return new User(Immutable.fromJS(json));
   }
@@ -143,12 +143,12 @@ If you want to have a nested model class, each nested object should be declared 
 Example:
 
 ```js
-export type UserInterface {
+export type UserModelType {
   name: string,
 };
 
-export type GithubIssueInterface {
-  author: UserInterface,
+export type GithubIssueModelType {
+  author: UserModelType,
   body: string,
   title: string,
 }

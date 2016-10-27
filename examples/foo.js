@@ -1,20 +1,20 @@
 // @flow
 import * as Immutable from 'immutable';
 import ImmutableModel from '../src/ImmutableModel';
-import type { BarInterface } from './bar';
+import type { BarModelType } from './bar';
 import { Bar, defaultBarValues } from './bar';
 
-export type FooInterface = {
+export type FooModelType = {
   str: string,
   num: number,
-  bar: BarInterface,
-  barAry: Array<BarInterface>,
+  bar: BarModelType,
+  barAry: Array<BarModelType>,
   regArray: Array<boolean>,
-  lst: Immutable.List<BarInterface>,
+  lst: Immutable.List<BarModelType>,
   maap: Immutable.Map<string, any>,
 };
 
-const defaultFooValues: $Shape<FooInterface> = {
+const defaultFooValues: $Shape<FooModelType> = {
   str: 'strInitial',
   bar: defaultBarValues,
   lst: Immutable.List(),
@@ -30,7 +30,7 @@ const defaultFooValues: $Shape<FooInterface> = {
 //
 ////////////////////////////////////////////////////////////////////////////////
 export class Foo extends ImmutableModel {
-  static fromJS(json: $Diff<FooInterface, typeof defaultFooValues>): Foo {
+  static fromJS(json: $Diff<FooModelType, typeof defaultFooValues>): Foo {
     // $FlowFixMe
     const state = Object.assign({}, defaultFooValues, json);
 

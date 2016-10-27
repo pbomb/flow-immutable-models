@@ -1,5 +1,5 @@
 // @flow
-import getTypeAnnotationWithoutInterface from './getTypeAnnotationWithoutInterface';
+import getTypeAnnotationWithoutModelType from './getTypeAnnotationWithoutModelType';
 import capitalize from './capitalize';
 
 export default function setterBody(
@@ -10,7 +10,7 @@ export default function setterBody(
 ) {
 
   const propName = prop.key.name;
-  const typeAnnotation = j.typeAnnotation(getTypeAnnotationWithoutInterface(j, prop.value, true));
+  const typeAnnotation = j.typeAnnotation(getTypeAnnotationWithoutModelType(j, prop.value, true));
   const param = Object.assign(j.identifier(propName), { typeAnnotation });
   const func = j.functionExpression(
     null,

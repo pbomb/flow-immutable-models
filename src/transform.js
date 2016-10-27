@@ -4,7 +4,7 @@ import fromJS from './helpers/fromJS';
 import getReferenceProps from './helpers/getReferenceProps';
 import getter from './helpers/getter';
 import setter from './helpers/setter';
-import { endsWithInterface, withoutInterfaceSuffix } from './helpers/withoutInterfaceSuffix';
+import { endsWithModelType, withoutModelTypeSuffix } from './helpers/withoutModelTypeSuffix';
 
 const defaultPrintOptions = { quote: 'single', trailingComma: true };
 
@@ -96,14 +96,14 @@ export default function(file: Object, api: Object, options: Object) {
     .filter((p) => {
       if (p.node.exportKind === 'type') {
         const identifier = p.node.declaration.id.name;
-        return endsWithInterface(identifier);
+        return endsWithModelType(identifier);
       }
       return false;
     })
     .forEach(
       (p) => {
         const identifier = p.node.declaration.id.name;
-        const className = withoutInterfaceSuffix(identifier);
+        const className = withoutModelTypeSuffix(identifier);
         const parsed = parseType(p.node.declaration.right);
         const defaultValuesName = `default${capitalize(className)}Values`;
         const defaultValues = root

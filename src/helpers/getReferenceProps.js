@@ -1,5 +1,5 @@
 // @flow
-// import getTypeAnnotationWithoutInterface from './getTypeAnnotationWithoutInterface';
+// import getTypeAnnotationWithoutModelType from './getTypeAnnotationWithoutModelType';
 
 const BUILT_IN_GENERIC_TYPES = ['Object', 'Function'];
 
@@ -10,7 +10,7 @@ export default function getReferenceProps(j: Object, props: Array<Object>) {
       BUILT_IN_GENERIC_TYPES.indexOf(prop.value.id.name) === -1
     ) {
       arr.push(prop);
-      //   Object.assign({}, prop, { value: getTypeAnnotationWithoutInterface(j, prop.value) })
+      //   Object.assign({}, prop, { value: getTypeAnnotationWithoutModelType(j, prop.value) })
       // );
     }
     return arr;

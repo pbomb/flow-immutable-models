@@ -1,21 +1,21 @@
 // @flow
-import getTypeAnnotationWithoutInterface from './getTypeAnnotationWithoutInterface';
+import getTypeAnnotationWithoutInterface from './getTypeAnnotationWithoutModelType';
 import isImmutableType from './isImmutableType';
 import typeToExpression from './typeToExpression';
-import { endsWithInterface } from './withoutInterfaceSuffix';
+import { endsWithModelType } from './withoutModelTypeSuffix';
 
 function getParamTypeAnnotation(j, className, defaultValues) {
   if (defaultValues) {
     return j.typeAnnotation(
       j.genericTypeAnnotation(
-        j.identifier(`$Diff<${className}Interface, typeof ${defaultValues}>`),
+        j.identifier(`$Diff<${className}ModelType, typeof ${defaultValues}>`),
         null
       )
     );
   }
   return j.typeAnnotation(
     j.genericTypeAnnotation(
-      j.identifier(`${className}Interface`),
+      j.identifier(`${className}ModelType`),
       null
     )
   );
@@ -43,8 +43,8 @@ export default function fromJS(
       } else if (typeAlias.id.name === 'Array') {
         return typeAlias.typeParameters &&
           typeAlias.typeParameters.params[0].type === 'GenericTypeAnnotation' &&
-          endsWithInterface(typeAlias.typeParameters.params[0].id.name);
-      } else if (endsWithInterface(prop.value.id.name)) {
+          endsWithModelType(typeAlias.typeParameters.params[0].id.name);
+      } else if (endsWithModelType(prop.value.id.name)) {
         return true;
       }
       return false;

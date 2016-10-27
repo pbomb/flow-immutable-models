@@ -2,12 +2,12 @@
 import * as Immutable from 'immutable';
 import ImmutableModel from '../src/ImmutableModel';
 
-export type BarInterface = {
+export type BarModelType = {
   barStr: string,
   barNum: number,
 };
 
-export const defaultBarValues: BarInterface = {
+export const defaultBarValues: BarModelType = {
   barStr: 'foo',
   barNum: 3,
 }
@@ -21,7 +21,7 @@ export const defaultBarValues: BarInterface = {
 //
 ////////////////////////////////////////////////////////////////////////////////
 export class Bar extends ImmutableModel {
-  static fromJS(json: $Diff<BarInterface, typeof defaultBarValues>): Bar {
+  static fromJS(json: $Diff<BarModelType, typeof defaultBarValues>): Bar {
     // $FlowFixMe
     const state = Object.assign({}, defaultBarValues, json);
 

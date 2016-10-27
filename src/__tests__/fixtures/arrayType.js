@@ -1,7 +1,7 @@
 // @flow
 import ImmutableModel from '../../../src/ImmutableModel';
 
-export type ArrInterface = {
+export type ArrModelType = {
   arr: Array<Object>,
   maybeArr: ?Array<Object>,
 };

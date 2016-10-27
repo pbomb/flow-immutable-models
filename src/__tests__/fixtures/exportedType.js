@@ -1,17 +1,17 @@
 // @flow
-import type { BarInterface } from './bar';
+import type { BarModelType } from './bar';
 import { Bar } from './bar';
 import ImmutableModel from '../../../src/ImmutableModel';
 
-export type FooInterface = {
+export type FooModelType = {
   maybeStr: ?string,
   str: string,
   maybeNum: ?number,
   num: number,
   maybeObj: ?Object,
   obj: Object,
-  maybeBar: ?BarInterface,
-  bar: BarInterface,
+  maybeBar: ?BarModelType,
+  bar: BarModelType,
   maybeFn: ?Function,
   fn: Function,
 };

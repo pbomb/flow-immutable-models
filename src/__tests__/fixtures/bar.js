@@ -1,5 +1,5 @@
 
-export type BarInterface = {
+export type BarModelType = {
   str: string,
   num: number,
   obj: Object,
