@@ -11,6 +11,12 @@ export default function getTypeAnnotationWithoutInterface(j: Object, value: Obje
         return j.genericTypeAnnotation(
           j.identifier(withoutInterfaceSuffix(value.id.name)),
           value.typeParameters
+            ? j.typeParameterInstantiation(
+              value.typeParameters.params.map(
+                typeParam => getTypeAnnotationWithoutInterface(j, typeParam)
+              )
+            )
+            : null
         );
       }
       if (value.id.type === 'QualifiedTypeIdentifier') {
