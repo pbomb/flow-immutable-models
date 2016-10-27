@@ -129,7 +129,7 @@ export default function fromJS(
                   fromJSIdentifier
                 ),
                 [
-                  stateIdentifier,
+                  defaultValues ? stateIdentifier : jsonIdentifier,
                 ]
               ),
             ]
