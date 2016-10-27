@@ -16,7 +16,7 @@ export const defaultBarValues: BarInterface = {
 //
 // NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
-// If you need to update this class, update the corresponding flow type above 
+// If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////

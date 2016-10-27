@@ -21,13 +21,13 @@ export type FooInterface = {
 //
 // NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
-// If you need to update this class, update the corresponding flow type above 
+// If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
 export class Foo extends ImmutableModel {
   static fromJS(json: FooInterface): Foo {
-    return new Foo(Immutable.fromJS(state));
+    return new Foo(Immutable.fromJS(json));
   }
 
   get maybeStr(): ?string {
@@ -126,13 +126,13 @@ export type NonClassImportedInterface = {
 //
 // NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
-// If you need to update this class, update the corresponding flow type above 
+// If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
 export class NonClassImported extends ImmutableModel {
   static fromJS(json: NonClassImportedInterface): NonClassImported {
-    return new NonClassImported(Immutable.fromJS(state));
+    return new NonClassImported(Immutable.fromJS(json));
   }
 
   get comparator(): Comparator {
@@ -162,13 +162,13 @@ export type NonClassInterface = {
 //
 // NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
-// If you need to update this class, update the corresponding flow type above 
+// If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
 export class NonClass extends ImmutableModel {
   static fromJS(json: NonClassInterface): NonClass {
-    return new NonClass(Immutable.fromJS(state));
+    return new NonClass(Immutable.fromJS(json));
   }
 
   get operator(): Operator {
@@ -208,13 +208,13 @@ export type FooInterface = {
 //
 // NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
-// If you need to update this class, update the corresponding flow type above 
+// If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
 export class Foo extends ImmutableModel {
   static fromJS(json: FooInterface): Foo {
-    return new Foo(Immutable.fromJS(state));
+    return new Foo(Immutable.fromJS(json));
   }
 
   get list(): Immutable.List<any> {
@@ -265,13 +265,13 @@ export type ArrInterface = {
 //
 // NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
-// If you need to update this class, update the corresponding flow type above 
+// If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
 export class Arr extends ImmutableModel {
   static fromJS(json: ArrInterface): Arr {
-    return new Arr(Immutable.fromJS(state));
+    return new Arr(Immutable.fromJS(json));
   }
 
   get arr(): Array<Object> {
@@ -309,13 +309,13 @@ export type FooInterface = {
 //
 // NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
-// If you need to update this class, update the corresponding flow type above 
+// If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
 export class Foo extends ImmutableModel {
   static fromJS(json: FooInterface): Foo {
-    return new Foo(Immutable.fromJS(state));
+    return new Foo(Immutable.fromJS(json));
   }
 
   get ref(): Bar {

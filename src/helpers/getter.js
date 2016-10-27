@@ -22,6 +22,7 @@ export default function getter(j: Object, prop: Object) {
       ]
     )
   );
+  const typeAnnotation = getTypeAnnotationWithoutInterface(j, prop.value);
   func.returnType = j.typeAnnotation(getTypeAnnotationWithoutInterface(j, prop.value));
 
   return j.methodDefinition(

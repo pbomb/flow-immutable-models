@@ -25,7 +25,7 @@ const defaultFooValues: $Shape<FooInterface> = {
 //
 // NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
-// If you need to update this class, update the corresponding flow type above 
+// If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,7 +34,6 @@ export class Foo extends ImmutableModel {
     // $FlowFixMe
     const state = Object.assign({}, defaultFooValues, json);
 
-    state.barAry = state.barAry.map(item => item.fromJS(item));
     return new Foo(Immutable.fromJS(state));
   }
 
@@ -62,11 +61,11 @@ export class Foo extends ImmutableModel {
     return new Foo(this._state.set('bar', bar));
   }
 
-  get barAry(): Array<BarInterface> {
+  get barAry(): Array<Bar> {
     return this._state.get('barAry');
   }
 
-  setBarAry(barAry: Array<BarInterface>): Foo {
+  setBarAry(barAry: Array<Bar>): Foo {
     return new Foo(this._state.set('barAry', barAry));
   }
 
