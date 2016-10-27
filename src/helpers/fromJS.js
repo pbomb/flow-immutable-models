@@ -1,4 +1,5 @@
 // @flow
+import getTypeAnnotationWithoutInterface from './getTypeAnnotationWithoutInterface';
 import isImmutableType from './isImmutableType';
 import typeToExpression from './typeToExpression';
 import { endsWithInterface } from './withoutInterfaceSuffix';
@@ -57,7 +58,6 @@ export default function fromJS(
       );
 
       if (typeAlias.id.name === 'Array') {
-        // const typeExpression = typeToExpression(j, typeAlias.id);
         valueExpression = j.callExpression(
           j.memberExpression(
             propExpression,
@@ -76,7 +76,12 @@ export default function fromJS(
           ]
         );
       } else {
-        const typeExpression = typeToExpression(j, typeAlias.id);
+        const convertedProp = Object.assign(
+          {},
+          prop,
+          { value: getTypeAnnotationWithoutInterface(j, prop.value) }
+        );
+        const typeExpression = typeToExpression(j, convertedProp.value.id);
         valueExpression = j.callExpression(
           j.memberExpression(typeExpression, j.identifier('fromJS')),
           [propExpression]

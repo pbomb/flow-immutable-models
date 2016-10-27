@@ -34,6 +34,8 @@ export class Foo extends ImmutableModel {
     // $FlowFixMe
     const state = Object.assign({}, defaultFooValues, json);
 
+    state.bar = Bar.fromJS(state.bar);
+    state.barAry = state.barAry.map(item => item.fromJS(item));
     return new Foo(Immutable.fromJS(state));
   }
 
@@ -61,19 +63,19 @@ export class Foo extends ImmutableModel {
     return new Foo(this._state.set('bar', bar));
   }
 
-  get barAry(): Array<Bar> {
+  get barAry(): Immutable.List<Bar> {
     return this._state.get('barAry');
   }
 
-  setBarAry(barAry: Array<Bar>): Foo {
+  setBarAry(barAry: Immutable.List<Bar>): Foo {
     return new Foo(this._state.set('barAry', barAry));
   }
 
-  get regArray(): Array<boolean> {
+  get regArray(): Immutable.List<boolean> {
     return this._state.get('regArray');
   }
 
-  setRegArray(regArray: Array<boolean>): Foo {
+  setRegArray(regArray: Immutable.List<boolean>): Foo {
     return new Foo(this._state.set('regArray', regArray));
   }
 

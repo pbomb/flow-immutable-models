@@ -27,6 +27,7 @@ export type FooInterface = {
 ////////////////////////////////////////////////////////////////////////////////
 export class Foo extends ImmutableModel {
   static fromJS(json: FooInterface): Foo {
+    state.bar = Bar.fromJS(state.bar);
     return new Foo(Immutable.fromJS(json));
   }
 
@@ -113,6 +114,100 @@ export class Foo extends ImmutableModel {
 "
 `;
 
+exports[`transform converts arrays to Immutable lists 1`] = `
+"// @flow
+import ImmutableModel from \'../../../src/ImmutableModel\';
+
+export type ArrInterface = {
+  arr: Array<Object>,
+  maybeArr: ?Array<Object>,
+};
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+//
+// If you need to update this class, update the corresponding flow type above
+// and re-run the flow-immutable-models codemod
+//
+////////////////////////////////////////////////////////////////////////////////
+export class Arr extends ImmutableModel {
+  static fromJS(json: ArrInterface): Arr {
+    return new Arr(Immutable.fromJS(json));
+  }
+
+  get arr(): Immutable.List<Object> {
+    return this._state.get(\'arr\');
+  }
+
+  setArr(arr: Immutable.List<Object>): Arr {
+    return new Arr(this._state.set(\'arr\', arr));
+  }
+
+  get maybeArr(): ?Array<Object> {
+    return this._state.get(\'maybeArr\');
+  }
+
+  setMaybeArr(maybeArr: ?Array<Object>): Arr {
+    return new Arr(this._state.set(\'maybeArr\', maybeArr));
+  }
+}
+"
+`;
+
+exports[`transform converts referenced types in getters and setters 1`] = `
+"// @flow
+import type { BarInterface } from \'./bar\';
+import { Bar } from \'./bar\';
+import ImmutableModel from \'../../../src/ImmutableModel\';
+
+export type FooInterface = {
+  ref: BarInterface,
+  maybeRef: ?BarInterface,
+  str: string,
+};
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+//
+// If you need to update this class, update the corresponding flow type above
+// and re-run the flow-immutable-models codemod
+//
+////////////////////////////////////////////////////////////////////////////////
+export class Foo extends ImmutableModel {
+  static fromJS(json: FooInterface): Foo {
+    state.ref = Bar.fromJS(state.ref);
+    return new Foo(Immutable.fromJS(json));
+  }
+
+  get ref(): Bar {
+    return this._state.get(\'ref\');
+  }
+
+  setRef(ref: Bar): Foo {
+    return new Foo(this._state.set(\'ref\', ref));
+  }
+
+  get maybeRef(): ?Bar {
+    return this._state.get(\'maybeRef\');
+  }
+
+  setMaybeRef(maybeRef: ?Bar): Foo {
+    return new Foo(this._state.set(\'maybeRef\', maybeRef));
+  }
+
+  get str(): string {
+    return this._state.get(\'str\');
+  }
+
+  setStr(str: string): Foo {
+    return new Foo(this._state.set(\'str\', str));
+  }
+}
+"
+`;
+
 exports[`transform does not instantiate imported types 1`] = `
 "// @flow
 import ImmutableModel from \'../../../src/ImmutableModel\';
@@ -190,7 +285,7 @@ export class NonClass extends ImmutableModel {
 "
 `;
 
-exports[`transform initilizes Immutable lists and maps 1`] = `
+exports[`transform handles Immutable lists and maps 1`] = `
 "// @flow
 import * as Immutable from \'immutable\';
 import type { BarInterface } from \'./bar\';
@@ -247,99 +342,6 @@ export class Foo extends ImmutableModel {
 
   setMaybeMap(maybeMap: ?Immutable.Map<string, Bar>): Foo {
     return new Foo(this._state.set(\'maybeMap\', maybeMap));
-  }
-}
-"
-`;
-
-exports[`transform initilizes arrays without new operator 1`] = `
-"// @flow
-import ImmutableModel from \'../../../src/ImmutableModel\';
-
-export type ArrInterface = {
-  arr: Array<Object>,
-  maybeArr: ?Array<Object>,
-};
-
-////////////////////////////////////////////////////////////////////////////////
-//
-// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
-//
-// If you need to update this class, update the corresponding flow type above
-// and re-run the flow-immutable-models codemod
-//
-////////////////////////////////////////////////////////////////////////////////
-export class Arr extends ImmutableModel {
-  static fromJS(json: ArrInterface): Arr {
-    return new Arr(Immutable.fromJS(json));
-  }
-
-  get arr(): Array<Object> {
-    return this._state.get(\'arr\');
-  }
-
-  setArr(arr: Array<Object>): Arr {
-    return new Arr(this._state.set(\'arr\', arr));
-  }
-
-  get maybeArr(): ?Array<Object> {
-    return this._state.get(\'maybeArr\');
-  }
-
-  setMaybeArr(maybeArr: ?Array<Object>): Arr {
-    return new Arr(this._state.set(\'maybeArr\', maybeArr));
-  }
-}
-"
-`;
-
-exports[`transform initilizes referenced types 1`] = `
-"// @flow
-import type { BarInterface } from \'./bar\';
-import { Bar } from \'./bar\';
-import ImmutableModel from \'../../../src/ImmutableModel\';
-
-export type FooInterface = {
-  ref: BarInterface,
-  maybeRef: ?BarInterface,
-  str: string,
-};
-
-////////////////////////////////////////////////////////////////////////////////
-//
-// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
-//
-// If you need to update this class, update the corresponding flow type above
-// and re-run the flow-immutable-models codemod
-//
-////////////////////////////////////////////////////////////////////////////////
-export class Foo extends ImmutableModel {
-  static fromJS(json: FooInterface): Foo {
-    return new Foo(Immutable.fromJS(json));
-  }
-
-  get ref(): Bar {
-    return this._state.get(\'ref\');
-  }
-
-  setRef(ref: Bar): Foo {
-    return new Foo(this._state.set(\'ref\', ref));
-  }
-
-  get maybeRef(): ?Bar {
-    return this._state.get(\'maybeRef\');
-  }
-
-  setMaybeRef(maybeRef: ?Bar): Foo {
-    return new Foo(this._state.set(\'maybeRef\', maybeRef));
-  }
-
-  get str(): string {
-    return this._state.get(\'str\');
-  }
-
-  setStr(str: string): Foo {
-    return new Foo(this._state.set(\'str\', str));
   }
 }
 "
