@@ -7,7 +7,7 @@
     "build": "babel src -d lib",
     "flow": "flow",
     "eslint": "eslint src",
-    "prepublish": "npm run eslint && npm run flow && npm run build",
+    "prepublish": "npm run eslint && npm run flow && npm test &&  npm run build",
     "test": "jest"
   },
   "keywords": [
