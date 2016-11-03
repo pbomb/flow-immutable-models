@@ -11,6 +11,8 @@ const defaultPrintOptions = { quote: 'single', trailingComma: true };
 export default function(file: Object, api: Object, options: Object) {
   const j = api.jscodeshift;
 
+  console.log(j);
+
   const printOptions = options.printOptions || defaultPrintOptions;
 
   const root = j(file.source);
@@ -89,6 +91,29 @@ export default function(file: Object, api: Object, options: Object) {
     }
 
     return typeDef;
+  }
+
+  body.push(j.commentLine('foofoofoo'));
+
+  console.log('*** Looking for imports ***');
+  let insertImmutableModelImport = true;
+  root
+    .find(j.ImportDeclaration)
+    .forEach((p) => {
+      if (p.value.source.value === 'ImmutableModel') {
+        insertImmutableModelImport = false;
+      }
+    });
+
+  if (insertImmutableModelImport) {
+    // Fill in the `import ImmutableModel from 'ImmutableModel'` code
+    console.log('Import required...');
+
+    const nameIdentifier = j.identifier('ImmutableModel');
+    const variable = j.importDefaultSpecifier(nameIdentifier);
+    const declaration = j.importDeclaration([variable], j.literal('ImmutableModel'));
+
+    body.push(declaration);
   }
 
   root
