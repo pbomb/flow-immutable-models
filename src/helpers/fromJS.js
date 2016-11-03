@@ -2,7 +2,7 @@
 import getTypeAnnotationWithoutInterface from './getTypeAnnotationWithoutModelType';
 import isImmutableType from './isImmutableType';
 import typeToExpression from './typeToExpression';
-import { endsWithModelType } from './withoutModelTypeSuffix';
+import { endsWithModelType, withoutModelTypeSuffix } from './withoutModelTypeSuffix';
 
 function getParamTypeAnnotation(j, className, defaultValues) {
   if (defaultValues) {
@@ -58,6 +58,8 @@ export default function fromJS(
       );
 
       if (typeAlias.id.name === 'Array') {
+        const modelType = typeAlias.typeParameters.params[0].id.name;
+        const nonModelType = withoutModelTypeSuffix(modelType);
         valueExpression = j.callExpression(
           j.memberExpression(
             propExpression,
@@ -69,7 +71,7 @@ export default function fromJS(
                 j.identifier('item'),
               ],
               j.callExpression(
-                j.memberExpression(j.identifier('item'), j.identifier('fromJS')),
+                j.memberExpression(j.identifier(nonModelType), j.identifier('fromJS')),
                 [j.identifier('item')]
               )
             ),

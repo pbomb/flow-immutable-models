@@ -35,7 +35,7 @@ export class Foo extends ImmutableModel {
     const state = Object.assign({}, defaultFooValues, json);
 
     state.bar = Bar.fromJS(state.bar);
-    state.barAry = state.barAry.map(item => item.fromJS(item));
+    state.barAry = state.barAry.map(item => Bar.fromJS(item));
     return new Foo(Immutable.fromJS(state));
   }
 
