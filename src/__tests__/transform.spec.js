@@ -42,4 +42,8 @@ describe('transform', () => {
   it('initializes arrays of other model types', async () => {
     await snap('arrayOfModelType.js');
   });
+
+  it('provides default values', async () => {
+    await snap('defaults.js');
+  });
 });
