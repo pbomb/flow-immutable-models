@@ -25,6 +25,8 @@ export type FooModelType = {
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
+import * as Immutable from \'immutable\';
+
 export class Foo extends ImmutableModel {
   static fromJS(json: FooModelType): Foo {
     const state = Object.assign({}, json);
@@ -132,6 +134,8 @@ export type ArrModelType = {
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
+import * as Immutable from \'immutable\';
+
 export class Arr extends ImmutableModel {
   static fromJS(json: ArrModelType): Arr {
     const state = Object.assign({}, json);
@@ -177,6 +181,8 @@ export type FooModelType = {
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
+import * as Immutable from \'immutable\';
+
 export class Foo extends ImmutableModel {
   static fromJS(json: FooModelType): Foo {
     const state = Object.assign({}, json);
@@ -228,6 +234,8 @@ export type NonClassImportedModelType = {
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
+import * as Immutable from \'immutable\';
+
 export class NonClassImported extends ImmutableModel {
   static fromJS(json: NonClassImportedModelType): NonClassImported {
     const state = Object.assign({}, json);
@@ -265,6 +273,8 @@ export type NonClassModelType = {
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
+import * as Immutable from \'immutable\';
+
 export class NonClass extends ImmutableModel {
   static fromJS(json: NonClassModelType): NonClass {
     const state = Object.assign({}, json);
@@ -371,6 +381,8 @@ export type ArrModelType = {
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
+import * as Immutable from \'immutable\';
+
 export class Arr extends ImmutableModel {
   static fromJS(json: ArrModelType): Arr {
     const state = Object.assign({}, json);
@@ -384,6 +396,159 @@ export class Arr extends ImmutableModel {
 
   setArr(arr: Immutable.List<Bar>): Arr {
     return new Arr(this._state.set(\'arr\', arr));
+  }
+}
+"
+`;
+
+exports[`transform initializes arrays of other model types 2`] = `
+"// @flow
+import ImmutableModel from \'../../../src/ImmutableModel\';
+import { Bar } from \'./bar\';
+import type { BarModelType } from \'./bar\';
+
+export type ArrModelType = {
+  arr: Array<BarModelType>,
+};
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// NOTE: EVERYTHING BELOW THIS COMMENT IS GENERATED. DO NOT MAKE CHANGES HERE.
+//
+// If you need to update this class, update the corresponding flow type above
+// and re-run the flow-immutable-models codemod
+//
+////////////////////////////////////////////////////////////////////////////////
+import * as Immutable from \'immutable\';
+
+export class Arr extends ImmutableModel {
+  static fromJS(json: ArrModelType): Arr {
+    const state = Object.assign({}, json);
+    state.arr = state.arr.map(item => Bar.fromJS(item));
+    return new Arr(Immutable.fromJS(state));
+  }
+
+  get arr(): Immutable.List<Bar> {
+    return this._state.get(\'arr\');
+  }
+
+  setArr(arr: Immutable.List<Bar>): Arr {
+    return new Arr(this._state.set(\'arr\', arr));
+  }
+}
+"
+`;
+
+exports[`transform provides default values 1`] = `
+"// @flow
+import * as Immutable from \'immutable\';
+import type { BarModelType } from \'./bar\';
+import { defaultBarValues } from \'./bar\';
+
+export type DefaultsModelType = {
+  str: string,
+  num: number,
+  bool: boolean,
+  bar: BarModelType,
+  barAry: Array<BarModelType>,
+  regArray: Array<boolean>,
+  lst: Immutable.List<BarModelType>,
+  maap: Immutable.Map<string, any>,
+};
+
+const defaultDefaultsValues: $Shape<DefaultsModelType> = {
+  str: \'strInitial\',
+  num: 42,
+  bool: true,
+  bar: defaultBarValues,
+  barAry: undefined,
+  regArray: [false, true, false],
+  lst: Immutable.List(),
+  maap: Immutable.Map(),
+};
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// NOTE: EVERYTHING BELOW THIS COMMENT IS GENERATED. DO NOT MAKE CHANGES HERE.
+//
+// If you need to update this class, update the corresponding flow type above
+// and re-run the flow-immutable-models codemod
+//
+////////////////////////////////////////////////////////////////////////////////
+import ImmutableModel from \'flow-immutable-models\';
+
+export class Defaults extends ImmutableModel {
+  static fromJS(json: $Diff<DefaultsModelType, typeof defaultDefaultsValues>): Defaults {
+    // $FlowFixMe
+    const state = Object.assign({}, defaultDefaultsValues, json);
+
+    state.bar = Bar.fromJS(state.bar);
+    state.barAry = state.barAry.map(item => Bar.fromJS(item));
+    return new Defaults(Immutable.fromJS(state));
+  }
+
+  get str(): string {
+    return this._state.get(\'str\');
+  }
+
+  setStr(str: string): Defaults {
+    return new Defaults(this._state.set(\'str\', str));
+  }
+
+  get num(): number {
+    return this._state.get(\'num\');
+  }
+
+  setNum(num: number): Defaults {
+    return new Defaults(this._state.set(\'num\', num));
+  }
+
+  get bool(): boolean {
+    return this._state.get(\'bool\');
+  }
+
+  setBool(bool: boolean): Defaults {
+    return new Defaults(this._state.set(\'bool\', bool));
+  }
+
+  get bar(): Bar {
+    return this._state.get(\'bar\');
+  }
+
+  setBar(bar: Bar): Defaults {
+    return new Defaults(this._state.set(\'bar\', bar));
+  }
+
+  get barAry(): Immutable.List<Bar> {
+    return this._state.get(\'barAry\');
+  }
+
+  setBarAry(barAry: Immutable.List<Bar>): Defaults {
+    return new Defaults(this._state.set(\'barAry\', barAry));
+  }
+
+  get regArray(): Immutable.List<boolean> {
+    return this._state.get(\'regArray\');
+  }
+
+  setRegArray(regArray: Immutable.List<boolean>): Defaults {
+    return new Defaults(this._state.set(\'regArray\', regArray));
+  }
+
+  get lst(): Immutable.List<Bar> {
+    return this._state.get(\'lst\');
+  }
+
+  setLst(lst: Immutable.List<Bar>): Defaults {
+    return new Defaults(this._state.set(\'lst\', lst));
+  }
+
+  get maap(): Immutable.Map<string, any> {
+    return this._state.get(\'maap\');
+  }
+
+  setMaap(maap: Immutable.Map<string, any>): Defaults {
+    return new Defaults(this._state.set(\'maap\', maap));
   }
 }
 "
