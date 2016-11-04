@@ -20,10 +20,11 @@ const defaultFooValues: $Shape<FooModelType> = {
   lst: Immutable.List(),
   maap: Immutable.Map(),
 };
+import ImmutableModel from 'ImmutableModel';
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+// NOTE: EVERYTHING BELOW THIS COMMENT IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
 // If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod

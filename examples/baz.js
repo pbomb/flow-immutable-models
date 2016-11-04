@@ -3,8 +3,8 @@ import * as Immutable from 'immutable';
 import ImmutableModel from '../src/ImmutableModel';
 
 export type BazModelType = {
-  bazNum: number,
-  innerBazs: Array<InnerBazModelType>,
+  num: number,
+  innerBazAry: Array<InnerBazModelType>,
 };
 
 export type InnerBazModelType = {

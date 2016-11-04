@@ -6,6 +6,16 @@ import getter from './helpers/getter';
 import setter from './helpers/setter';
 import { endsWithModelType, withoutModelTypeSuffix } from './helpers/withoutModelTypeSuffix';
 
+const comments = [
+  '//////////////////////////////////////////////////////////////////////////////',
+  '',
+  ' NOTE: EVERYTHING BELOW THIS COMMENT IS GENERATED. DO NOT MAKE CHANGES HERE.',
+  '',
+  ' If you need to update this class, update the corresponding flow type above',
+  ' and re-run the flow-immutable-models codemod',
+  '',
+  '//////////////////////////////////////////////////////////////////////////////',
+];
 const defaultPrintOptions = { quote: 'single', trailingComma: true };
 
 export default function(file: Object, api: Object, options: Object) {
@@ -19,10 +29,20 @@ export default function(file: Object, api: Object, options: Object) {
   const { program } = root.get().value;
   const { body } = program;
 
+  let hasAppliedCutlineComment = false;
+
   const classes: Array<{|
     className: string,
     classDef: Array<Object>
   |}> = [];
+
+  function prependCutlineCommentBlockOnce(): ?Array<Object> {
+    if (!hasAppliedCutlineComment) {
+      hasAppliedCutlineComment = true;
+      return comments.map(comment => j.commentLine(comment));
+    }
+    return undefined;
+  }
 
   function makeClass(className, type, defaultValues) {
     const classNameIdentifier = j.identifier(className);
@@ -52,17 +72,7 @@ export default function(file: Object, api: Object, options: Object) {
         j.identifier('ImmutableModel')
       )
     );
-    const comments = [
-      '//////////////////////////////////////////////////////////////////////////////',
-      '',
-      ' NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.',
-      '',
-      ' If you need to update this class, update the corresponding flow type above',
-      ' and re-run the flow-immutable-models codemod',
-      '',
-      '//////////////////////////////////////////////////////////////////////////////',
-    ];
-    classDeclaration.comments = comments.map(comment => j.commentLine(comment));
+    classDeclaration.comments = prependCutlineCommentBlockOnce();
     return [classDeclaration];
   }
 
