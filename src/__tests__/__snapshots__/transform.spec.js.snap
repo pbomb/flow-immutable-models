@@ -346,3 +346,38 @@ export class Foo extends ImmutableModel {
 }
 "
 `;
+
+exports[`transform initializes arrays of other model types 1`] = `
+"// @flow
+import ImmutableModel from \'../../../src/ImmutableModel\';
+import { Bar } from \'./bar\';
+import type { BarModelType } from \'./bar\';
+
+export type ArrModelType = {
+  arr: Array<BarModelType>,
+};
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+//
+// If you need to update this class, update the corresponding flow type above
+// and re-run the flow-immutable-models codemod
+//
+////////////////////////////////////////////////////////////////////////////////
+export class Arr extends ImmutableModel {
+  static fromJS(json: ArrModelType): Arr {
+    state.arr = state.arr.map(item => Bar.fromJS(item));
+    return new Arr(Immutable.fromJS(json));
+  }
+
+  get arr(): Immutable.List<Bar> {
+    return this._state.get(\'arr\');
+  }
+
+  setArr(arr: Immutable.List<Bar>): Arr {
+    return new Arr(this._state.set(\'arr\', arr));
+  }
+}
+"
+`;

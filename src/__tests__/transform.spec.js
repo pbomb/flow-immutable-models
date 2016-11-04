@@ -30,4 +30,8 @@ describe('transform', () => {
   it('does not instantiate imported types', async () => {
     await snap('nonClassImportedTypes.js');
   });
+
+  it('initializes arrays of other model types', async () => {
+    await snap('arrayOfModelType.js');
+  });
 });
