@@ -12,35 +12,42 @@ export const defaultBarValues: BarModelType = {
   barNum: 3,
 }
 
-////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 //
-// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+// NOTE: EVERYTHING BELOW THIS COMMENT IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
 // If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
 //
-////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 export class Bar extends ImmutableModel {
   static fromJS(json: $Diff<BarModelType, typeof defaultBarValues>): Bar {
     // $FlowFixMe
     const state: Object = Object.assign({}, defaultBarValues, json);
 
-    return new this(Immutable.fromJS(state));
+    return new this(Immutable.Map(state));
+  }
+
+  toJS(): BarModelType {
+    return {
+      barStr: this.barStr,
+      barNum: this.barNum,
+    };
   }
 
   get barStr(): string {
     return this._state.get('barStr');
   }
 
-  setBarStr(barStr: string): Bar {
-    return new Bar(this._state.set('barStr', barStr));
+  setBarStr(barStr: string): this {
+    return this.clone(this._state.set('barStr', barStr));
   }
 
   get barNum(): number {
     return this._state.get('barNum');
   }
 
-  setBarNum(barNum: number): Bar {
-    return new Bar(this._state.set('barNum', barNum));
+  setBarNum(barNum: number): this {
+    return this.clone(this._state.set('barNum', barNum));
   }
 }

@@ -6,6 +6,16 @@ import setter from './helpers/setter';
 import toJS from './helpers/toJS';
 import { endsWithModelType, withoutModelTypeSuffix } from './helpers/withoutModelTypeSuffix';
 
+const comments = [
+  ' /////////////////////////////////////////////////////////////////////////////',
+  '',
+  ' NOTE: EVERYTHING BELOW THIS COMMENT IS GENERATED. DO NOT MAKE CHANGES HERE.',
+  '',
+  ' If you need to update this class, update the corresponding flow type above',
+  ' and re-run the flow-immutable-models codemod',
+  '',
+  ' /////////////////////////////////////////////////////////////////////////////',
+];
 const defaultPrintOptions = { quote: 'single', trailingComma: true };
 
 export default function(file: Object, api: Object, options: Object) {
@@ -15,12 +25,23 @@ export default function(file: Object, api: Object, options: Object) {
 
   const root = j(file.source);
   const { program } = root.get().value;
-  const { body } = program;
+  let { body } = program;
+  let hasAppliedCutlineComment = false;
 
-  const classes: Array<{|
-    className: string,
-    classDef: Array<Object>,
-  |}> = [];
+  function nodeHasCutlineComment(node): boolean {
+    return node &&
+      node.comments &&
+      node.comments.length === comments.length &&
+      node.comments.every((c, i) => comments[i] === c.value);
+  }
+
+  function prependCutlineCommentBlockOnce(): ?Array<Object> {
+    if (!hasAppliedCutlineComment) {
+      hasAppliedCutlineComment = true;
+      return comments.map(comment => j.commentLine(comment));
+    }
+    return undefined;
+  }
 
   function makeClass(className, type, defaultValues) {
     const classNameIdentifier = j.identifier(className);
@@ -44,18 +65,8 @@ export default function(file: Object, api: Object, options: Object) {
         j.identifier('ImmutableModel')
       )
     );
-    const comments = [
-      ' /////////////////////////////////////////////////////////////////////////////',
-      '',
-      ' NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.',
-      '',
-      ' If you need to update this class, update the corresponding flow type above',
-      ' and re-run the flow-immutable-models codemod',
-      '',
-      ' /////////////////////////////////////////////////////////////////////////////',
-    ];
-    classDeclaration.comments = comments.map(comment => j.commentLine(comment));
-    return [classDeclaration];
+    classDeclaration.comments = prependCutlineCommentBlockOnce();
+    return classDeclaration;
   }
 
   function parseType<T: Object | string>(td: T): T {
@@ -88,6 +99,55 @@ export default function(file: Object, api: Object, options: Object) {
     return typeDef;
   }
 
+  let keep = true;
+  body = body
+    .filter((n) => {
+      keep = keep && !nodeHasCutlineComment(n);
+      return keep;
+    });
+
+  let insertImmutableImport = true;
+  let insertImmutableModelImport = true;
+  body
+    .forEach((p) => {
+      if (p.type !== 'ImportDeclaration') {
+        return;
+      }
+      p.specifiers.forEach((s) => {
+        if (s.local.name === 'Immutable') {
+          insertImmutableImport = false;
+        } else if (s.local.name === 'ImmutableModel') {
+          insertImmutableModelImport = false;
+        }
+      });
+    });
+
+  if (insertImmutableImport) {
+    const nameIdentifier = j.identifier('Immutable');
+    const variable = j.importNamespaceSpecifier(nameIdentifier);
+    const declaration = j.importDeclaration([variable], j.literal('immutable'));
+
+    if (body[0].comments) {
+      declaration.comments = body[0].comments;
+      delete body[0].comments;
+    }
+
+    body = [declaration].concat(body);
+  }
+
+  if (insertImmutableModelImport) {
+    const nameIdentifier = j.identifier('ImmutableModel');
+    const variable = j.importDefaultSpecifier(nameIdentifier);
+    const declaration = j.importDeclaration([variable], j.literal('flow-immutable-models'));
+
+    if (body[0].comments) {
+      declaration.comments = body[0].comments;
+      delete body[0].comments;
+    }
+
+    body = [declaration].concat(body);
+  }
+
   root
     .find(j.ExportNamedDeclaration)
     .filter((p) => {
@@ -115,27 +175,13 @@ Perhaps you didn't mean for ${identifier} to be a ModelType.
           path.node.declarations.some(dec => dec.id.name === defaultValuesName)
         );
 
-      classes.push({
+      body.push(makeClass(
         className,
-        classDef: makeClass(
-          className,
-          parsed,
-          defaultValues.size() === 1 ? defaultValuesName : null
-        ),
-      });
+        parsed,
+        defaultValues.size() === 1 ? defaultValuesName : null
+      ));
     });
 
-  classes.forEach(({ className, classDef }) => {
-    const alreadyExportedClass = root
-      .find(j.ExportNamedDeclaration)
-      .filter(path => path.node.declaration.type === 'ClassDeclaration' && path.node.declaration.id.name === className);
-
-    if (alreadyExportedClass.size() === 1) {
-      alreadyExportedClass.replaceWith(classDef);
-    } else {
-      body.push(...classDef);
-    }
-  });
-
+  root.get().value.program.body = body;
   return root.toSource(printOptions);
 }

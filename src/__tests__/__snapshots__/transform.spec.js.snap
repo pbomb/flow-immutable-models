@@ -1,5 +1,7 @@
 exports[`transform adds default class for exported typed object 1`] = `
 "// @flow
+import * as Immutable from \'immutable\';
+
 import type { BarModelType } from \'./bar\';
 import { Bar } from \'./bar\';
 import ImmutableModel from \'../../../src/ImmutableModel\';
@@ -19,7 +21,7 @@ export type FooModelType = {
 
 // /////////////////////////////////////////////////////////////////////////////
 //
-// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+// NOTE: EVERYTHING BELOW THIS COMMENT IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
 // If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
@@ -133,6 +135,8 @@ export class Foo extends ImmutableModel {
 
 exports[`transform converts arrays to Immutable lists 1`] = `
 "// @flow
+import * as Immutable from \'immutable\';
+
 import ImmutableModel from \'../../../src/ImmutableModel\';
 
 export type ArrModelType = {
@@ -142,7 +146,7 @@ export type ArrModelType = {
 
 // /////////////////////////////////////////////////////////////////////////////
 //
-// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+// NOTE: EVERYTHING BELOW THIS COMMENT IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
 // If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
@@ -184,6 +188,8 @@ export class Arr extends ImmutableModel {
 
 exports[`transform converts maybe props to use nullable fields 1`] = `
 "// @flow
+import * as Immutable from \'immutable\';
+
 import ImmutableModel from \'../../../src/ImmutableModel\';
 
 export type MaybePropsModelType = {
@@ -194,7 +200,7 @@ export type MaybePropsModelType = {
 
 // /////////////////////////////////////////////////////////////////////////////
 //
-// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+// NOTE: EVERYTHING BELOW THIS COMMENT IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
 // If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
@@ -268,7 +274,7 @@ export type MyMapModelType = {
 
 // /////////////////////////////////////////////////////////////////////////////
 //
-// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+// NOTE: EVERYTHING BELOW THIS COMMENT IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
 // If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
@@ -295,14 +301,6 @@ export class Other extends ImmutableModel {
   }
 }
 
-// /////////////////////////////////////////////////////////////////////////////
-//
-// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
-//
-// If you need to update this class, update the corresponding flow type above
-// and re-run the flow-immutable-models codemod
-//
-// /////////////////////////////////////////////////////////////////////////////
 export class MyMap extends ImmutableModel {
   static fromJS(json: MyMapModelType): MyMap {
     const state: Object = Object.assign({}, json);
@@ -339,6 +337,8 @@ export class MyMap extends ImmutableModel {
 
 exports[`transform converts referenced types in getters and setters 1`] = `
 "// @flow
+import * as Immutable from \'immutable\';
+
 import type { BarModelType } from \'./bar\';
 import { Bar } from \'./bar\';
 import ImmutableModel from \'../../../src/ImmutableModel\';
@@ -351,7 +351,7 @@ export type FooModelType = {
 
 // /////////////////////////////////////////////////////////////////////////////
 //
-// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+// NOTE: EVERYTHING BELOW THIS COMMENT IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
 // If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
@@ -402,6 +402,8 @@ export class Foo extends ImmutableModel {
 
 exports[`transform converts string literal types 1`] = `
 "// @flow
+import * as Immutable from \'immutable\';
+
 import ImmutableModel from \'../../../src/ImmutableModel\';
 
 export type StringLiteralModelType = {
@@ -411,7 +413,7 @@ export type StringLiteralModelType = {
 
 // /////////////////////////////////////////////////////////////////////////////
 //
-// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+// NOTE: EVERYTHING BELOW THIS COMMENT IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
 // If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
@@ -451,6 +453,8 @@ export class StringLiteral extends ImmutableModel {
 
 exports[`transform does not instantiate imported types 1`] = `
 "// @flow
+import * as Immutable from \'immutable\';
+
 import ImmutableModel from \'../../../src/ImmutableModel\';
 import type { Comparator } from \'./Comparator\';
 
@@ -460,7 +464,7 @@ export type NonClassImportedModelType = {
 
 // /////////////////////////////////////////////////////////////////////////////
 //
-// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+// NOTE: EVERYTHING BELOW THIS COMMENT IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
 // If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
@@ -491,6 +495,8 @@ export class NonClassImported extends ImmutableModel {
 
 exports[`transform does not instantiate inline non-class props 1`] = `
 "// @flow
+import * as Immutable from \'immutable\';
+
 import ImmutableModel from \'../../../src/ImmutableModel\';
 
 type Operator = \"*\" | \"/\" | \"+\" | \"-\";
@@ -503,7 +509,7 @@ export type NonClassModelType = {
 
 // /////////////////////////////////////////////////////////////////////////////
 //
-// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+// NOTE: EVERYTHING BELOW THIS COMMENT IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
 // If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
@@ -543,6 +549,8 @@ export class NonClass extends ImmutableModel {
 
 exports[`transform initializes arrays of other model types 1`] = `
 "// @flow
+import * as Immutable from \'immutable\';
+
 import ImmutableModel from \'../../../src/ImmutableModel\';
 import { Bar } from \'./bar\';
 import type { BarModelType } from \'./bar\';
@@ -553,7 +561,7 @@ export type ArrModelType = {
 
 // /////////////////////////////////////////////////////////////////////////////
 //
-// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+// NOTE: EVERYTHING BELOW THIS COMMENT IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
 // If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
