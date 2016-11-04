@@ -93,8 +93,6 @@ export default function(file: Object, api: Object, options: Object) {
     return typeDef;
   }
 
-  body.push(j.commentLine('foofoofoo'));
-
   console.log('*** Looking for imports ***');
   let insertImmutableModelImport = true;
   root
