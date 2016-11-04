@@ -100,28 +100,26 @@ export default function(file: Object, api: Object, options: Object) {
       }
       return false;
     })
-    .forEach(
-      (p) => {
-        const identifier = p.node.declaration.id.name;
-        const className = withoutModelTypeSuffix(identifier);
-        const parsed = parseType(p.node.declaration.right);
-        const defaultValuesName = `default${capitalize(className)}Values`;
-        const defaultValues = root
-          .find(j.VariableDeclaration)
-          .filter(path =>
-            path.node.declarations.some(dec => dec.id.name === defaultValuesName)
-          );
+    .forEach((p) => {
+      const identifier = p.node.declaration.id.name;
+      const className = withoutModelTypeSuffix(identifier);
+      const parsed = parseType(p.node.declaration.right);
+      const defaultValuesName = `default${capitalize(className)}Values`;
+      const defaultValues = root
+        .find(j.VariableDeclaration)
+        .filter(path =>
+          path.node.declarations.some(dec => dec.id.name === defaultValuesName)
+        );
 
-        classes.push({
+      classes.push({
+        className,
+        classDef: makeClass(
           className,
-          classDef: makeClass(
-            className,
-            parsed,
-            defaultValues.size() === 1 ? defaultValuesName : null
-          ),
-        });
-      }
-    );
+          parsed,
+          defaultValues.size() === 1 ? defaultValuesName : null
+        ),
+      });
+    });
 
   classes.forEach(({ className, classDef }) => {
     const alreadyExportedClass = root

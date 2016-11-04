@@ -27,8 +27,9 @@ export type FooModelType = {
 ////////////////////////////////////////////////////////////////////////////////
 export class Foo extends ImmutableModel {
   static fromJS(json: FooModelType): Foo {
+    const state = Object.assign({}, json);
     state.bar = Bar.fromJS(state.bar);
-    return new Foo(Immutable.fromJS(json));
+    return new Foo(Immutable.fromJS(state));
   }
 
   get maybeStr(): ?string {
@@ -133,7 +134,8 @@ export type ArrModelType = {
 ////////////////////////////////////////////////////////////////////////////////
 export class Arr extends ImmutableModel {
   static fromJS(json: ArrModelType): Arr {
-    return new Arr(Immutable.fromJS(json));
+    const state = Object.assign({}, json);
+    return new Arr(Immutable.fromJS(state));
   }
 
   get arr(): Immutable.List<Object> {
@@ -177,8 +179,9 @@ export type FooModelType = {
 ////////////////////////////////////////////////////////////////////////////////
 export class Foo extends ImmutableModel {
   static fromJS(json: FooModelType): Foo {
+    const state = Object.assign({}, json);
     state.ref = Bar.fromJS(state.ref);
-    return new Foo(Immutable.fromJS(json));
+    return new Foo(Immutable.fromJS(state));
   }
 
   get ref(): Bar {
@@ -227,7 +230,8 @@ export type NonClassImportedModelType = {
 ////////////////////////////////////////////////////////////////////////////////
 export class NonClassImported extends ImmutableModel {
   static fromJS(json: NonClassImportedModelType): NonClassImported {
-    return new NonClassImported(Immutable.fromJS(json));
+    const state = Object.assign({}, json);
+    return new NonClassImported(Immutable.fromJS(state));
   }
 
   get comparator(): Comparator {
@@ -263,7 +267,8 @@ export type NonClassModelType = {
 ////////////////////////////////////////////////////////////////////////////////
 export class NonClass extends ImmutableModel {
   static fromJS(json: NonClassModelType): NonClass {
-    return new NonClass(Immutable.fromJS(json));
+    const state = Object.assign({}, json);
+    return new NonClass(Immutable.fromJS(state));
   }
 
   get operator(): Operator {
@@ -309,7 +314,8 @@ export type FooModelType = {
 ////////////////////////////////////////////////////////////////////////////////
 export class Foo extends ImmutableModel {
   static fromJS(json: FooModelType): Foo {
-    return new Foo(Immutable.fromJS(json));
+    const state = Object.assign({}, json);
+    return new Foo(Immutable.fromJS(state));
   }
 
   get list(): Immutable.List<any> {
