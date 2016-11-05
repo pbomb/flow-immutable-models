@@ -1,8 +1,8 @@
-// @flow
 import * as Immutable from 'immutable';
 
-export type SimpleModelType = {
-  simpleNumber: number,
+export type QuuxModelType = {
+  id: number,
+  name: string,
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -13,25 +13,27 @@ export type SimpleModelType = {
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
-export class User extends ImmutableModel {
-  static fromJS(json: UserModelType): User {
+import ImmutableModel from 'flow-immutable-models';
+
+export class Quux extends ImmutableModel {
+  static fromJS(json: QuuxModelType): Quux {
     const state = Object.assign({}, json);
-    return new User(Immutable.fromJS(state));
+    return new Quux(Immutable.fromJS(state));
   }
 
   get id(): number {
     return this._state.get('id');
   }
 
-  setId(id: number): User {
-    return new User(this._state.set('id', id));
+  setId(id: number): Quux {
+    return new Quux(this._state.set('id', id));
   }
 
   get name(): string {
     return this._state.get('name');
   }
 
-  setName(name: string): User {
-    return new User(this._state.set('name', name));
+  setName(name: string): Quux {
+    return new Quux(this._state.set('name', name));
   }
 }

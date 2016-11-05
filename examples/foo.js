@@ -30,6 +30,8 @@ import ImmutableModel from 'ImmutableModel';
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
+import ImmutableModel from 'flow-immutable-models';
+
 export class Foo extends ImmutableModel {
   static fromJS(json: $Diff<FooModelType, typeof defaultFooValues>): Foo {
     // $FlowFixMe

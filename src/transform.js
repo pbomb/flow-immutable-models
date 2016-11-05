@@ -108,18 +108,21 @@ export default function(file: Object, api: Object, options: Object) {
   root
     .find(j.ImportDeclaration)
     .forEach((p) => {
-      if (p.value.source.value === 'ImmutableModel') {
+      console.log(p.value);
+      if (p.value.source.value === 'flow-immutable-models') {
         insertImmutableModelImport = false;
       }
     });
 
   if (insertImmutableModelImport) {
-    // Fill in the `import ImmutableModel from 'ImmutableModel'` code
+    // Fill in the `import ImmutableModel from 'flow-immutable-models'` code
     console.log('Import required...');
 
     const nameIdentifier = j.identifier('ImmutableModel');
     const variable = j.importDefaultSpecifier(nameIdentifier);
-    const declaration = j.importDeclaration([variable], j.literal('ImmutableModel'));
+    const declaration = j.importDeclaration([variable], j.literal('flow-immutable-models'));
+
+    declaration.comments = prependCutlineCommentBlockOnce();
 
     body.push(declaration);
   }
