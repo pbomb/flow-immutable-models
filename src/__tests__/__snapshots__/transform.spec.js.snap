@@ -16,7 +16,6 @@ export type FooModelType = {
   maybeFn: ?Function,
   fn: Function,
 };
-import ImmutableModel from \'ImmutableModel\';
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -26,6 +25,8 @@ import ImmutableModel from \'ImmutableModel\';
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
+import * as Immutable from \'immutable\';
+
 export class Foo extends ImmutableModel {
   static fromJS(json: FooModelType): Foo {
     const state = Object.assign({}, json);
@@ -124,7 +125,6 @@ export type ArrModelType = {
   arr: Array<Object>,
   maybeArr: ?Array<Object>,
 };
-import ImmutableModel from \'ImmutableModel\';
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -134,6 +134,8 @@ import ImmutableModel from \'ImmutableModel\';
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
+import * as Immutable from \'immutable\';
+
 export class Arr extends ImmutableModel {
   static fromJS(json: ArrModelType): Arr {
     const state = Object.assign({}, json);
@@ -170,7 +172,6 @@ export type FooModelType = {
   maybeRef: ?BarModelType,
   str: string,
 };
-import ImmutableModel from \'ImmutableModel\';
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -180,6 +181,8 @@ import ImmutableModel from \'ImmutableModel\';
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
+import * as Immutable from \'immutable\';
+
 export class Foo extends ImmutableModel {
   static fromJS(json: FooModelType): Foo {
     const state = Object.assign({}, json);
@@ -222,7 +225,6 @@ import type { Comparator } from \'./Comparator\';
 export type NonClassImportedModelType = {
   comparator: Comparator,
 };
-import ImmutableModel from \'ImmutableModel\';
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -232,6 +234,8 @@ import ImmutableModel from \'ImmutableModel\';
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
+import * as Immutable from \'immutable\';
+
 export class NonClassImported extends ImmutableModel {
   static fromJS(json: NonClassImportedModelType): NonClassImported {
     const state = Object.assign({}, json);
@@ -260,7 +264,6 @@ export type NonClassModelType = {
   operator: Operator,
   comparator: Comparator,
 };
-import ImmutableModel from \'ImmutableModel\';
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -270,6 +273,8 @@ import ImmutableModel from \'ImmutableModel\';
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
+import * as Immutable from \'immutable\';
+
 export class NonClass extends ImmutableModel {
   static fromJS(json: NonClassModelType): NonClass {
     const state = Object.assign({}, json);
@@ -308,7 +313,6 @@ export type FooModelType = {
   map: Immutable.Map<any, any>,
   maybeMap: ?Immutable.Map<string, BarModelType>,
 };
-import ImmutableModel from \'ImmutableModel\';
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -368,7 +372,6 @@ import type { BarModelType } from \'./bar\';
 export type ArrModelType = {
   arr: Array<BarModelType>,
 };
-import ImmutableModel from \'ImmutableModel\';
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -378,6 +381,46 @@ import ImmutableModel from \'ImmutableModel\';
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
+import * as Immutable from \'immutable\';
+
+export class Arr extends ImmutableModel {
+  static fromJS(json: ArrModelType): Arr {
+    const state = Object.assign({}, json);
+    state.arr = state.arr.map(item => Bar.fromJS(item));
+    return new Arr(Immutable.fromJS(state));
+  }
+
+  get arr(): Immutable.List<Bar> {
+    return this._state.get(\'arr\');
+  }
+
+  setArr(arr: Immutable.List<Bar>): Arr {
+    return new Arr(this._state.set(\'arr\', arr));
+  }
+}
+"
+`;
+
+exports[`transform initializes arrays of other model types 2`] = `
+"// @flow
+import ImmutableModel from \'../../../src/ImmutableModel\';
+import { Bar } from \'./bar\';
+import type { BarModelType } from \'./bar\';
+
+export type ArrModelType = {
+  arr: Array<BarModelType>,
+};
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// NOTE: EVERYTHING BELOW THIS COMMENT IS GENERATED. DO NOT MAKE CHANGES HERE.
+//
+// If you need to update this class, update the corresponding flow type above
+// and re-run the flow-immutable-models codemod
+//
+////////////////////////////////////////////////////////////////////////////////
+import * as Immutable from \'immutable\';
+
 export class Arr extends ImmutableModel {
   static fromJS(json: ArrModelType): Arr {
     const state = Object.assign({}, json);
@@ -423,7 +466,6 @@ const defaultDefaultsValues: $Shape<DefaultsModelType> = {
   lst: Immutable.List(),
   maap: Immutable.Map(),
 };
-import ImmutableModel from \'ImmutableModel\';
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -433,6 +475,8 @@ import ImmutableModel from \'ImmutableModel\';
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
+import ImmutableModel from \'flow-immutable-models\';
+
 export class Defaults extends ImmutableModel {
   static fromJS(json: $Diff<DefaultsModelType, typeof defaultDefaultsValues>): Defaults {
     // $FlowFixMe

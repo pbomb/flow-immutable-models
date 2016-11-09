@@ -1,5 +1,4 @@
-import * as Immutable from 'immutable';
-
+// @flow
 export type QuuxModelType = {
   id: number,
   name: string,
@@ -13,6 +12,8 @@ export type QuuxModelType = {
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
+import * as Immutable from 'immutable';
+
 import ImmutableModel from 'flow-immutable-models';
 
 export class Quux extends ImmutableModel {

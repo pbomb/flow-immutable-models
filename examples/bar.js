@@ -11,7 +11,6 @@ export const defaultBarValues: BarModelType = {
   barStr: 'foo',
   barNum: 3,
 }
-import ImmutableModel from 'ImmutableModel';
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -21,8 +20,6 @@ import ImmutableModel from 'ImmutableModel';
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
-import ImmutableModel from 'flow-immutable-models';
-
 export class Bar extends ImmutableModel {
   static fromJS(json: $Diff<BarModelType, typeof defaultBarValues>): Bar {
     // $FlowFixMe

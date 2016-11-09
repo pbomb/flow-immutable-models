@@ -21,20 +21,19 @@ const defaultPrintOptions = { quote: 'single', trailingComma: true };
 export default function(file: Object, api: Object, options: Object) {
   const j = api.jscodeshift;
 
-  console.log(j);
-
   const printOptions = options.printOptions || defaultPrintOptions;
 
   const root = j(file.source);
   const { program } = root.get().value;
-  const { body } = program;
-
+  let { body } = program;
   let hasAppliedCutlineComment = false;
 
-  const classes: Array<{|
-    className: string,
-    classDef: Array<Object>
-  |}> = [];
+  function nodeHasCutlineComment(node): bool {
+    return node &&
+      node.comments &&
+      node.comments.length === comments.length &&
+      node.comments.every((c, i) => comments[i] === c.value);
+  }
 
   function prependCutlineCommentBlockOnce(): ?Array<Object> {
     if (!hasAppliedCutlineComment) {
@@ -73,7 +72,7 @@ export default function(file: Object, api: Object, options: Object) {
       )
     );
     classDeclaration.comments = prependCutlineCommentBlockOnce();
-    return [classDeclaration];
+    return classDeclaration;
   }
 
   function parseType(td: Object) {
@@ -103,21 +102,40 @@ export default function(file: Object, api: Object, options: Object) {
     return typeDef;
   }
 
-  console.log('*** Looking for imports ***');
-  let insertImmutableModelImport = true;
-  root
-    .find(j.ImportDeclaration)
-    .forEach((p) => {
-      console.log(p.value);
-      if (p.value.source.value === 'flow-immutable-models') {
-        insertImmutableModelImport = false;
-      }
+  let keep = true;
+  body = body
+    .filter((n) => {
+      keep = keep && !nodeHasCutlineComment(n);
+      return keep;
     });
 
-  if (insertImmutableModelImport) {
-    // Fill in the `import ImmutableModel from 'flow-immutable-models'` code
-    console.log('Import required...');
+  let insertImmutableImport = true;
+  let insertImmutableModelImport = true;
+  body
+    .forEach((p) => {
+      if (p.type !== 'ImportDeclaration') {
+        return;
+      }
+      p.specifiers.forEach((s) => {
+        if (s.local.name === 'Immutable') {
+          insertImmutableImport = false;
+        } else if (s.local.name === 'ImmutableModel') {
+          insertImmutableModelImport = false;
+        }
+      });
+    });
 
+  if (insertImmutableImport) {
+    const nameIdentifier = j.identifier('Immutable');
+    const variable = j.importNamespaceSpecifier(nameIdentifier);
+    const declaration = j.importDeclaration([variable], j.literal('immutable'));
+
+    declaration.comments = prependCutlineCommentBlockOnce();
+
+    body.push(declaration);
+  }
+
+  if (insertImmutableModelImport) {
     const nameIdentifier = j.identifier('ImmutableModel');
     const variable = j.importDefaultSpecifier(nameIdentifier);
     const declaration = j.importDeclaration([variable], j.literal('flow-immutable-models'));
@@ -147,27 +165,13 @@ export default function(file: Object, api: Object, options: Object) {
           path.node.declarations.some(dec => dec.id.name === defaultValuesName)
         );
 
-      classes.push({
+      body.push(makeClass(
         className,
-        classDef: makeClass(
-          className,
-          parsed,
-          defaultValues.size() === 1 ? defaultValuesName : null
-        ),
-      });
+        parsed,
+        defaultValues.size() === 1 ? defaultValuesName : null
+      ));
     });
 
-  classes.forEach(({ className, classDef }) => {
-    const alreadyExportedClass = root
-      .find(j.ExportNamedDeclaration)
-      .filter(path => path.node.declaration.type === 'ClassDeclaration' && path.node.declaration.id.name === className);
-
-    if (alreadyExportedClass.size() === 1) {
-      alreadyExportedClass.replaceWith(classDef);
-    } else {
-      body.push(...classDef);
-    }
-  });
-
+  root.get().value.program.body = body;
   return root.toSource(printOptions);
 }

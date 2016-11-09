@@ -20,29 +20,27 @@ export type InnerBazModelType = {
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
-import ImmutableModel from 'flow-immutable-models';
-
 export class Baz extends ImmutableModel {
   static fromJS(json: BazModelType): Baz {
     const state = Object.assign({}, json);
-    state.innerBazs = state.innerBazs.map(item => InnerBaz.fromJS(item));
+    state.innerBazAry = state.innerBazAry.map(item => InnerBaz.fromJS(item));
     return new Baz(Immutable.fromJS(state));
   }
 
-  get bazNum(): number {
-    return this._state.get('bazNum');
+  get num(): number {
+    return this._state.get('num');
   }
 
-  setBazNum(bazNum: number): Baz {
-    return new Baz(this._state.set('bazNum', bazNum));
+  setNum(num: number): Baz {
+    return new Baz(this._state.set('num', num));
   }
 
-  get innerBazs(): Immutable.List<InnerBaz> {
-    return this._state.get('innerBazs');
+  get innerBazAry(): Immutable.List<InnerBaz> {
+    return this._state.get('innerBazAry');
   }
 
-  setInnerBazs(innerBazs: Immutable.List<InnerBaz>): Baz {
-    return new Baz(this._state.set('innerBazs', innerBazs));
+  setInnerBazAry(innerBazAry: Immutable.List<InnerBaz>): Baz {
+    return new Baz(this._state.set('innerBazAry', innerBazAry));
   }
 }
 
