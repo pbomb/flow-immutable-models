@@ -373,8 +373,9 @@ export type ArrModelType = {
 ////////////////////////////////////////////////////////////////////////////////
 export class Arr extends ImmutableModel {
   static fromJS(json: ArrModelType): Arr {
+    const state = Object.assign({}, json);
     state.arr = state.arr.map(item => Bar.fromJS(item));
-    return new Arr(Immutable.fromJS(json));
+    return new Arr(Immutable.fromJS(state));
   }
 
   get arr(): Immutable.List<Bar> {
