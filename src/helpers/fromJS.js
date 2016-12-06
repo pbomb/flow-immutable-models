@@ -134,7 +134,7 @@ export default function fromJS(
         ...referenceInitializationStatements,
         j.returnStatement(
           j.newExpression(
-            j.identifier(className),
+            j.identifier('this'),
             [
               j.callExpression(
                 j.memberExpression(

@@ -27,6 +27,14 @@ export default class ImmutableModel {
     return this.clone(this._state.set(property, value));
   }
 
+  getIn(properties: string[]): any{
+      return this._state.getIn(properties);
+  }
+
+  setIn(properties: string[], value: any): this{
+      return this.clone(this._state.setIn(properties, value));
+  }
+
   has(property: string): boolean {
     return this._state.has(property);
   }
