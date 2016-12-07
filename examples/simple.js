@@ -1,38 +1,31 @@
+// @flow
 import * as Immutable from 'immutable';
-import ImmutableModel from 'flow-immutable-models';
 
-export type UserModelType = {
-  id: number,
-  name: string,
+export type SimpleModelType = {
+  simpleNumber: number,
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+// NOTE: EVERYTHING BELOW THIS COMMENT IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
 // If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
 //
 ////////////////////////////////////////////////////////////////////////////////
-export class User extends ImmutableModel {
-  static fromJS(json: UserModelType): User {
+import ImmutableModel from 'flow-immutable-models';
+
+export class Simple extends ImmutableModel {
+  static fromJS(json: SimpleModelType): Simple {
     const state = Object.assign({}, json);
-    return new User(Immutable.fromJS(state));
+    return new Simple(Immutable.fromJS(state));
   }
 
-  get id(): number {
-    return this._state.get('id');
+  get simpleNumber(): number {
+    return this._state.get('simpleNumber');
   }
 
-  setId(id: number): User {
-    return new User(this._state.set('id', id));
-  }
-
-  get name(): string {
-    return this._state.get('name');
-  }
-
-  setName(name: string): User {
-    return new User(this._state.set('name', name));
+  setSimpleNumber(simpleNumber: number): Simple {
+    return new Simple(this._state.set('simpleNumber', simpleNumber));
   }
 }

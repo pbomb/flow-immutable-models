@@ -3,8 +3,8 @@ import * as Immutable from 'immutable';
 import ImmutableModel from '../src/ImmutableModel';
 
 export type BazModelType = {
-  bazNum: number,
-  innerBazs: Array<InnerBazModelType>,
+  num: number,
+  innerBazAry: Array<InnerBazModelType>,
 };
 
 export type InnerBazModelType = {
@@ -14,7 +14,7 @@ export type InnerBazModelType = {
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+// NOTE: EVERYTHING BELOW THIS COMMENT IS GENERATED. DO NOT MAKE CHANGES HERE.
 //
 // If you need to update this class, update the corresponding flow type above
 // and re-run the flow-immutable-models codemod
@@ -23,35 +23,27 @@ export type InnerBazModelType = {
 export class Baz extends ImmutableModel {
   static fromJS(json: BazModelType): Baz {
     const state = Object.assign({}, json);
-    state.innerBazs = state.innerBazs.map(item => InnerBaz.fromJS(item));
+    state.innerBazAry = state.innerBazAry.map(item => InnerBaz.fromJS(item));
     return new Baz(Immutable.fromJS(state));
   }
 
-  get bazNum(): number {
-    return this._state.get('bazNum');
+  get num(): number {
+    return this._state.get('num');
   }
 
-  setBazNum(bazNum: number): Baz {
-    return new Baz(this._state.set('bazNum', bazNum));
+  setNum(num: number): Baz {
+    return new Baz(this._state.set('num', num));
   }
 
-  get innerBazs(): Immutable.List<InnerBaz> {
-    return this._state.get('innerBazs');
+  get innerBazAry(): Immutable.List<InnerBaz> {
+    return this._state.get('innerBazAry');
   }
 
-  setInnerBazs(innerBazs: Immutable.List<InnerBaz>): Baz {
-    return new Baz(this._state.set('innerBazs', innerBazs));
+  setInnerBazAry(innerBazAry: Immutable.List<InnerBaz>): Baz {
+    return new Baz(this._state.set('innerBazAry', innerBazAry));
   }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//
-// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
-//
-// If you need to update this class, update the corresponding flow type above
-// and re-run the flow-immutable-models codemod
-//
-////////////////////////////////////////////////////////////////////////////////
 export class InnerBaz extends ImmutableModel {
   static fromJS(json: InnerBazModelType): InnerBaz {
     const state = Object.assign({}, json);
