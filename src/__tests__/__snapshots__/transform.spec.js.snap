@@ -29,7 +29,7 @@ export class Foo extends ImmutableModel {
   static fromJS(json: FooModelType): Foo {
     const state = Object.assign({}, json);
     state.bar = Bar.fromJS(state.bar);
-    return new Foo(Immutable.fromJS(state));
+    return new this(Immutable.fromJS(state));
   }
 
   get maybeStr(): ?string {
@@ -135,7 +135,7 @@ export type ArrModelType = {
 export class Arr extends ImmutableModel {
   static fromJS(json: ArrModelType): Arr {
     const state = Object.assign({}, json);
-    return new Arr(Immutable.fromJS(state));
+    return new this(Immutable.fromJS(state));
   }
 
   get arr(): Immutable.List<Object> {
@@ -181,7 +181,7 @@ export class Foo extends ImmutableModel {
   static fromJS(json: FooModelType): Foo {
     const state = Object.assign({}, json);
     state.ref = Bar.fromJS(state.ref);
-    return new Foo(Immutable.fromJS(state));
+    return new this(Immutable.fromJS(state));
   }
 
   get ref(): Bar {
@@ -231,7 +231,7 @@ export type NonClassImportedModelType = {
 export class NonClassImported extends ImmutableModel {
   static fromJS(json: NonClassImportedModelType): NonClassImported {
     const state = Object.assign({}, json);
-    return new NonClassImported(Immutable.fromJS(state));
+    return new this(Immutable.fromJS(state));
   }
 
   get comparator(): Comparator {
@@ -268,7 +268,7 @@ export type NonClassModelType = {
 export class NonClass extends ImmutableModel {
   static fromJS(json: NonClassModelType): NonClass {
     const state = Object.assign({}, json);
-    return new NonClass(Immutable.fromJS(state));
+    return new this(Immutable.fromJS(state));
   }
 
   get operator(): Operator {
@@ -315,7 +315,7 @@ export type FooModelType = {
 export class Foo extends ImmutableModel {
   static fromJS(json: FooModelType): Foo {
     const state = Object.assign({}, json);
-    return new Foo(Immutable.fromJS(state));
+    return new this(Immutable.fromJS(state));
   }
 
   get list(): Immutable.List<any> {
@@ -375,7 +375,7 @@ export class Arr extends ImmutableModel {
   static fromJS(json: ArrModelType): Arr {
     const state = Object.assign({}, json);
     state.arr = state.arr.map(item => Bar.fromJS(item));
-    return new Arr(Immutable.fromJS(state));
+    return new this(Immutable.fromJS(state));
   }
 
   get arr(): Immutable.List<Bar> {
