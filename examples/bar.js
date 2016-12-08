@@ -23,9 +23,9 @@ export const defaultBarValues: BarModelType = {
 export class Bar extends ImmutableModel {
   static fromJS(json: $Diff<BarModelType, typeof defaultBarValues>): Bar {
     // $FlowFixMe
-    const state = Object.assign({}, defaultBarValues, json);
+    const state: Object = Object.assign({}, defaultBarValues, json);
 
-    return new Bar(Immutable.fromJS(state));
+    return new this(Immutable.fromJS(state));
   }
 
   get barStr(): string {

@@ -16,8 +16,8 @@ export type UserModelType = {
 ////////////////////////////////////////////////////////////////////////////////
 export class User extends ImmutableModel {
   static fromJS(json: UserModelType): User {
-    const state = Object.assign({}, json);
-    return new User(Immutable.fromJS(state));
+    const state: Object = Object.assign({}, json);
+    return new this(Immutable.fromJS(state));
   }
 
   get id(): number {

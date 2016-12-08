@@ -22,9 +22,9 @@ export type InnerBazModelType = {
 ////////////////////////////////////////////////////////////////////////////////
 export class Baz extends ImmutableModel {
   static fromJS(json: BazModelType): Baz {
-    const state = Object.assign({}, json);
+    const state: Object = Object.assign({}, json);
     state.innerBazs = state.innerBazs.map(item => InnerBaz.fromJS(item));
-    return new Baz(Immutable.fromJS(state));
+    return new this(Immutable.fromJS(state));
   }
 
   get bazNum(): number {
@@ -54,8 +54,8 @@ export class Baz extends ImmutableModel {
 ////////////////////////////////////////////////////////////////////////////////
 export class InnerBaz extends ImmutableModel {
   static fromJS(json: InnerBazModelType): InnerBaz {
-    const state = Object.assign({}, json);
-    return new InnerBaz(Immutable.fromJS(state));
+    const state: Object = Object.assign({}, json);
+    return new this(Immutable.fromJS(state));
   }
 
   get key(): string {

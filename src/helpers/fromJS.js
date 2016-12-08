@@ -106,16 +106,19 @@ export default function fromJS(
   } else {
     argumentArray = [j.objectExpression([]), j.identifier('json')];
   }
+  const stateObjectTypeAnnotation = j.typeAnnotation(j.genericTypeAnnotation(j.identifier('Object'), null));
+  const stateVariableIdentifier = Object.assign({}, j.identifier('state'), { typeAnnotation: stateObjectTypeAnnotation });
+  const stateVariable = j.variableDeclarator(
+    stateVariableIdentifier,
+    j.callExpression(
+      j.memberExpression(j.identifier('Object'), j.identifier('assign')),
+      argumentArray
+    )
+  );
   const assignExpression = j.variableDeclaration(
     'const',
     [
-      j.variableDeclarator(
-        j.identifier('state'),
-        j.callExpression(
-          j.memberExpression(j.identifier('Object'), j.identifier('assign')),
-          argumentArray
-        )
-      ),
+      stateVariable,
     ]
   );
   if (defaultValues) {
