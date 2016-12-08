@@ -32,11 +32,11 @@ const defaultFooValues: $Shape<FooModelType> = {
 export class Foo extends ImmutableModel {
   static fromJS(json: $Diff<FooModelType, typeof defaultFooValues>): Foo {
     // $FlowFixMe
-    const state = Object.assign({}, defaultFooValues, json);
+    const state: Object = Object.assign({}, defaultFooValues, json);
 
     state.bar = Bar.fromJS(state.bar);
     state.barAry = state.barAry.map(item => Bar.fromJS(item));
-    return new Foo(Immutable.fromJS(state));
+    return new this(Immutable.fromJS(state));
   }
 
   get str(): string {
