@@ -10,6 +10,13 @@
   },
   "parser": "babel-eslint",
   "rules": {
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "ignore",
+    }],
     "no-console": 0,
     // Temporarily disabled due to babel-eslint issues:
     "block-scoped-var": 0,
