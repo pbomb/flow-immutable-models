@@ -27,12 +27,24 @@ export default class ImmutableModel {
     return this.clone(this._state.set(property, value));
   }
 
+  update<TProp>(property: string, updater: Updater<TProp>): this {
+    return this.clone(this._state.update(property, updater));
+  }
+
   getIn(properties: string[]): any {
     return this._state.getIn(properties);
   }
 
   setIn(properties: string[], value: any): this {
     return this.clone(this._state.setIn(properties, value));
+  }
+
+  updateIn<TProp>(
+    properties: Array<string | number>,
+    notSetValue: TProp | Updater<TProp>,
+    updater?: Updater<TProp>
+  ): this {
+    return this.clone(this._state.updateIn(properties, notSetValue, updater));
   }
 
   has(property: string): boolean {
@@ -51,10 +63,6 @@ export default class ImmutableModel {
   removeFromMap<TKey, TValue>(property: string, key: TKey): this {
     const map: Immutable.Map<TKey, TValue> = this.get(property);
     return this.clone(this._state.set(property, map.remove(key)));
-  }
-
-  update<TProp>(property: string, updater: Updater<TProp>): this {
-    return this.clone(this._state.update(property, updater));
   }
 
   addToList<TProp>(property: string, value: TProp): this {

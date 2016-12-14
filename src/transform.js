@@ -19,7 +19,7 @@ export default function(file: Object, api: Object, options: Object) {
 
   const classes: Array<{|
     className: string,
-    classDef: Array<Object>
+    classDef: Array<Object>,
   |}> = [];
 
   function makeClass(className, type, defaultValues) {
@@ -51,14 +51,14 @@ export default function(file: Object, api: Object, options: Object) {
       )
     );
     const comments = [
-      '//////////////////////////////////////////////////////////////////////////////',
+      ' /////////////////////////////////////////////////////////////////////////////',
       '',
       ' NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.',
       '',
       ' If you need to update this class, update the corresponding flow type above',
       ' and re-run the flow-immutable-models codemod',
       '',
-      '//////////////////////////////////////////////////////////////////////////////',
+      ' /////////////////////////////////////////////////////////////////////////////',
     ];
     classDeclaration.comments = comments.map(comment => j.commentLine(comment));
     return [classDeclaration];

@@ -4,11 +4,12 @@
   "description": "Generates model classes from Flow types using Immutable.js",
   "main": "src/ImmutableModel.js",
   "scripts": {
-    "build": "babel src -d lib",
+    "build": "babel src -d lib --ignore __tests__",
     "flow": "flow",
     "eslint": "eslint src",
-    "prepublish": "npm run eslint && npm run flow && npm test && npm run build",
-    "test": "jest"
+    "gen-models": "npm run build && jscodeshift -t lib/transform.js src/__tests__/models",
+    "prepublish": "npm run eslint && npm run flow && npm test",
+    "test": "npm run gen-models && jest"
   },
   "keywords": [
     "flow",
@@ -26,6 +27,7 @@
     "babel-polyfill": "6.16.0",
     "eslint": "3.11.1",
     "eslint-config-airbnb": "13.0.0",
+    "eslint-plugin-flowtype": "2.29.1",
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "2.2.3",
     "eslint-plugin-react": "6.8.0",
