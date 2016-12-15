@@ -30,6 +30,13 @@ export class Division extends ImmutableModel {
     return new this(Immutable.fromJS(state));
   }
 
+  toJS(): DivisionModelType {
+    return {
+      name: this.name,
+      teams: this.teams.toArray().map(item => item.toJS()),
+    };
+  }
+
   get name(): string {
     return this._state.get('name');
   }

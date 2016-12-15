@@ -32,6 +32,21 @@ export class Foo extends ImmutableModel {
     return new this(Immutable.fromJS(state));
   }
 
+  toJS(): FooModelType {
+    return {
+      maybeStr: this.maybeStr,
+      str: this.str,
+      maybeNum: this.maybeNum,
+      num: this.num,
+      maybeObj: this.maybeObj,
+      obj: this.obj,
+      maybeBar: (this.maybeBar ? this.maybeBar.toJS() : this.maybeBar),
+      bar: this.bar.toJS(),
+      maybeFn: this.maybeFn,
+      fn: this.fn,
+    };
+  }
+
   get maybeStr(): ?string {
     return this._state.get(\'maybeStr\');
   }
@@ -138,6 +153,13 @@ export class Arr extends ImmutableModel {
     return new this(Immutable.fromJS(state));
   }
 
+  toJS(): ArrModelType {
+    return {
+      arr: this.arr.toArray(),
+      maybeArr: (this.maybeArr ? this.maybeArr.toArray() : this.maybeArr),
+    };
+  }
+
   get arr(): Immutable.List<Object> {
     return this._state.get(\'arr\');
   }
@@ -182,6 +204,14 @@ export class Foo extends ImmutableModel {
     const state: Object = Object.assign({}, json);
     state.ref = Bar.fromJS(state.ref);
     return new this(Immutable.fromJS(state));
+  }
+
+  toJS(): FooModelType {
+    return {
+      ref: this.ref.toJS(),
+      maybeRef: (this.maybeRef ? this.maybeRef.toJS() : this.maybeRef),
+      str: this.str,
+    };
   }
 
   get ref(): Bar {
@@ -234,6 +264,12 @@ export class NonClassImported extends ImmutableModel {
     return new this(Immutable.fromJS(state));
   }
 
+  toJS(): NonClassImportedModelType {
+    return {
+      comparator: this.comparator,
+    };
+  }
+
   get comparator(): Comparator {
     return this._state.get(\'comparator\');
   }
@@ -271,6 +307,13 @@ export class NonClass extends ImmutableModel {
     return new this(Immutable.fromJS(state));
   }
 
+  toJS(): NonClassModelType {
+    return {
+      operator: this.operator,
+      comparator: this.comparator,
+    };
+  }
+
   get operator(): Operator {
     return this._state.get(\'operator\');
   }
@@ -298,7 +341,7 @@ import { Bar } from \'./bar\';
 import ImmutableModel from \'../../../src/ImmutableModel\';
 
 export type FooModelType = {
-  list: Immutable.List<any>,
+  list: Immutable.List<BarModelType>,
   maybeList: ?Immutable.List<BarModelType>,
   map: Immutable.Map<any, any>,
   maybeMap: ?Immutable.Map<string, BarModelType>,
@@ -318,11 +361,20 @@ export class Foo extends ImmutableModel {
     return new this(Immutable.fromJS(state));
   }
 
-  get list(): Immutable.List<any> {
+  toJS(): FooModelType {
+    return {
+      list: this.list.toJS(),
+      maybeList: (this.maybeList ? this.maybeList.toJS() : this.maybeList),
+      map: this.map,
+      maybeMap: this.maybeMap,
+    };
+  }
+
+  get list(): Immutable.List<Bar> {
     return this._state.get(\'list\');
   }
 
-  setList(list: Immutable.List<any>): Foo {
+  setList(list: Immutable.List<Bar>): Foo {
     return new Foo(this._state.set(\'list\', list));
   }
 
@@ -376,6 +428,12 @@ export class Arr extends ImmutableModel {
     const state: Object = Object.assign({}, json);
     state.arr = state.arr.map(item => Bar.fromJS(item));
     return new this(Immutable.fromJS(state));
+  }
+
+  toJS(): ArrModelType {
+    return {
+      arr: this.arr.toArray().map(item => item.toJS()),
+    };
   }
 
   get arr(): Immutable.List<Bar> {

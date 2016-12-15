@@ -4,6 +4,7 @@ import fromJS from './helpers/fromJS';
 import getReferenceProps from './helpers/getReferenceProps';
 import getter from './helpers/getter';
 import setter from './helpers/setter';
+import toJS from './helpers/toJS';
 import { endsWithModelType, withoutModelTypeSuffix } from './helpers/withoutModelTypeSuffix';
 
 const defaultPrintOptions = { quote: 'single', trailingComma: true };
@@ -32,7 +33,7 @@ export default function(file: Object, api: Object, options: Object) {
     );
     const referenceProps = getReferenceProps(j, type.properties);
     const staticMethods = [
-      fromJS(j, className, defaultValues, referenceProps, root),
+      fromJS(j, className, defaultValues, referenceProps),
       // fromImmutable(j, className),
     ];
     const instanceMethods = type.properties.reduce((methods, prop) => {
@@ -41,7 +42,9 @@ export default function(file: Object, api: Object, options: Object) {
         setter(j, prop, modelTypeAnnotation, className)
       );
       return methods;
-    }, []);
+    }, [
+      toJS(j, className, type.properties),
+    ]);
 
     const classDeclaration = j.exportNamedDeclaration(
       j.classDeclaration(

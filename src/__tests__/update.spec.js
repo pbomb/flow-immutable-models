@@ -17,12 +17,18 @@ describe('update', () => {
       teams: [{
         location: 'Columbus',
         nickname: 'Blue Jackets',
+        hasWonStanleyCup: false,
+        lastCupWin: null,
+        strengths: ['defense'],
       }],
     });
     const blueJackets = division.teams.first();
     const rangers = Team.fromJS({
       location: 'New York',
       nickname: 'Rangers',
+      hasWonStanleyCup: true,
+      lastCupWin: 1994,
+      strengths: ['goaltending'],
     });
     const nextDivision = division.update('teams', (teams: Immutable.List<Team>) =>
       teams.push(rangers)
@@ -42,9 +48,15 @@ describe('udpateIn', () => {
       teams: [{
         location: 'Columbus',
         nickname: 'Blue Jackets',
+        hasWonStanleyCup: false,
+        lastCupWin: null,
+        strengths: ['defense'],
       }, {
         location: 'New York',
         nickname: 'Rangers',
+        hasWonStanleyCup: true,
+        lastCupWin: 1994,
+        strengths: ['goaltending'],
       }],
     });
     const blueJackets = division.teams.get(0);
