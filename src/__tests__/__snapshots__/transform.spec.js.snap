@@ -51,80 +51,80 @@ export class Foo extends ImmutableModel {
     return this._state.get(\'maybeStr\');
   }
 
-  setMaybeStr(maybeStr: ?string): Foo {
-    return new Foo(this._state.set(\'maybeStr\', maybeStr));
+  setMaybeStr(maybeStr: ?string): this {
+    return this.clone(this._state.set(\'maybeStr\', maybeStr));
   }
 
   get str(): string {
     return this._state.get(\'str\');
   }
 
-  setStr(str: string): Foo {
-    return new Foo(this._state.set(\'str\', str));
+  setStr(str: string): this {
+    return this.clone(this._state.set(\'str\', str));
   }
 
   get maybeNum(): ?number {
     return this._state.get(\'maybeNum\');
   }
 
-  setMaybeNum(maybeNum: ?number): Foo {
-    return new Foo(this._state.set(\'maybeNum\', maybeNum));
+  setMaybeNum(maybeNum: ?number): this {
+    return this.clone(this._state.set(\'maybeNum\', maybeNum));
   }
 
   get num(): number {
     return this._state.get(\'num\');
   }
 
-  setNum(num: number): Foo {
-    return new Foo(this._state.set(\'num\', num));
+  setNum(num: number): this {
+    return this.clone(this._state.set(\'num\', num));
   }
 
   get maybeObj(): ?Object {
     return this._state.get(\'maybeObj\');
   }
 
-  setMaybeObj(maybeObj: ?Object): Foo {
-    return new Foo(this._state.set(\'maybeObj\', maybeObj));
+  setMaybeObj(maybeObj: ?Object): this {
+    return this.clone(this._state.set(\'maybeObj\', maybeObj));
   }
 
   get obj(): Object {
     return this._state.get(\'obj\');
   }
 
-  setObj(obj: Object): Foo {
-    return new Foo(this._state.set(\'obj\', obj));
+  setObj(obj: Object): this {
+    return this.clone(this._state.set(\'obj\', obj));
   }
 
   get maybeBar(): ?Bar {
     return this._state.get(\'maybeBar\');
   }
 
-  setMaybeBar(maybeBar: ?Bar): Foo {
-    return new Foo(this._state.set(\'maybeBar\', maybeBar));
+  setMaybeBar(maybeBar: ?Bar): this {
+    return this.clone(this._state.set(\'maybeBar\', maybeBar));
   }
 
   get bar(): Bar {
     return this._state.get(\'bar\');
   }
 
-  setBar(bar: Bar): Foo {
-    return new Foo(this._state.set(\'bar\', bar));
+  setBar(bar: Bar): this {
+    return this.clone(this._state.set(\'bar\', bar));
   }
 
   get maybeFn(): ?Function {
     return this._state.get(\'maybeFn\');
   }
 
-  setMaybeFn(maybeFn: ?Function): Foo {
-    return new Foo(this._state.set(\'maybeFn\', maybeFn));
+  setMaybeFn(maybeFn: ?Function): this {
+    return this.clone(this._state.set(\'maybeFn\', maybeFn));
   }
 
   get fn(): Function {
     return this._state.get(\'fn\');
   }
 
-  setFn(fn: Function): Foo {
-    return new Foo(this._state.set(\'fn\', fn));
+  setFn(fn: Function): this {
+    return this.clone(this._state.set(\'fn\', fn));
   }
 }
 "
@@ -164,16 +164,16 @@ export class Arr extends ImmutableModel {
     return this._state.get(\'arr\');
   }
 
-  setArr(arr: Immutable.List<Object>): Arr {
-    return new Arr(this._state.set(\'arr\', arr));
+  setArr(arr: Immutable.List<Object>): this {
+    return this.clone(this._state.set(\'arr\', arr));
   }
 
   get maybeArr(): ?Array<Object> {
     return this._state.get(\'maybeArr\');
   }
 
-  setMaybeArr(maybeArr: ?Array<Object>): Arr {
-    return new Arr(this._state.set(\'maybeArr\', maybeArr));
+  setMaybeArr(maybeArr: ?Array<Object>): this {
+    return this.clone(this._state.set(\'maybeArr\', maybeArr));
   }
 }
 "
@@ -218,24 +218,24 @@ export class Foo extends ImmutableModel {
     return this._state.get(\'ref\');
   }
 
-  setRef(ref: Bar): Foo {
-    return new Foo(this._state.set(\'ref\', ref));
+  setRef(ref: Bar): this {
+    return this.clone(this._state.set(\'ref\', ref));
   }
 
   get maybeRef(): ?Bar {
     return this._state.get(\'maybeRef\');
   }
 
-  setMaybeRef(maybeRef: ?Bar): Foo {
-    return new Foo(this._state.set(\'maybeRef\', maybeRef));
+  setMaybeRef(maybeRef: ?Bar): this {
+    return this.clone(this._state.set(\'maybeRef\', maybeRef));
   }
 
   get str(): string {
     return this._state.get(\'str\');
   }
 
-  setStr(str: string): Foo {
-    return new Foo(this._state.set(\'str\', str));
+  setStr(str: string): this {
+    return this.clone(this._state.set(\'str\', str));
   }
 }
 "
@@ -274,8 +274,8 @@ export class NonClassImported extends ImmutableModel {
     return this._state.get(\'comparator\');
   }
 
-  setComparator(comparator: Comparator): NonClassImported {
-    return new NonClassImported(this._state.set(\'comparator\', comparator));
+  setComparator(comparator: Comparator): this {
+    return this.clone(this._state.set(\'comparator\', comparator));
   }
 }
 "
@@ -318,16 +318,16 @@ export class NonClass extends ImmutableModel {
     return this._state.get(\'operator\');
   }
 
-  setOperator(operator: Operator): NonClass {
-    return new NonClass(this._state.set(\'operator\', operator));
+  setOperator(operator: Operator): this {
+    return this.clone(this._state.set(\'operator\', operator));
   }
 
   get comparator(): Comparator {
     return this._state.get(\'comparator\');
   }
 
-  setComparator(comparator: Comparator): NonClass {
-    return new NonClass(this._state.set(\'comparator\', comparator));
+  setComparator(comparator: Comparator): this {
+    return this.clone(this._state.set(\'comparator\', comparator));
   }
 }
 "
@@ -374,32 +374,32 @@ export class Foo extends ImmutableModel {
     return this._state.get(\'list\');
   }
 
-  setList(list: Immutable.List<Bar>): Foo {
-    return new Foo(this._state.set(\'list\', list));
+  setList(list: Immutable.List<Bar>): this {
+    return this.clone(this._state.set(\'list\', list));
   }
 
   get maybeList(): ?Immutable.List<Bar> {
     return this._state.get(\'maybeList\');
   }
 
-  setMaybeList(maybeList: ?Immutable.List<Bar>): Foo {
-    return new Foo(this._state.set(\'maybeList\', maybeList));
+  setMaybeList(maybeList: ?Immutable.List<Bar>): this {
+    return this.clone(this._state.set(\'maybeList\', maybeList));
   }
 
   get map(): Immutable.Map<any, any> {
     return this._state.get(\'map\');
   }
 
-  setMap(map: Immutable.Map<any, any>): Foo {
-    return new Foo(this._state.set(\'map\', map));
+  setMap(map: Immutable.Map<any, any>): this {
+    return this.clone(this._state.set(\'map\', map));
   }
 
   get maybeMap(): ?Immutable.Map<string, Bar> {
     return this._state.get(\'maybeMap\');
   }
 
-  setMaybeMap(maybeMap: ?Immutable.Map<string, Bar>): Foo {
-    return new Foo(this._state.set(\'maybeMap\', maybeMap));
+  setMaybeMap(maybeMap: ?Immutable.Map<string, Bar>): this {
+    return this.clone(this._state.set(\'maybeMap\', maybeMap));
   }
 }
 "
@@ -440,8 +440,8 @@ export class Arr extends ImmutableModel {
     return this._state.get(\'arr\');
   }
 
-  setArr(arr: Immutable.List<Bar>): Arr {
-    return new Arr(this._state.set(\'arr\', arr));
+  setArr(arr: Immutable.List<Bar>): this {
+    return this.clone(this._state.set(\'arr\', arr));
   }
 }
 "

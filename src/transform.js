@@ -25,12 +25,6 @@ export default function(file: Object, api: Object, options: Object) {
 
   function makeClass(className, type, defaultValues) {
     const classNameIdentifier = j.identifier(className);
-    const modelTypeAnnotation = j.typeAnnotation(
-      j.genericTypeAnnotation(
-        j.identifier(className),
-        null
-      )
-    );
     const referenceProps = getReferenceProps(j, type.properties);
     const staticMethods = [
       fromJS(j, className, defaultValues, referenceProps),
@@ -39,7 +33,7 @@ export default function(file: Object, api: Object, options: Object) {
     const instanceMethods = type.properties.reduce((methods, prop) => {
       methods.push(
         getter(j, prop),
-        setter(j, prop, modelTypeAnnotation, className)
+        setter(j, prop)
       );
       return methods;
     }, [

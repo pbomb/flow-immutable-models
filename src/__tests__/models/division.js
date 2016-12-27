@@ -41,15 +41,15 @@ export class Division extends ImmutableModel {
     return this._state.get('name');
   }
 
-  setName(name: string): Division {
-    return new Division(this._state.set('name', name));
+  setName(name: string): this {
+    return this.clone(this._state.set('name', name));
   }
 
   get teams(): Immutable.List<Team> {
     return this._state.get('teams');
   }
 
-  setTeams(teams: Immutable.List<Team>): Division {
-    return new Division(this._state.set('teams', teams));
+  setTeams(teams: Immutable.List<Team>): this {
+    return this.clone(this._state.set('teams', teams));
   }
 }

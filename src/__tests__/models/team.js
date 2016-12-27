@@ -38,39 +38,39 @@ export class Team extends ImmutableModel {
     return this._state.get('location');
   }
 
-  setLocation(location: string): Team {
-    return new Team(this._state.set('location', location));
+  setLocation(location: string): this {
+    return this.clone(this._state.set('location', location));
   }
 
   get nickname(): string {
     return this._state.get('nickname');
   }
 
-  setNickname(nickname: string): Team {
-    return new Team(this._state.set('nickname', nickname));
+  setNickname(nickname: string): this {
+    return this.clone(this._state.set('nickname', nickname));
   }
 
   get hasWonStanleyCup(): boolean {
     return this._state.get('hasWonStanleyCup');
   }
 
-  setHasWonStanleyCup(hasWonStanleyCup: boolean): Team {
-    return new Team(this._state.set('hasWonStanleyCup', hasWonStanleyCup));
+  setHasWonStanleyCup(hasWonStanleyCup: boolean): this {
+    return this.clone(this._state.set('hasWonStanleyCup', hasWonStanleyCup));
   }
 
   get lastCupWin(): ?number {
     return this._state.get('lastCupWin');
   }
 
-  setLastCupWin(lastCupWin: ?number): Team {
-    return new Team(this._state.set('lastCupWin', lastCupWin));
+  setLastCupWin(lastCupWin: ?number): this {
+    return this.clone(this._state.set('lastCupWin', lastCupWin));
   }
 
   get strengths(): Immutable.List<string> {
     return this._state.get('strengths');
   }
 
-  setStrengths(strengths: Immutable.List<string>): Team {
-    return new Team(this._state.set('strengths', strengths));
+  setStrengths(strengths: Immutable.List<string>): this {
+    return this.clone(this._state.set('strengths', strengths));
   }
 }

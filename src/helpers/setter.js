@@ -5,8 +5,6 @@ import capitalize from './capitalize';
 export default function setterBody(
   j: Object,
   prop: Object,
-  modelTypeAnnotation: Object,
-  className: string,
 ) {
 
   const propName = prop.key.name;
@@ -20,8 +18,11 @@ export default function setterBody(
     j.blockStatement(
       [
         j.returnStatement(
-          j.newExpression(
-            j.identifier(className),
+          j.callExpression(
+            j.memberExpression(
+              j.thisExpression(),
+              j.identifier('clone'),
+            ),
             [
               j.callExpression(
                 j.memberExpression(
@@ -36,13 +37,13 @@ export default function setterBody(
                   j.identifier(propName),
                 ]
               ),
-            ]
-          )
+            ],
+          ),
         ),
       ],
     )
   );
-  func.returnType = modelTypeAnnotation;
+  func.returnType = j.typeAnnotation(j.genericTypeAnnotation(j.identifier('this'), null));
 
   return j.methodDefinition(
     'method',
