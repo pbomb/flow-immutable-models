@@ -1,5 +1,66 @@
 // @flow
 import isModelTypeReference from './isModelTypeReference';
+import { isArray, isObjectMap } from './flowTypes';
+
+function toArrayExpression(j: Object, memberExpression: Object, isReference: boolean): Object {
+  let arrayExpression = j.callExpression(
+    j.memberExpression(
+      memberExpression,
+      j.identifier('toArray')
+    ),
+    []
+  );
+  if (isReference) {
+    arrayExpression = j.callExpression(
+      j.memberExpression(
+        arrayExpression,
+        j.identifier('map')
+      ),
+      [
+        j.arrowFunctionExpression(
+          [
+            j.identifier('item'),
+          ],
+          j.callExpression(
+            j.memberExpression(j.identifier('item'), j.identifier('toJS')),
+            []
+          )
+        ),
+      ]
+    );
+  }
+  return arrayExpression;
+}
+
+function toObjectExpression(j: Object, memberExpression: Object, isReference: boolean) {
+  let mappedExpression = memberExpression;
+  if (isReference) {
+    mappedExpression = j.callExpression(
+      j.memberExpression(
+        memberExpression,
+        j.identifier('map')
+      ),
+      [
+        j.arrowFunctionExpression(
+          [
+            j.identifier('item'),
+          ],
+          j.callExpression(
+            j.memberExpression(j.identifier('item'), j.identifier('toJS')),
+            []
+          )
+        ),
+      ]
+    );
+  }
+  return j.callExpression(
+    j.memberExpression(
+      mappedExpression,
+      j.identifier('toObject')
+    ),
+    []
+  );
+}
 
 function getReturnObjectProp(j: Object, prop: Object) {
   const propName: string = prop.key.name;
@@ -9,7 +70,8 @@ function getReturnObjectProp(j: Object, prop: Object) {
     j.identifier('this'),
     j.identifier(propName),
   );
-  let valueExpression;
+  let valueExpression = memberExpression;
+
   if (isReference) {
     valueExpression = j.callExpression(
       j.memberExpression(
@@ -21,37 +83,14 @@ function getReturnObjectProp(j: Object, prop: Object) {
   } else {
     valueExpression = memberExpression;
   }
-  const alias = typeAlias.type === 'NullableTypeAnnotation' ? typeAlias.typeAnnotation : typeAlias;
-  if (alias.id && alias.id.name === 'Array') {
-    let toArrayExpression = j.callExpression(
-      j.memberExpression(
-        memberExpression,
-        j.identifier('toArray')
-      ),
-      []
-    );
-    if (isReference) {
-      toArrayExpression = j.callExpression(
-        j.memberExpression(
-          toArrayExpression,
-          j.identifier('map')
-        ),
-        [
-          j.arrowFunctionExpression(
-            [
-              j.identifier('item'),
-            ],
-            j.callExpression(
-              j.memberExpression(j.identifier('item'), j.identifier('toJS')),
-              []
-            )
-          ),
-        ]
-      );
-    }
-    valueExpression = toArrayExpression;
+  const isNullable = typeAlias.type === 'NullableTypeAnnotation';
+  const alias = isNullable ? typeAlias.typeAnnotation : typeAlias;
+  if (isArray(alias)) {
+    valueExpression = toArrayExpression(j, memberExpression, isReference);
+  } else if (isObjectMap(alias)) {
+    valueExpression = toObjectExpression(j, memberExpression, isReference);
   }
-  if (valueExpression !== memberExpression && typeAlias.type === 'NullableTypeAnnotation') {
+  if (valueExpression !== memberExpression && isNullable) {
     valueExpression = j.conditionalExpression(
       memberExpression,
       valueExpression,

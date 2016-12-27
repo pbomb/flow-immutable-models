@@ -7,7 +7,12 @@ export type TeamModelType = {
   nickname: string,
   hasWonStanleyCup: boolean,
   lastCupWin: ?number,
+  players: { [key: string]: number },
   strengths: Array<string>,
+};
+
+export const defaultTeamValues: $Shape<TeamModelType> = {
+  players: {},
 };
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -19,9 +24,13 @@ export type TeamModelType = {
 //
 // /////////////////////////////////////////////////////////////////////////////
 export class Team extends ImmutableModel {
-  static fromJS(json: TeamModelType): Team {
-    const state: Object = Object.assign({}, json);
-    return new this(Immutable.fromJS(state));
+  static fromJS(json: $Diff<TeamModelType, typeof defaultTeamValues>): Team {
+    // $FlowFixMe
+    const state: Object = Object.assign({}, defaultTeamValues, json);
+
+    state.players = Immutable.Map(state.players);
+    state.strengths = Immutable.List(state.strengths);
+    return new this(Immutable.Map(state));
   }
 
   toJS(): TeamModelType {
@@ -30,6 +39,7 @@ export class Team extends ImmutableModel {
       nickname: this.nickname,
       hasWonStanleyCup: this.hasWonStanleyCup,
       lastCupWin: this.lastCupWin,
+      players: this.players.toObject(),
       strengths: this.strengths.toArray(),
     };
   }
@@ -64,6 +74,14 @@ export class Team extends ImmutableModel {
 
   setLastCupWin(lastCupWin: ?number): this {
     return this.clone(this._state.set('lastCupWin', lastCupWin));
+  }
+
+  get players(): Immutable.Map<string, number> {
+    return this._state.get('players');
+  }
+
+  setPlayers(players: Immutable.Map<string, number>): this {
+    return this.clone(this._state.set('players', players));
   }
 
   get strengths(): Immutable.List<string> {

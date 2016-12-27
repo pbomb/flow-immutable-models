@@ -11,10 +11,6 @@ describe('transform', () => {
     await snap('exportedType.js');
   });
 
-  it('handles Immutable lists and maps', async () => {
-    await snap('immutableProperties.js');
-  });
-
   it('converts referenced types in getters and setters', async () => {
     await snap('referenceProperties.js');
   });

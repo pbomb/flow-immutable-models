@@ -1,6 +1,6 @@
 // @flow
 import getNonClassTypes from './getNonClassTypes';
-import isImmutableType from './isImmutableType';
+import { isImmutableType } from './flowTypes';
 import typeToExpression from './typeToExpression';
 
 function initializeReferencesStatements(j: Object, referenceProps: Object[], root: Object) {

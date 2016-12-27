@@ -6,11 +6,11 @@ import type { TeamModelType } from './team';
 
 export type DivisionModelType = {
   name: string,
-  teams: Array<TeamModelType>,
+  teams: { [key: string]: TeamModelType },
 };
 
 const defaultDivisionValues: $Shape<DivisionModelType> = {
-  teams: [],
+  teams: {},
 };
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -26,14 +26,14 @@ export class Division extends ImmutableModel {
     // $FlowFixMe
     const state: Object = Object.assign({}, defaultDivisionValues, json);
 
-    state.teams = state.teams.map(item => Team.fromJS(item));
-    return new this(Immutable.fromJS(state));
+    state.teams = Immutable.Map(state.teams).map(item => Team.fromJS(item));
+    return new this(Immutable.Map(state));
   }
 
   toJS(): DivisionModelType {
     return {
       name: this.name,
-      teams: this.teams.toArray().map(item => item.toJS()),
+      teams: this.teams.map(item => item.toJS()).toObject(),
     };
   }
 
@@ -45,11 +45,11 @@ export class Division extends ImmutableModel {
     return this.clone(this._state.set('name', name));
   }
 
-  get teams(): Immutable.List<Team> {
+  get teams(): Immutable.Map<string, Team> {
     return this._state.get('teams');
   }
 
-  setTeams(teams: Immutable.List<Team>): this {
+  setTeams(teams: Immutable.Map<string, Team>): this {
     return this.clone(this._state.set('teams', teams));
   }
 }

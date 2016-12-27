@@ -1,10 +1,10 @@
 // @flow
 import getTypeAnnotationWithoutInterface from './getTypeAnnotationWithoutModelType';
-import isImmutableType from './isImmutableType';
 import typeToExpression from './typeToExpression';
 import { endsWithModelType, withoutModelTypeSuffix } from './withoutModelTypeSuffix';
+import { isArray, isImmutableType, isObjectMap } from './flowTypes';
 
-function getParamTypeAnnotation(j, className, defaultValues) {
+function getParamTypeAnnotation(j: Object, className: string, defaultValues: string | null) {
   if (defaultValues) {
     return j.typeAnnotation(
       j.genericTypeAnnotation(
@@ -19,6 +19,68 @@ function getParamTypeAnnotation(j, className, defaultValues) {
       null
     )
   );
+}
+
+function modelMapFn(j: Object, nonModelType: string): Object {
+  return j.arrowFunctionExpression(
+    [
+      j.identifier('item'),
+    ],
+    j.callExpression(
+      j.memberExpression(j.identifier(nonModelType), j.identifier('fromJS')),
+      [j.identifier('item')]
+    )
+  );
+}
+
+function initializeArray(j: Object, typeAlias: Object, propExpression: Object): Object {
+  let valueExpression;
+  const firstParamType = typeAlias.typeParameters.params[0];
+  const arrayType = firstParamType.type;
+  const createListExpression = j.callExpression(
+    j.memberExpression(j.identifier('Immutable'), j.identifier('List')),
+    [propExpression]
+  );
+  if (arrayType === 'GenericTypeAnnotation') {
+    const modelType = firstParamType.id.name;
+    const nonModelType = withoutModelTypeSuffix(modelType);
+    valueExpression = j.callExpression(
+      j.memberExpression(
+        createListExpression,
+        j.identifier('map')
+      ),
+      [
+        modelMapFn(j, nonModelType),
+      ]
+    );
+  } else {
+    valueExpression = createListExpression;
+  }
+  return valueExpression;
+}
+
+function initializeObject(j: Object, typeAlias: Object, propExpression: Object): Object {
+  let valueExpression = j.callExpression(
+    j.memberExpression(
+      j.identifier('Immutable'),
+      j.identifier('Map')
+    ),
+    [
+      propExpression,
+    ]
+  );
+  const propIndexer = typeAlias.indexers[0];
+  const modelType = propIndexer && propIndexer.value.id && propIndexer.value.id.name;
+  const nonModelType = modelType && withoutModelTypeSuffix(modelType);
+  if (modelType !== nonModelType) {
+    valueExpression = j.callExpression(
+      j.memberExpression(valueExpression, j.identifier('map')),
+      [
+        modelMapFn(j, nonModelType),
+      ]
+    );
+  }
+  return valueExpression;
 }
 
 export default function fromJS(
@@ -40,14 +102,10 @@ export default function fromJS(
       const typeAlias = prop.value;
       if (isImmutableType(typeAlias)) {
         return false;
-      } else if (typeAlias.id.name === 'Array') {
-        return typeAlias.typeParameters &&
-          typeAlias.typeParameters.params[0].type === 'GenericTypeAnnotation' &&
-          endsWithModelType(typeAlias.typeParameters.params[0].id.name);
-      } else if (endsWithModelType(prop.value.id.name)) {
-        return true;
       }
-      return false;
+      return isArray(typeAlias)
+        || isObjectMap(typeAlias)
+        || endsWithModelType(typeAlias.id && typeAlias.id.name);
     })
     .map((prop) => {
       let valueExpression;
@@ -57,35 +115,19 @@ export default function fromJS(
         j.identifier(prop.key.name)
       );
 
-      if (typeAlias.id.name === 'Array') {
-        const modelType = typeAlias.typeParameters.params[0].id.name;
-        const nonModelType = withoutModelTypeSuffix(modelType);
-        valueExpression = j.callExpression(
-          j.memberExpression(
-            propExpression,
-            j.identifier('map')
-          ),
-          [
-            j.arrowFunctionExpression(
-              [
-                j.identifier('item'),
-              ],
-              j.callExpression(
-                j.memberExpression(j.identifier(nonModelType), j.identifier('fromJS')),
-                [j.identifier('item')]
-              )
-            ),
-          ]
-        );
+      if (isArray(typeAlias)) {
+        valueExpression = initializeArray(j, typeAlias, propExpression);
+      } else if (isObjectMap(typeAlias)) {
+        valueExpression = initializeObject(j, typeAlias, propExpression);
       } else {
         const convertedProp = Object.assign(
           {},
           prop,
-          { value: getTypeAnnotationWithoutInterface(j, prop.value) }
+          { value: getTypeAnnotationWithoutInterface(j, typeAlias) }
         );
         const typeExpression = typeToExpression(j, convertedProp.value.id);
         valueExpression = j.callExpression(
-          j.memberExpression(typeExpression, j.identifier('fromJS')),
+          j.memberExpression(typeExpression, fromJSIdentifier),
           [propExpression]
         );
       }
@@ -140,10 +182,7 @@ export default function fromJS(
             j.identifier('this'),
             [
               j.callExpression(
-                j.memberExpression(
-                  j.identifier('Immutable'),
-                  fromJSIdentifier
-                ),
+                j.memberExpression(j.identifier('Immutable'), j.identifier('Map')),
                 [stateIdentifier]
               ),
             ]

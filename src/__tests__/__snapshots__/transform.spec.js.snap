@@ -29,7 +29,7 @@ export class Foo extends ImmutableModel {
   static fromJS(json: FooModelType): Foo {
     const state: Object = Object.assign({}, json);
     state.bar = Bar.fromJS(state.bar);
-    return new this(Immutable.fromJS(state));
+    return new this(Immutable.Map(state));
   }
 
   toJS(): FooModelType {
@@ -150,7 +150,8 @@ export type ArrModelType = {
 export class Arr extends ImmutableModel {
   static fromJS(json: ArrModelType): Arr {
     const state: Object = Object.assign({}, json);
-    return new this(Immutable.fromJS(state));
+    state.arr = Immutable.List(state.arr);
+    return new this(Immutable.Map(state));
   }
 
   toJS(): ArrModelType {
@@ -204,7 +205,7 @@ export type MyMapModelType = {
 export class Other extends ImmutableModel {
   static fromJS(json: OtherModelType): Other {
     const state: Object = Object.assign({}, json);
-    return new this(Immutable.fromJS(state));
+    return new this(Immutable.Map(state));
   }
 
   toJS(): OtherModelType {
@@ -233,13 +234,15 @@ export class Other extends ImmutableModel {
 export class MyMap extends ImmutableModel {
   static fromJS(json: MyMapModelType): MyMap {
     const state: Object = Object.assign({}, json);
-    return new this(Immutable.fromJS(state));
+    state.numberMap = Immutable.Map(state.numberMap);
+    state.modelMap = Immutable.Map(state.modelMap).map(item => Other.fromJS(item));
+    return new this(Immutable.Map(state));
   }
 
   toJS(): MyMapModelType {
     return {
-      numberMap: this.numberMap,
-      modelMap: this.modelMap,
+      numberMap: this.numberMap.toObject(),
+      modelMap: this.modelMap.map(item => item.toJS()).toObject(),
     };
   }
 
@@ -286,7 +289,7 @@ export class Foo extends ImmutableModel {
   static fromJS(json: FooModelType): Foo {
     const state: Object = Object.assign({}, json);
     state.ref = Bar.fromJS(state.ref);
-    return new this(Immutable.fromJS(state));
+    return new this(Immutable.Map(state));
   }
 
   toJS(): FooModelType {
@@ -344,7 +347,7 @@ export type NonClassImportedModelType = {
 export class NonClassImported extends ImmutableModel {
   static fromJS(json: NonClassImportedModelType): NonClassImported {
     const state: Object = Object.assign({}, json);
-    return new this(Immutable.fromJS(state));
+    return new this(Immutable.Map(state));
   }
 
   toJS(): NonClassImportedModelType {
@@ -387,7 +390,7 @@ export type NonClassModelType = {
 export class NonClass extends ImmutableModel {
   static fromJS(json: NonClassModelType): NonClass {
     const state: Object = Object.assign({}, json);
-    return new this(Immutable.fromJS(state));
+    return new this(Immutable.Map(state));
   }
 
   toJS(): NonClassModelType {
@@ -416,78 +419,6 @@ export class NonClass extends ImmutableModel {
 "
 `;
 
-exports[`transform handles Immutable lists and maps 1`] = `
-"// @flow
-import * as Immutable from \'immutable\';
-import type { BarModelType } from \'./bar\';
-import { Bar } from \'./bar\';
-import ImmutableModel from \'../../../src/ImmutableModel\';
-
-export type FooModelType = {
-  list: Immutable.List<BarModelType>,
-  maybeList: ?Immutable.List<BarModelType>,
-  map: Immutable.Map<any, any>,
-  maybeMap: ?Immutable.Map<string, BarModelType>,
-};
-
-// /////////////////////////////////////////////////////////////////////////////
-//
-// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
-//
-// If you need to update this class, update the corresponding flow type above
-// and re-run the flow-immutable-models codemod
-//
-// /////////////////////////////////////////////////////////////////////////////
-export class Foo extends ImmutableModel {
-  static fromJS(json: FooModelType): Foo {
-    const state: Object = Object.assign({}, json);
-    return new this(Immutable.fromJS(state));
-  }
-
-  toJS(): FooModelType {
-    return {
-      list: this.list.toJS(),
-      maybeList: (this.maybeList ? this.maybeList.toJS() : this.maybeList),
-      map: this.map,
-      maybeMap: this.maybeMap,
-    };
-  }
-
-  get list(): Immutable.List<Bar> {
-    return this._state.get(\'list\');
-  }
-
-  setList(list: Immutable.List<Bar>): this {
-    return this.clone(this._state.set(\'list\', list));
-  }
-
-  get maybeList(): ?Immutable.List<Bar> {
-    return this._state.get(\'maybeList\');
-  }
-
-  setMaybeList(maybeList: ?Immutable.List<Bar>): this {
-    return this.clone(this._state.set(\'maybeList\', maybeList));
-  }
-
-  get map(): Immutable.Map<any, any> {
-    return this._state.get(\'map\');
-  }
-
-  setMap(map: Immutable.Map<any, any>): this {
-    return this.clone(this._state.set(\'map\', map));
-  }
-
-  get maybeMap(): ?Immutable.Map<string, Bar> {
-    return this._state.get(\'maybeMap\');
-  }
-
-  setMaybeMap(maybeMap: ?Immutable.Map<string, Bar>): this {
-    return this.clone(this._state.set(\'maybeMap\', maybeMap));
-  }
-}
-"
-`;
-
 exports[`transform initializes arrays of other model types 1`] = `
 "// @flow
 import ImmutableModel from \'../../../src/ImmutableModel\';
@@ -509,8 +440,8 @@ export type ArrModelType = {
 export class Arr extends ImmutableModel {
   static fromJS(json: ArrModelType): Arr {
     const state: Object = Object.assign({}, json);
-    state.arr = state.arr.map(item => Bar.fromJS(item));
-    return new this(Immutable.fromJS(state));
+    state.arr = Immutable.List(state.arr).map(item => Bar.fromJS(item));
+    return new this(Immutable.Map(state));
   }
 
   toJS(): ArrModelType {

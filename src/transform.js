@@ -1,7 +1,6 @@
 // @flow
 import capitalize from './helpers/capitalize';
 import fromJS from './helpers/fromJS';
-import getReferenceProps from './helpers/getReferenceProps';
 import getter from './helpers/getter';
 import setter from './helpers/setter';
 import toJS from './helpers/toJS';
@@ -25,10 +24,8 @@ export default function(file: Object, api: Object, options: Object) {
 
   function makeClass(className, type, defaultValues) {
     const classNameIdentifier = j.identifier(className);
-    const referenceProps = getReferenceProps(j, type.properties);
     const staticMethods = [
-      fromJS(j, className, defaultValues, referenceProps),
-      // fromImmutable(j, className),
+      fromJS(j, className, defaultValues, type.properties),
     ];
     const instanceMethods = type.properties.reduce((methods, prop) => {
       methods.push(

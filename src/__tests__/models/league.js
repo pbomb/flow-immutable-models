@@ -26,8 +26,8 @@ export class League extends ImmutableModel {
     // $FlowFixMe
     const state: Object = Object.assign({}, defaultLeagueValues, json);
 
-    state.divisions = state.divisions.map(item => Division.fromJS(item));
-    return new this(Immutable.fromJS(state));
+    state.divisions = Immutable.List(state.divisions).map(item => Division.fromJS(item));
+    return new this(Immutable.Map(state));
   }
 
   toJS(): LeagueModelType {
