@@ -34,4 +34,8 @@ describe('transform', () => {
   it('initializes arrays of other model types', async () => {
     await snap('arrayOfModelType.js');
   });
+
+  it('converts object maps to immutable maps', async () => {
+    await snap('mapLikeProperties.js');
+  });
 });

@@ -135,8 +135,8 @@ exports[`transform converts arrays to Immutable lists 1`] = `
 import ImmutableModel from \'../../../src/ImmutableModel\';
 
 export type ArrModelType = {
-  arr: Array<Object>,
-  maybeArr: ?Array<Object>,
+  arr: Array<string>,
+  maybeArr: ?Array<string>,
 };
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -160,20 +160,103 @@ export class Arr extends ImmutableModel {
     };
   }
 
-  get arr(): Immutable.List<Object> {
+  get arr(): Immutable.List<string> {
     return this._state.get(\'arr\');
   }
 
-  setArr(arr: Immutable.List<Object>): this {
+  setArr(arr: Immutable.List<string>): this {
     return this.clone(this._state.set(\'arr\', arr));
   }
 
-  get maybeArr(): ?Array<Object> {
+  get maybeArr(): ?Array<string> {
     return this._state.get(\'maybeArr\');
   }
 
-  setMaybeArr(maybeArr: ?Array<Object>): this {
+  setMaybeArr(maybeArr: ?Array<string>): this {
     return this.clone(this._state.set(\'maybeArr\', maybeArr));
+  }
+}
+"
+`;
+
+exports[`transform converts object maps to immutable maps 1`] = `
+"// @flow
+import * as Immutable from \'immutable\';
+import ImmutableModel from \'../../../src/ImmutableModel\';
+
+export type OtherModelType = {
+  prop: boolean,
+};
+
+export type MyMapModelType = {
+  numberMap: { [key: string]: number },
+  modelMap: { [key: string]: OtherModelType },
+};
+
+// /////////////////////////////////////////////////////////////////////////////
+//
+// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+//
+// If you need to update this class, update the corresponding flow type above
+// and re-run the flow-immutable-models codemod
+//
+// /////////////////////////////////////////////////////////////////////////////
+export class Other extends ImmutableModel {
+  static fromJS(json: OtherModelType): Other {
+    const state: Object = Object.assign({}, json);
+    return new this(Immutable.fromJS(state));
+  }
+
+  toJS(): OtherModelType {
+    return {
+      prop: this.prop,
+    };
+  }
+
+  get prop(): boolean {
+    return this._state.get(\'prop\');
+  }
+
+  setProp(prop: boolean): this {
+    return this.clone(this._state.set(\'prop\', prop));
+  }
+}
+
+// /////////////////////////////////////////////////////////////////////////////
+//
+// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+//
+// If you need to update this class, update the corresponding flow type above
+// and re-run the flow-immutable-models codemod
+//
+// /////////////////////////////////////////////////////////////////////////////
+export class MyMap extends ImmutableModel {
+  static fromJS(json: MyMapModelType): MyMap {
+    const state: Object = Object.assign({}, json);
+    return new this(Immutable.fromJS(state));
+  }
+
+  toJS(): MyMapModelType {
+    return {
+      numberMap: this.numberMap,
+      modelMap: this.modelMap,
+    };
+  }
+
+  get numberMap(): Immutable.Map<string, number> {
+    return this._state.get(\'numberMap\');
+  }
+
+  setNumberMap(numberMap: Immutable.Map<string, number>): this {
+    return this.clone(this._state.set(\'numberMap\', numberMap));
+  }
+
+  get modelMap(): Immutable.Map<string, Other> {
+    return this._state.get(\'modelMap\');
+  }
+
+  setModelMap(modelMap: Immutable.Map<string, Other>): this {
+    return this.clone(this._state.set(\'modelMap\', modelMap));
   }
 }
 "

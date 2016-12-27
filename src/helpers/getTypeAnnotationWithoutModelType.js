@@ -50,6 +50,21 @@ export default function getTypeAnnotationWithoutModelType(
     }
     case 'NullableTypeAnnotation':
       return j.nullableTypeAnnotation(getTypeAnnotationWithoutModelType(j, value.typeAnnotation));
+    case 'ObjectTypeAnnotation':
+      if (value.indexers.length > 0) {
+        const propIndexer = value.indexers[0];
+        return j.genericTypeAnnotation(
+          j.qualifiedTypeIdentifier(
+            j.identifier('Immutable'),
+            j.identifier('Map')
+          ),
+          j.typeParameterInstantiation([
+            getTypeAnnotationWithoutModelType(j, propIndexer.key),
+            getTypeAnnotationWithoutModelType(j, propIndexer.value, true),
+          ])
+        );
+      }
+      return value;
     default:
       return value;
   }

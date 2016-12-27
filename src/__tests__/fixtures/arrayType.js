@@ -2,6 +2,6 @@
 import ImmutableModel from '../../../src/ImmutableModel';
 
 export type ArrModelType = {
-  arr: Array<Object>,
-  maybeArr: ?Array<Object>,
+  arr: Array<string>,
+  maybeArr: ?Array<string>,
 };
