@@ -28,6 +28,7 @@ export type FooModelType = {
 export class Foo extends ImmutableModel {
   static fromJS(json: FooModelType): Foo {
     const state: Object = Object.assign({}, json);
+    state.maybeBar = (state.maybeBar ? Bar.fromJS(state.maybeBar) : state.maybeBar);
     state.bar = Bar.fromJS(state.bar);
     return new this(Immutable.Map(state));
   }
@@ -151,6 +152,7 @@ export class Arr extends ImmutableModel {
   static fromJS(json: ArrModelType): Arr {
     const state: Object = Object.assign({}, json);
     state.arr = Immutable.List(state.arr);
+    state.maybeArr = (state.maybeArr ? Immutable.List(state.maybeArr) : state.maybeArr);
     return new this(Immutable.Map(state));
   }
 
@@ -169,11 +171,11 @@ export class Arr extends ImmutableModel {
     return this.clone(this._state.set(\'arr\', arr));
   }
 
-  get maybeArr(): ?Array<string> {
+  get maybeArr(): ?Immutable.List<string> {
     return this._state.get(\'maybeArr\');
   }
 
-  setMaybeArr(maybeArr: ?Array<string>): this {
+  setMaybeArr(maybeArr: ?Immutable.List<string>): this {
     return this.clone(this._state.set(\'maybeArr\', maybeArr));
   }
 }
@@ -289,6 +291,7 @@ export class Foo extends ImmutableModel {
   static fromJS(json: FooModelType): Foo {
     const state: Object = Object.assign({}, json);
     state.ref = Bar.fromJS(state.ref);
+    state.maybeRef = (state.maybeRef ? Bar.fromJS(state.maybeRef) : state.maybeRef);
     return new this(Immutable.Map(state));
   }
 

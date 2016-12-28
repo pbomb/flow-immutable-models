@@ -33,7 +33,11 @@ function modelMapFn(j: Object, nonModelType: string): Object {
   );
 }
 
-function initializeArray(j: Object, typeAlias: Object, propExpression: Object): Object {
+function initializeArray(
+  j: Object,
+  typeAlias: Object,
+  propExpression: Object
+): Object {
   const firstParamType = typeAlias.typeParameters.params[0];
   const arrayType = firstParamType.type;
   const createListExpression = j.callExpression(
@@ -59,7 +63,11 @@ function initializeArray(j: Object, typeAlias: Object, propExpression: Object): 
   return valueExpression;
 }
 
-function initializeObject(j: Object, typeAlias: Object, propExpression: Object): Object {
+function initializeObject(
+  j: Object,
+  typeAlias: Object,
+  propExpression: Object
+): Object {
   let valueExpression = j.callExpression(
     j.memberExpression(
       j.identifier('Immutable'),
@@ -100,35 +108,46 @@ export default function fromJS(
   const referenceInitializationStatements = referenceProps
     .filter((prop) => {
       const typeAlias = prop.value;
-      if (isImmutableType(typeAlias)) {
+      const isNullable = typeAlias.type === 'NullableTypeAnnotation';
+      const alias = isNullable ? typeAlias.typeAnnotation : typeAlias;
+      if (isImmutableType(alias)) {
         return false;
       }
-      return isArray(typeAlias)
-        || isObjectMap(typeAlias)
-        || endsWithModelType(typeAlias.id && typeAlias.id.name);
+      return isArray(alias)
+        || isObjectMap(alias)
+        || endsWithModelType(alias.id && alias.id.name);
     })
     .map((prop) => {
       let valueExpression;
       const typeAlias = prop.value;
+      const isNullable = typeAlias.type === 'NullableTypeAnnotation';
+      const alias = isNullable ? typeAlias.typeAnnotation : typeAlias;
       const propExpression = j.memberExpression(
         j.identifier('state'),
         j.identifier(prop.key.name)
       );
 
-      if (isArray(typeAlias)) {
-        valueExpression = initializeArray(j, typeAlias, propExpression);
-      } else if (isObjectMap(typeAlias)) {
-        valueExpression = initializeObject(j, typeAlias, propExpression);
+      if (isArray(alias)) {
+        valueExpression = initializeArray(j, alias, propExpression);
+      } else if (isObjectMap(alias)) {
+        valueExpression = initializeObject(j, alias, propExpression);
       } else {
         const convertedProp = Object.assign(
           {},
           prop,
-          { value: getTypeAnnotationWithoutInterface(j, typeAlias) }
+          { value: getTypeAnnotationWithoutInterface(j, alias) }
         );
         const typeExpression = typeToExpression(j, convertedProp.value.id);
         valueExpression = j.callExpression(
           j.memberExpression(typeExpression, fromJSIdentifier),
           [propExpression]
+        );
+      }
+      if (isNullable) {
+        valueExpression = j.conditionalExpression(
+          propExpression,
+          valueExpression,
+          propExpression
         );
       }
 

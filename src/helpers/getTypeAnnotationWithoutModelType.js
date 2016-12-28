@@ -49,7 +49,9 @@ export default function getTypeAnnotationWithoutModelType(
       return value;
     }
     case 'NullableTypeAnnotation':
-      return j.nullableTypeAnnotation(getTypeAnnotationWithoutModelType(j, value.typeAnnotation));
+      return j.nullableTypeAnnotation(
+        getTypeAnnotationWithoutModelType(j, value.typeAnnotation, convertToImmutable)
+      );
     case 'ObjectTypeAnnotation':
       if (value.indexers.length > 0) {
         const propIndexer = value.indexers[0];
