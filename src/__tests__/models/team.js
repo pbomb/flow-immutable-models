@@ -2,13 +2,15 @@
 import * as Immutable from 'immutable';
 import ImmutableModel from '../../../src/ImmutableModel';
 
+type Strength = string;
+
 export type TeamModelType = {
   location: string,
   nickname: string,
   hasWonStanleyCup: boolean,
   lastCupWin: ?number,
   players: { [key: string]: number },
-  strengths: Array<string>,
+  strengths: Array<Strength>,
 };
 
 export const defaultTeamValues: $Shape<TeamModelType> = {
@@ -84,11 +86,11 @@ export class Team extends ImmutableModel {
     return this.clone(this._state.set('players', players));
   }
 
-  get strengths(): Immutable.List<string> {
+  get strengths(): Immutable.List<Strength> {
     return this._state.get('strengths');
   }
 
-  setStrengths(strengths: Immutable.List<string>): this {
+  setStrengths(strengths: Immutable.List<Strength>): this {
     return this.clone(this._state.set('strengths', strengths));
   }
 }

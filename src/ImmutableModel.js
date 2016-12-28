@@ -6,7 +6,7 @@ export type Updater<TProp> = (oldValue: TProp) => TProp;
 export default class ImmutableModel {
   _state: Immutable.Map<string, any>;
 
-  constructor(state: Immutable.Map<string, any>) {
+  constructor(state: Immutable.Map<any, any>) {
     this._state = state;
   }
 

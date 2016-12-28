@@ -34,27 +34,27 @@ function modelMapFn(j: Object, nonModelType: string): Object {
 }
 
 function initializeArray(j: Object, typeAlias: Object, propExpression: Object): Object {
-  let valueExpression;
   const firstParamType = typeAlias.typeParameters.params[0];
   const arrayType = firstParamType.type;
   const createListExpression = j.callExpression(
     j.memberExpression(j.identifier('Immutable'), j.identifier('List')),
     [propExpression]
   );
+  let valueExpression = createListExpression;
   if (arrayType === 'GenericTypeAnnotation') {
     const modelType = firstParamType.id.name;
     const nonModelType = withoutModelTypeSuffix(modelType);
-    valueExpression = j.callExpression(
-      j.memberExpression(
-        createListExpression,
-        j.identifier('map')
-      ),
-      [
-        modelMapFn(j, nonModelType),
-      ]
-    );
-  } else {
-    valueExpression = createListExpression;
+    if (nonModelType !== modelType) {
+      valueExpression = j.callExpression(
+        j.memberExpression(
+          createListExpression,
+          j.identifier('map')
+        ),
+        [
+          modelMapFn(j, nonModelType),
+        ]
+      );
+    }
   }
   return valueExpression;
 }
