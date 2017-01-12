@@ -34,4 +34,8 @@ describe('transform', () => {
   it('converts object maps to immutable maps', async () => {
     await snap('mapLikeProperties.js');
   });
+
+  it('converts maybe props to use nullable fields', async () => {
+    await snap('maybeProps.js');
+  });
 });

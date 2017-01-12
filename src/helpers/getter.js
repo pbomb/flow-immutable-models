@@ -22,7 +22,11 @@ export default function getter(j: Object, prop: Object) {
       ]
     )
   );
-  func.returnType = j.typeAnnotation(getTypeAnnotationWithoutModelType(j, prop.value, true));
+  let returnType = getTypeAnnotationWithoutModelType(j, prop.value, true);
+  if (prop.optional && returnType.type !== 'NullableTypeAnnotation') {
+    returnType = j.nullableTypeAnnotation(returnType);
+  }
+  func.returnType = j.typeAnnotation(returnType);
 
   return j.methodDefinition(
     'get',

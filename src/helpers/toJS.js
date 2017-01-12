@@ -90,7 +90,7 @@ function getReturnObjectProp(j: Object, prop: Object) {
   } else if (isObjectMap(alias)) {
     valueExpression = toObjectExpression(j, memberExpression, isReference);
   }
-  if (valueExpression !== memberExpression && isNullable) {
+  if (valueExpression !== memberExpression && (isNullable || prop.optional)) {
     valueExpression = j.conditionalExpression(
       memberExpression,
       valueExpression,

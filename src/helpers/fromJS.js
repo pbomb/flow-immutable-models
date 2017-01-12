@@ -143,7 +143,7 @@ export default function fromJS(
           [propExpression]
         );
       }
-      if (isNullable) {
+      if (isNullable || prop.optional) {
         valueExpression = j.conditionalExpression(
           propExpression,
           valueExpression,
