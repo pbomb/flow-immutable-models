@@ -208,16 +208,19 @@ export class MaybeProps extends ImmutableModel {
   }
 
   toJS(): MaybePropsModelType {
-    const js = {};
+    const js: MaybePropsModelType = {};
 
-    if (this.maybePropNum != null)
+    if (this.maybePropNum != null) {
       js.maybePropNum = this.maybePropNum;
+    }
 
-    if (this.maybePropStr != null)
+    if (this.maybePropStr != null) {
       js.maybePropStr = this.maybePropStr;
+    }
 
-    if (this.maybePropArr != null)
+    if (this.maybePropArr != null) {
       js.maybePropArr = (this.maybePropArr ? this.maybePropArr.toArray() : this.maybePropArr);
+    }
 
     return js;
   }

@@ -128,7 +128,12 @@ export default function toJS(
         'const',
         [
           j.variableDeclarator(
-            j.identifier('js'),
+            Object.assign(
+              {},
+              j.identifier('js'), {
+                typeAnnotation: modelTypeAnnotation,
+              }
+            ),
             objExpression
           ),
         ]
@@ -151,7 +156,7 @@ export default function toJS(
             ),
             j.identifier('null')
           ),
-          j.expressionStatement(assignment),
+          j.blockStatement([j.expressionStatement(assignment)]),
           null
         );
       }),
