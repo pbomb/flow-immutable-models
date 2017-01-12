@@ -36,7 +36,7 @@ export class Team extends ImmutableModel {
   }
 
   toJS(): TeamModelType {
-    const js = {
+    return {
       location: this.location,
       nickname: this.nickname,
       hasWonStanleyCup: this.hasWonStanleyCup,
@@ -44,8 +44,6 @@ export class Team extends ImmutableModel {
       players: this.players.toObject(),
       strengths: this.strengths.toArray(),
     };
-
-    return js;
   }
 
   get location(): string {

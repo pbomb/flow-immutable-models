@@ -22,11 +22,9 @@ export class MaybeObjectMap extends ImmutableModel {
   }
 
   toJS(): MaybeObjectMapModelType {
-    const js = {
+    return {
       maap: (this.maap ? this.maap.toObject() : this.maap),
     };
-
-    return js;
   }
 
   get maap(): ?Immutable.Map<string, number> {
