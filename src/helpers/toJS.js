@@ -97,7 +97,7 @@ function getReturnObjectProp(j: Object, prop: Object) {
       memberExpression
     );
   }
-  return j.property('init', j.identifier(propName), valueExpression);
+  return valueExpression;
 }
 
 export default function toJS(
@@ -112,17 +112,56 @@ export default function toJS(
       null
     )
   );
-  const returnObjProps = props.map(prop => getReturnObjectProp(j, prop));
+  const maybeProps = props.filter(prop => prop.optional);
+  const notMaybeProps = props.filter(prop => !prop.optional);
+  const objExpression = j.objectExpression(
+    notMaybeProps.map(prop =>
+      j.property('init', j.identifier(prop.key.name), getReturnObjectProp(j, prop))
+    )
+  );
+  let blockStatements: Array<Object>;
+  if (maybeProps.length === 0) {
+    blockStatements = [j.returnStatement(objExpression)];
+  } else {
+    blockStatements = [
+      j.variableDeclaration(
+        'const',
+        [
+          j.variableDeclarator(
+            j.identifier('js'),
+            objExpression
+          ),
+        ]
+      ),
+      ...maybeProps.map((maybeProp) => {
+        const assignment = j.assignmentExpression(
+          '=',
+          j.memberExpression(
+            j.identifier('js'),
+            j.identifier(maybeProp.key.name)
+          ),
+          getReturnObjectProp(j, maybeProp)
+        );
+        return j.ifStatement(
+          j.binaryExpression(
+            '!=',
+            j.memberExpression(
+              j.identifier('this'),
+              j.identifier(maybeProp.key.name)
+            ),
+            j.identifier('null')
+          ),
+          j.expressionStatement(assignment),
+          null
+        );
+      }),
+      j.returnStatement(j.identifier('js')),
+    ];
+  }
   const func = j.functionExpression(
     null,
     [],
-    j.blockStatement(
-      [
-        j.returnStatement(
-          j.objectExpression(returnObjProps)
-        ),
-      ]
-    )
+    j.blockStatement(blockStatements)
   );
   func.returnType = modelTypeAnnotation;
   return j.methodDefinition(

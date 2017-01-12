@@ -31,10 +31,12 @@ export class League extends ImmutableModel {
   }
 
   toJS(): LeagueModelType {
-    return {
+    const js = {
       name: this.name,
       divisions: this.divisions.toArray().map(item => item.toJS()),
     };
+
+    return js;
   }
 
   get name(): string {

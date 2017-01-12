@@ -22,9 +22,11 @@ export class MaybeArray extends ImmutableModel {
   }
 
   toJS(): MaybeArrayModelType {
-    return {
+    const js = {
       ary: (this.ary ? this.ary.toArray() : this.ary),
     };
+
+    return js;
   }
 
   get ary(): ?Immutable.List<string> {

@@ -31,10 +31,12 @@ export class Division extends ImmutableModel {
   }
 
   toJS(): DivisionModelType {
-    return {
+    const js = {
       name: this.name,
       teams: this.teams.map(item => item.toJS()).toObject(),
     };
+
+    return js;
   }
 
   get name(): string {
