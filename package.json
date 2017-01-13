@@ -3,6 +3,10 @@
   "version": "0.9.2",
   "description": "Generates model classes from Flow types using Immutable.js",
   "main": "src/ImmutableModel.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pbomb/flow-immutable-models.git"
+  },
   "scripts": {
     "build": "babel src -d lib --ignore __tests__",
     "flow": "flow",
