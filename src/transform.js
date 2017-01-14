@@ -58,7 +58,10 @@ export default function(file: Object, api: Object, options: Object) {
     return [classDeclaration];
   }
 
-  function parseType(td: Object) {
+  function parseType<T: Object | string>(td: T): T {
+    if (typeof td === 'string') {
+      return td;
+    }
     const typeDef = Object.assign({}, td);
     delete typeDef.start;
     delete typeDef.end;

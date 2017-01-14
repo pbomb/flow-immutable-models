@@ -400,6 +400,55 @@ export class Foo extends ImmutableModel {
 "
 `;
 
+exports[`transform converts string literal types 1`] = `
+"// @flow
+import ImmutableModel from \'../../../src/ImmutableModel\';
+
+export type StringLiteralModelType = {
+  stringLiteral: \'string\',
+  unionStringLiteral: \'string\' | \'literal\',
+};
+
+// /////////////////////////////////////////////////////////////////////////////
+//
+// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+//
+// If you need to update this class, update the corresponding flow type above
+// and re-run the flow-immutable-models codemod
+//
+// /////////////////////////////////////////////////////////////////////////////
+export class StringLiteral extends ImmutableModel {
+  static fromJS(json: StringLiteralModelType): StringLiteral {
+    const state: Object = Object.assign({}, json);
+    return new this(Immutable.Map(state));
+  }
+
+  toJS(): StringLiteralModelType {
+    return {
+      stringLiteral: this.stringLiteral,
+      unionStringLiteral: this.unionStringLiteral,
+    };
+  }
+
+  get stringLiteral(): \'string\' {
+    return this._state.get(\'stringLiteral\');
+  }
+
+  setStringLiteral(stringLiteral: \'string\'): this {
+    return this.clone(this._state.set(\'stringLiteral\', stringLiteral));
+  }
+
+  get unionStringLiteral(): \'string\' | \'literal\' {
+    return this._state.get(\'unionStringLiteral\');
+  }
+
+  setUnionStringLiteral(unionStringLiteral: \'string\' | \'literal\'): this {
+    return this.clone(this._state.set(\'unionStringLiteral\', unionStringLiteral));
+  }
+}
+"
+`;
+
 exports[`transform does not instantiate imported types 1`] = `
 "// @flow
 import ImmutableModel from \'../../../src/ImmutableModel\';

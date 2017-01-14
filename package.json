@@ -11,7 +11,7 @@
     "build": "babel src -d lib --ignore __tests__",
     "flow": "flow",
     "eslint": "eslint src",
-    "gen-models": "npm run build && jscodeshift -t lib/transform.js src/__tests__/models",
+    "gen-models": "npm run build && jscodeshift src/__tests__/models -t lib/transform.js",
     "prepublish": "npm run eslint && npm run flow && npm test",
     "test": "npm run gen-models && jest"
   },

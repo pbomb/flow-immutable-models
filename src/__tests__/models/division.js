@@ -5,7 +5,7 @@ import { Team } from './team';
 import type { TeamModelType } from './team';
 
 export type DivisionModelType = {
-  name: string,
+  name: 'Atlantic' | 'Metropolitan' | 'Central' | 'Pacific',
   teams: { [key: string]: TeamModelType },
 };
 
@@ -37,11 +37,11 @@ export class Division extends ImmutableModel {
     };
   }
 
-  get name(): string {
+  get name(): 'Atlantic' | 'Metropolitan' | 'Central' | 'Pacific' {
     return this._state.get('name');
   }
 
-  setName(name: string): this {
+  setName(name: 'Atlantic' | 'Metropolitan' | 'Central' | 'Pacific'): this {
     return this.clone(this._state.set('name', name));
   }
 

@@ -38,4 +38,8 @@ describe('transform', () => {
   it('converts maybe props to use nullable fields', async () => {
     await snap('maybeProps.js');
   });
+
+  it('converts string literal types', async () => {
+    await snap('stringLiteral.js');
+  });
 });
