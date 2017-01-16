@@ -69,8 +69,10 @@ export default class ImmutableModel {
     return this.clone(this._state.update(property, Immutable.List(), lst => lst.push(value)));
   }
 
-  concatToList<TProp>(property: string, value: TProp): this {
-    return this.clone(this._state.update(property, Immutable.List(), lst => lst.concat(value)));
+  concatToList<TProp>(property: string, ...value: Array<TProp>): this {
+    return this.clone(
+      this._state.update(property, Immutable.List(), lst => lst.concat(...value))
+    );
   }
 
   removeFromList<TProp>(property: string, index: number): this {
