@@ -23,7 +23,7 @@ const seriesA = Startup.fromJS({
   ipoPrice: undefined,
 });
 ```
-Note that in each case, it's required for the `ipoPrice` property to exist, even if it's value is undefined or null. However, there's another way to define the `ipoPrice` property such that it is an [optional property](https://flowtype.org/docs/objects.html#optional-properties)
+Note that in each case, it's required for the `ipoPrice` property to exist, even if it's value is undefined or null. However, there's another way to define the `ipoPrice` property such that it is an [optional property](https://flowtype.org/docs/objects.html#optional-properties).
 ```js
 export type StartupModelType = {
   name: string,

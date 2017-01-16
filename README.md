@@ -46,7 +46,7 @@ For more information, please read through the various recipes, starting with the
 * [Nested Models](./docs/recipes/nestedModels.md)
 * [Nested Collections](./docs/recipes/nestedCollections.md)
 * [Default Values](./docs/recipes/defaultValues.md)
-* [Maybe Types](./docs/recipes/maybeTypes.md
+* [Maybe Types](./docs/recipes/maybeTypes.md)
 * [Union Types](./docs/recipes/unionTypes.md)
 * [Serializing to plain-JS](./docs/recipes/toJS.md)
 * [Escape Hatches](./docs/recipes/escapeHatches.md)
