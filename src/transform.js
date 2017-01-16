@@ -101,6 +101,13 @@ export default function(file: Object, api: Object, options: Object) {
       const identifier = p.node.declaration.id.name;
       const className = withoutModelTypeSuffix(identifier);
       const parsed = parseType(p.node.declaration.right);
+      if (parsed.type !== 'ObjectTypeAnnotation') {
+        throw new Error(`Expected ${identifier} to be of type ObjectTypeAnnotation. Instead it was of type ${parsed.type}.
+
+All types ending with "ModelType" are expected to be defined as object literals with properties.
+Perhaps you didn't mean for ${identifier} to be a ModelType.
+`);
+      }
       const defaultValuesName = `default${capitalize(className)}Values`;
       const defaultValues = root
         .find(j.VariableDeclaration)

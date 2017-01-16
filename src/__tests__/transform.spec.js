@@ -1,8 +1,12 @@
 import path from 'path';
 import transformFixture from '../test-utils/transformFixture';
 
+async function transform(filename: string): Promise<string> {
+  return transformFixture(path.join(__dirname, 'fixtures', filename));
+}
+
 async function snap(filename: string): string {
-  const output = await transformFixture(path.join(__dirname, 'fixtures', filename));
+  const output = await transform(filename);
   expect(output).toMatchSnapshot();
 }
 
@@ -41,5 +45,18 @@ describe('transform', () => {
 
   it('converts string literal types', async () => {
     await snap('stringLiteral.js');
+  });
+
+  it('provides meaningful error message when ModelType is a UnionTypeAnnotation', async () => {
+    try {
+      await transform('unionModelType.js');
+    } catch (e) {
+      return expect(e.message).toBe(`Expected CellModelType to be of type ObjectTypeAnnotation. Instead it was of type UnionTypeAnnotation.
+
+All types ending with "ModelType" are expected to be defined as object literals with properties.
+Perhaps you didn't mean for CellModelType to be a ModelType.
+`);
+    }
+    throw new Error('Expected error to be thrown');
   });
 });

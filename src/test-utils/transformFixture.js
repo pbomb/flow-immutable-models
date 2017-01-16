@@ -10,14 +10,18 @@ export default function transformFile(filename: string): Promise<string> {
         reject(err);
         return;
       }
-      const output = transform({
-        path: file,
-        source: source.toString(),
-      }, {
-        jscodeshift,
-        stats: () => {},
-      }, {});
-      resolve(output.toString());
+      try {
+        const output = transform({
+          path: file,
+          source: source.toString(),
+        }, {
+          jscodeshift,
+          stats: () => {},
+        }, {});
+        resolve(output.toString());
+      } catch (e) {
+        reject(e);
+      }
     });
   });
 }
