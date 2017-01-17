@@ -1,6 +1,6 @@
 {
   "name": "flow-immutable-models",
-  "version": "0.10.0",
+  "version": "0.11.1",
   "description": "Generates model classes from Flow types using Immutable.js",
   "main": "src/ImmutableModel.js",
   "repository": {
