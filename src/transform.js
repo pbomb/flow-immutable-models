@@ -24,25 +24,21 @@ export default function(file: Object, api: Object, options: Object) {
 
   function makeClass(className, type, defaultValues) {
     const classNameIdentifier = j.identifier(className);
-    const staticMethods = [
-      fromJS(j, className, defaultValues, type.properties),
-    ];
-    const instanceMethods = type.properties.reduce((methods, prop) => {
-      methods.push(
-        getter(j, prop),
-        setter(j, prop)
-      );
-      return methods;
-    }, [
-      toJS(j, className, type.properties),
-    ]);
+    const staticMethods = [fromJS(j, className, defaultValues, type.properties)];
+    const instanceMethods = type.properties.reduce(
+      (methods, prop) => {
+        methods.push(getter(j, prop), setter(j, prop));
+        return methods;
+      },
+      [toJS(j, className, type.properties)],
+    );
 
     const classDeclaration = j.exportNamedDeclaration(
       j.classDeclaration(
         classNameIdentifier,
         j.classBody(staticMethods.concat(instanceMethods)),
-        j.identifier('ImmutableModel')
-      )
+        j.identifier('ImmutableModel'),
+      ),
     );
     const comments = [
       ' /////////////////////////////////////////////////////////////////////////////',
@@ -90,37 +86,37 @@ export default function(file: Object, api: Object, options: Object) {
 
   root
     .find(j.ExportNamedDeclaration)
-    .filter((p) => {
+    .filter(p => {
       if (p.node.exportKind === 'type') {
         const identifier = p.node.declaration.id.name;
         return endsWithModelType(identifier);
       }
       return false;
     })
-    .forEach((p) => {
+    .forEach(p => {
       const identifier = p.node.declaration.id.name;
       const className = withoutModelTypeSuffix(identifier);
       const parsed = parseType(p.node.declaration.right);
       if (parsed.type !== 'ObjectTypeAnnotation') {
-        throw new Error(`Expected ${identifier} to be of type ObjectTypeAnnotation. Instead it was of type ${parsed.type}.
+        throw new Error(
+          `Expected ${identifier} to be of type ObjectTypeAnnotation. Instead it was of type ${parsed.type}.
 
 All types ending with "ModelType" are expected to be defined as object literals with properties.
 Perhaps you didn't mean for ${identifier} to be a ModelType.
-`);
+`,
+        );
       }
       const defaultValuesName = `default${capitalize(className)}Values`;
       const defaultValues = root
         .find(j.VariableDeclaration)
-        .filter(path =>
-          path.node.declarations.some(dec => dec.id.name === defaultValuesName)
-        );
+        .filter(path => path.node.declarations.some(dec => dec.id.name === defaultValuesName));
 
       classes.push({
         className,
         classDef: makeClass(
           className,
           parsed,
-          defaultValues.size() === 1 ? defaultValuesName : null
+          defaultValues.size() === 1 ? defaultValuesName : null,
         ),
       });
     });
@@ -128,7 +124,11 @@ Perhaps you didn't mean for ${identifier} to be a ModelType.
   classes.forEach(({ className, classDef }) => {
     const alreadyExportedClass = root
       .find(j.ExportNamedDeclaration)
-      .filter(path => path.node.declaration.type === 'ClassDeclaration' && path.node.declaration.id.name === className);
+      .filter(
+        path =>
+          path.node.declaration.type === 'ClassDeclaration' &&
+          path.node.declaration.id.name === className,
+      );
 
     if (alreadyExportedClass.size() === 1) {
       alreadyExportedClass.replaceWith(classDef);

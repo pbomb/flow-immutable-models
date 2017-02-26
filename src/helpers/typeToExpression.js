@@ -10,7 +10,7 @@ export default function typeToExpression(j: Object, typeAlias: Object): Object {
   if (typeAlias.type === 'QualifiedTypeIdentifier') {
     return j.memberExpression(
       typeToExpression(j, typeAlias.qualification),
-      typeToExpression(j, typeAlias.id)
+      typeToExpression(j, typeAlias.id),
     );
   }
   return j.identifier('unknown');

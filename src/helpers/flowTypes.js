@@ -1,7 +1,8 @@
 // @flow
 
 export function isArray(typeAlias: Object): boolean {
-  return typeAlias.type === 'ArrayTypeAnnotation' || (typeAlias.id && typeAlias.id.name === 'Array');
+  return typeAlias.type === 'ArrayTypeAnnotation' ||
+    (typeAlias.id && typeAlias.id.name === 'Array');
 }
 
 export function isObjectMap(typeAlias: Object): boolean {
@@ -9,7 +10,11 @@ export function isObjectMap(typeAlias: Object): boolean {
 }
 
 export function isImmutableType(typeAlias: Object): boolean {
-  if (typeAlias.id && typeAlias.id.type === 'QualifiedTypeIdentifier' && typeAlias.id.qualification.name === 'Immutable') {
+  if (
+    typeAlias.id &&
+    typeAlias.id.type === 'QualifiedTypeIdentifier' &&
+    typeAlias.id.qualification.name === 'Immutable'
+  ) {
     return true;
   }
   return false;

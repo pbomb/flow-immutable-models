@@ -5,7 +5,7 @@ import { withoutModelTypeSuffix } from './withoutModelTypeSuffix';
 export default function getTypeAnnotationWithoutModelType(
   j: Object,
   value: Object,
-  convertToImmutable: boolean = false
+  convertToImmutable: boolean = false,
 ): Object {
   const type: string = value.type;
 
@@ -15,10 +15,7 @@ export default function getTypeAnnotationWithoutModelType(
         const nameWithoutSuffix = withoutModelTypeSuffix(value.id.name);
         let typeId;
         if (nameWithoutSuffix === 'Array' && convertToImmutable) {
-          typeId = j.qualifiedTypeIdentifier(
-            j.identifier('Immutable'),
-            j.identifier('List')
-          );
+          typeId = j.qualifiedTypeIdentifier(j.identifier('Immutable'), j.identifier('List'));
         } else {
           typeId = j.identifier(nameWithoutSuffix);
         }
@@ -26,44 +23,39 @@ export default function getTypeAnnotationWithoutModelType(
           typeId,
           value.typeParameters
             ? j.typeParameterInstantiation(
-              value.typeParameters.params.map(
-                typeParam => getTypeAnnotationWithoutModelType(j, typeParam)
+                value.typeParameters.params.map(typeParam =>
+                  getTypeAnnotationWithoutModelType(j, typeParam)),
               )
-            )
-            : null
+            : null,
         );
       }
       if (value.id.type === 'QualifiedTypeIdentifier') {
         return j.genericTypeAnnotation(
           j.qualifiedTypeIdentifier(
             value.id.qualification,
-            j.identifier(withoutModelTypeSuffix(value.id.id.name))
+            j.identifier(withoutModelTypeSuffix(value.id.id.name)),
           ),
           j.typeParameterInstantiation(
-            value.typeParameters.params.map(
-              typeParam => getTypeAnnotationWithoutModelType(j, typeParam)
-            )
-          )
+            value.typeParameters.params.map(typeParam =>
+              getTypeAnnotationWithoutModelType(j, typeParam)),
+          ),
         );
       }
       return value;
     }
     case 'NullableTypeAnnotation':
       return j.nullableTypeAnnotation(
-        getTypeAnnotationWithoutModelType(j, value.typeAnnotation, convertToImmutable)
+        getTypeAnnotationWithoutModelType(j, value.typeAnnotation, convertToImmutable),
       );
     case 'ObjectTypeAnnotation':
       if (value.indexers.length > 0) {
         const propIndexer = value.indexers[0];
         return j.genericTypeAnnotation(
-          j.qualifiedTypeIdentifier(
-            j.identifier('Immutable'),
-            j.identifier('Map')
-          ),
+          j.qualifiedTypeIdentifier(j.identifier('Immutable'), j.identifier('Map')),
           j.typeParameterInstantiation([
             getTypeAnnotationWithoutModelType(j, propIndexer.key),
             getTypeAnnotationWithoutModelType(j, propIndexer.value, true),
-          ])
+          ]),
         );
       }
       return value;

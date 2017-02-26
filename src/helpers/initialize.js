@@ -7,7 +7,7 @@ function initializeReferencesStatements(j: Object, referenceProps: Object[], roo
   const nonClassTypes = getNonClassTypes(j, root);
   return referenceProps
     .filter(prop => nonClassTypes.indexOf(prop.value.id.name) === -1)
-    .map((prop) => {
+    .map(prop => {
       let valueExpression;
       const typeAlias = prop.value;
       const typeExpression = typeToExpression(j, typeAlias.id);
@@ -23,17 +23,11 @@ function initializeReferencesStatements(j: Object, referenceProps: Object[], roo
         j.assignmentExpression(
           '=',
           j.identifier('state'),
-          j.callExpression(
-            j.memberExpression(
-              j.identifier('state'),
-              j.identifier('set')
-            ),
-            [
-              j.literal(prop.key.name),
-              valueExpression,
-            ]
-          )
-        )
+          j.callExpression(j.memberExpression(j.identifier('state'), j.identifier('set')), [
+            j.literal(prop.key.name),
+            valueExpression,
+          ]),
+        ),
       );
     });
 }
@@ -42,48 +36,29 @@ export default function initialize(
   j: Object,
   referenceProps: Object[],
   initialValues: string | null,
-  root: Object
+  root: Object,
 ) {
   const mapTypeAnnotation = j.typeAnnotation(
     j.genericTypeAnnotation(
       j.identifier('Immutable.Map'),
-      j.typeParameterInstantiation(
-        [j.stringTypeAnnotation(), j.anyTypeAnnotation()]
-      )
-    )
+      j.typeParameterInstantiation([j.stringTypeAnnotation(), j.anyTypeAnnotation()]),
+    ),
   );
   const blockStatements = [
-    j.variableDeclaration(
-      'let',
-      [
-        j.variableDeclarator(
-          j.identifier('state'),
-          j.callExpression(
-            j.memberExpression(
-              j.identifier('Immutable'),
-              j.identifier('Map')
-            ),
-            initialValues ? [j.identifier(initialValues)] : []
-          )
+    j.variableDeclaration('let', [
+      j.variableDeclarator(
+        j.identifier('state'),
+        j.callExpression(
+          j.memberExpression(j.identifier('Immutable'), j.identifier('Map')),
+          initialValues ? [j.identifier(initialValues)] : [],
         ),
-      ]
-    ),
+      ),
+    ]),
     ...initializeReferencesStatements(j, referenceProps, root),
-    j.returnStatement(
-      j.identifier('state')
-    ),
+    j.returnStatement(j.identifier('state')),
   ];
-  const func = j.functionExpression(
-    null,
-    [],
-    j.blockStatement(blockStatements)
-  );
+  const func = j.functionExpression(null, [], j.blockStatement(blockStatements));
   func.returnType = mapTypeAnnotation;
 
-  return j.methodDefinition(
-    'method',
-    j.identifier('initialize'),
-    func,
-    false
-  );
+  return j.methodDefinition('method', j.identifier('initialize'), func, false);
 }

@@ -42,7 +42,7 @@ export default class ImmutableModel {
   updateIn<TProp>(
     properties: Array<string | number>,
     notSetValue: TProp | Updater<TProp>,
-    updater?: Updater<TProp>
+    updater?: Updater<TProp>,
   ): this {
     return this.clone(this._state.updateIn(properties, notSetValue, updater));
   }
@@ -70,9 +70,7 @@ export default class ImmutableModel {
   }
 
   concatToList<TProp>(property: string, ...value: Array<TProp>): this {
-    return this.clone(
-      this._state.update(property, Immutable.List(), lst => lst.concat(...value))
-    );
+    return this.clone(this._state.update(property, Immutable.List(), lst => lst.concat(...value)));
   }
 
   removeFromList<TProp>(property: string, index: number): this {

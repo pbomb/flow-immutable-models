@@ -13,13 +13,17 @@ describe('update', () => {
   });
 
   it('updates collections', () => {
-    const team: TeamModelType = Object.assign({}, {
-      location: 'Columbus',
-      nickname: 'Blue Jackets',
-      hasWonStanleyCup: false,
-      lastCupWin: null,
-      strengths: ['defense'],
-    }, defaultTeamValues);
+    const team: TeamModelType = Object.assign(
+      {},
+      {
+        location: 'Columbus',
+        nickname: 'Blue Jackets',
+        hasWonStanleyCup: false,
+        lastCupWin: null,
+        strengths: ['defense'],
+      },
+      defaultTeamValues,
+    );
     const division = Division.fromJS({
       name: 'Metropolitan',
       teams: { CBJ: team },
@@ -33,8 +37,7 @@ describe('update', () => {
       strengths: ['goaltending'],
     });
     const nextDivision = division.update('teams', (teams: Immutable.Map<string, Team>) =>
-      teams.set('NYR', rangers)
-    );
+      teams.set('NYR', rangers));
     expect(nextDivision).not.toBe(division);
     expect(nextDivision.name).toBe('Metropolitan');
     expect(nextDivision.teams.size).toBe(2);
@@ -48,27 +51,34 @@ describe('udpateIn', () => {
     const division = Division.fromJS({
       name: 'Metropolitan',
       teams: {
-        CBJ: Object.assign({}, {
-          location: 'Columbus',
-          nickname: 'Blue Jackets',
-          hasWonStanleyCup: false,
-          lastCupWin: null,
-          strengths: ['defense'],
-        }, defaultTeamValues),
-        NYR: Object.assign({}, {
-          location: 'New York',
-          nickname: 'Rangers',
-          hasWonStanleyCup: true,
-          lastCupWin: 1994,
-          strengths: ['goaltending'],
-        }, defaultTeamValues),
+        CBJ: Object.assign(
+          {},
+          {
+            location: 'Columbus',
+            nickname: 'Blue Jackets',
+            hasWonStanleyCup: false,
+            lastCupWin: null,
+            strengths: ['defense'],
+          },
+          defaultTeamValues,
+        ),
+        NYR: Object.assign(
+          {},
+          {
+            location: 'New York',
+            nickname: 'Rangers',
+            hasWonStanleyCup: true,
+            lastCupWin: 1994,
+            strengths: ['goaltending'],
+          },
+          defaultTeamValues,
+        ),
       },
     });
     const blueJackets = division.teams.get('CBJ');
     const rangers = division.teams.get('NYR');
     const nextDivision = division.updateIn(['teams', 'NYR'], (team: Team) =>
-      team.setLocation('New York City')
-    );
+      team.setLocation('New York City'));
     expect(nextDivision).not.toBe(division);
     expect(nextDivision.name).toBe('Metropolitan');
     expect(nextDivision.teams.size).toBe(2);

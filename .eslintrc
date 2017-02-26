@@ -14,6 +14,7 @@
     "import"
   ],
   "rules": {
+    "arrow-parens": 0,
     "block-scoped-var": 0,
     "comma-dangle": ["error", {
       "arrays": "always-multiline",

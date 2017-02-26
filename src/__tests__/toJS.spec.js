@@ -58,10 +58,7 @@ describe('toJS', () => {
     });
 
     it('serializes a simple non-null value', () => {
-      const blueJackets = Team.fromJS(Object.assign({},
-        blueJacketsJS,
-        { lastCupWin: 1999 },
-      ));
+      const blueJackets = Team.fromJS(Object.assign({}, blueJacketsJS, { lastCupWin: 1999 }));
       expect(blueJackets.toJS().lastCupWin).toBe(1999);
     });
   });

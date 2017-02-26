@@ -1,3 +1,3 @@
 // @flow
 
-export type Comparator = "<" | ">" | "=" | "!=";
+export type Comparator = '<' | '>' | '=' | '!=';

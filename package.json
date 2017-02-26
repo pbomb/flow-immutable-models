@@ -12,7 +12,9 @@
     "flow": "flow",
     "eslint": "eslint src",
     "gen-models": "npm run build && jscodeshift src/__tests__/models -t lib/transform.js",
+    "lint:staged": "lint-staged",
     "prepublish": "npm run eslint && npm run flow && npm test",
+    "prettier": "prettier --write --print-width=100 --single-quote=true --trailing-comma=all --parser=flow 'src/**/*.js'",
     "test": "npm run gen-models && jest"
   },
   "keywords": [
@@ -37,7 +39,10 @@
     "eslint-plugin-jsx-a11y": "4.0.0",
     "eslint-plugin-react": "6.10.0",
     "flow-bin": "0.40.0",
-    "jest": "19.0.2"
+    "jest": "19.0.2",
+    "lint-staged": "3.3.1",
+    "pre-commit": "1.2.2",
+    "prettier": "0.19.0"
   },
   "dependencies": {
     "immutable": "3.8.1",
@@ -46,5 +51,12 @@
   "jest": {
     "testEnvironment": "node",
     "testRegex": "/__tests__/.*\\.spec\\.js$"
-  }
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write --print-width 100 --single-quote true --trailing-comma all --parser flow",
+      "git add"
+    ]
+  },
+  "pre-commit": "lint:staged"
 }
