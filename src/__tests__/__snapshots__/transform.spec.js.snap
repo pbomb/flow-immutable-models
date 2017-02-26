@@ -1,8 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`transform adds default class for exported typed object 1`] = `
 "// @flow
-import type { BarModelType } from \'./bar\';
-import { Bar } from \'./bar\';
-import ImmutableModel from \'../../../src/ImmutableModel\';
+import type { BarModelType } from './bar';
+import { Bar } from './bar';
+import ImmutableModel from '../../../src/ImmutableModel';
 
 export type FooModelType = {
   maybeStr: ?string,
@@ -49,83 +51,83 @@ export class Foo extends ImmutableModel {
   }
 
   get maybeStr(): ?string {
-    return this._state.get(\'maybeStr\');
+    return this._state.get('maybeStr');
   }
 
   setMaybeStr(maybeStr: ?string): this {
-    return this.clone(this._state.set(\'maybeStr\', maybeStr));
+    return this.clone(this._state.set('maybeStr', maybeStr));
   }
 
   get str(): string {
-    return this._state.get(\'str\');
+    return this._state.get('str');
   }
 
   setStr(str: string): this {
-    return this.clone(this._state.set(\'str\', str));
+    return this.clone(this._state.set('str', str));
   }
 
   get maybeNum(): ?number {
-    return this._state.get(\'maybeNum\');
+    return this._state.get('maybeNum');
   }
 
   setMaybeNum(maybeNum: ?number): this {
-    return this.clone(this._state.set(\'maybeNum\', maybeNum));
+    return this.clone(this._state.set('maybeNum', maybeNum));
   }
 
   get num(): number {
-    return this._state.get(\'num\');
+    return this._state.get('num');
   }
 
   setNum(num: number): this {
-    return this.clone(this._state.set(\'num\', num));
+    return this.clone(this._state.set('num', num));
   }
 
   get maybeObj(): ?Object {
-    return this._state.get(\'maybeObj\');
+    return this._state.get('maybeObj');
   }
 
   setMaybeObj(maybeObj: ?Object): this {
-    return this.clone(this._state.set(\'maybeObj\', maybeObj));
+    return this.clone(this._state.set('maybeObj', maybeObj));
   }
 
   get obj(): Object {
-    return this._state.get(\'obj\');
+    return this._state.get('obj');
   }
 
   setObj(obj: Object): this {
-    return this.clone(this._state.set(\'obj\', obj));
+    return this.clone(this._state.set('obj', obj));
   }
 
   get maybeBar(): ?Bar {
-    return this._state.get(\'maybeBar\');
+    return this._state.get('maybeBar');
   }
 
   setMaybeBar(maybeBar: ?Bar): this {
-    return this.clone(this._state.set(\'maybeBar\', maybeBar));
+    return this.clone(this._state.set('maybeBar', maybeBar));
   }
 
   get bar(): Bar {
-    return this._state.get(\'bar\');
+    return this._state.get('bar');
   }
 
   setBar(bar: Bar): this {
-    return this.clone(this._state.set(\'bar\', bar));
+    return this.clone(this._state.set('bar', bar));
   }
 
   get maybeFn(): ?Function {
-    return this._state.get(\'maybeFn\');
+    return this._state.get('maybeFn');
   }
 
   setMaybeFn(maybeFn: ?Function): this {
-    return this.clone(this._state.set(\'maybeFn\', maybeFn));
+    return this.clone(this._state.set('maybeFn', maybeFn));
   }
 
   get fn(): Function {
-    return this._state.get(\'fn\');
+    return this._state.get('fn');
   }
 
   setFn(fn: Function): this {
-    return this.clone(this._state.set(\'fn\', fn));
+    return this.clone(this._state.set('fn', fn));
   }
 }
 "
@@ -133,7 +135,7 @@ export class Foo extends ImmutableModel {
 
 exports[`transform converts arrays to Immutable lists 1`] = `
 "// @flow
-import ImmutableModel from \'../../../src/ImmutableModel\';
+import ImmutableModel from '../../../src/ImmutableModel';
 
 export type ArrModelType = {
   arr: Array<string>,
@@ -164,19 +166,19 @@ export class Arr extends ImmutableModel {
   }
 
   get arr(): Immutable.List<string> {
-    return this._state.get(\'arr\');
+    return this._state.get('arr');
   }
 
   setArr(arr: Immutable.List<string>): this {
-    return this.clone(this._state.set(\'arr\', arr));
+    return this.clone(this._state.set('arr', arr));
   }
 
   get maybeArr(): ?Immutable.List<string> {
-    return this._state.get(\'maybeArr\');
+    return this._state.get('maybeArr');
   }
 
   setMaybeArr(maybeArr: ?Immutable.List<string>): this {
-    return this.clone(this._state.set(\'maybeArr\', maybeArr));
+    return this.clone(this._state.set('maybeArr', maybeArr));
   }
 }
 "
@@ -184,7 +186,7 @@ export class Arr extends ImmutableModel {
 
 exports[`transform converts maybe props to use nullable fields 1`] = `
 "// @flow
-import ImmutableModel from \'../../../src/ImmutableModel\';
+import ImmutableModel from '../../../src/ImmutableModel';
 
 export type MaybePropsModelType = {
   maybePropNum?: number,
@@ -226,27 +228,27 @@ export class MaybeProps extends ImmutableModel {
   }
 
   get maybePropNum(): ?number {
-    return this._state.get(\'maybePropNum\');
+    return this._state.get('maybePropNum');
   }
 
   setMaybePropNum(maybePropNum: ?number): this {
-    return this.clone(this._state.set(\'maybePropNum\', maybePropNum));
+    return this.clone(this._state.set('maybePropNum', maybePropNum));
   }
 
   get maybePropStr(): ?string {
-    return this._state.get(\'maybePropStr\');
+    return this._state.get('maybePropStr');
   }
 
   setMaybePropStr(maybePropStr: ?string): this {
-    return this.clone(this._state.set(\'maybePropStr\', maybePropStr));
+    return this.clone(this._state.set('maybePropStr', maybePropStr));
   }
 
   get maybePropArr(): ?Immutable.List<string> {
-    return this._state.get(\'maybePropArr\');
+    return this._state.get('maybePropArr');
   }
 
   setMaybePropArr(maybePropArr: ?Immutable.List<string>): this {
-    return this.clone(this._state.set(\'maybePropArr\', maybePropArr));
+    return this.clone(this._state.set('maybePropArr', maybePropArr));
   }
 }
 "
@@ -254,8 +256,8 @@ export class MaybeProps extends ImmutableModel {
 
 exports[`transform converts object maps to immutable maps 1`] = `
 "// @flow
-import * as Immutable from \'immutable\';
-import ImmutableModel from \'../../../src/ImmutableModel\';
+import * as Immutable from 'immutable';
+import ImmutableModel from '../../../src/ImmutableModel';
 
 export type OtherModelType = {
   prop: boolean,
@@ -287,11 +289,11 @@ export class Other extends ImmutableModel {
   }
 
   get prop(): boolean {
-    return this._state.get(\'prop\');
+    return this._state.get('prop');
   }
 
   setProp(prop: boolean): this {
-    return this.clone(this._state.set(\'prop\', prop));
+    return this.clone(this._state.set('prop', prop));
   }
 }
 
@@ -319,19 +321,19 @@ export class MyMap extends ImmutableModel {
   }
 
   get numberMap(): Immutable.Map<string, number> {
-    return this._state.get(\'numberMap\');
+    return this._state.get('numberMap');
   }
 
   setNumberMap(numberMap: Immutable.Map<string, number>): this {
-    return this.clone(this._state.set(\'numberMap\', numberMap));
+    return this.clone(this._state.set('numberMap', numberMap));
   }
 
   get modelMap(): Immutable.Map<string, Other> {
-    return this._state.get(\'modelMap\');
+    return this._state.get('modelMap');
   }
 
   setModelMap(modelMap: Immutable.Map<string, Other>): this {
-    return this.clone(this._state.set(\'modelMap\', modelMap));
+    return this.clone(this._state.set('modelMap', modelMap));
   }
 }
 "
@@ -339,9 +341,9 @@ export class MyMap extends ImmutableModel {
 
 exports[`transform converts referenced types in getters and setters 1`] = `
 "// @flow
-import type { BarModelType } from \'./bar\';
-import { Bar } from \'./bar\';
-import ImmutableModel from \'../../../src/ImmutableModel\';
+import type { BarModelType } from './bar';
+import { Bar } from './bar';
+import ImmutableModel from '../../../src/ImmutableModel';
 
 export type FooModelType = {
   ref: BarModelType,
@@ -374,27 +376,27 @@ export class Foo extends ImmutableModel {
   }
 
   get ref(): Bar {
-    return this._state.get(\'ref\');
+    return this._state.get('ref');
   }
 
   setRef(ref: Bar): this {
-    return this.clone(this._state.set(\'ref\', ref));
+    return this.clone(this._state.set('ref', ref));
   }
 
   get maybeRef(): ?Bar {
-    return this._state.get(\'maybeRef\');
+    return this._state.get('maybeRef');
   }
 
   setMaybeRef(maybeRef: ?Bar): this {
-    return this.clone(this._state.set(\'maybeRef\', maybeRef));
+    return this.clone(this._state.set('maybeRef', maybeRef));
   }
 
   get str(): string {
-    return this._state.get(\'str\');
+    return this._state.get('str');
   }
 
   setStr(str: string): this {
-    return this.clone(this._state.set(\'str\', str));
+    return this.clone(this._state.set('str', str));
   }
 }
 "
@@ -402,11 +404,11 @@ export class Foo extends ImmutableModel {
 
 exports[`transform converts string literal types 1`] = `
 "// @flow
-import ImmutableModel from \'../../../src/ImmutableModel\';
+import ImmutableModel from '../../../src/ImmutableModel';
 
 export type StringLiteralModelType = {
-  stringLiteral: \'string\',
-  unionStringLiteral: \'string\' | \'literal\',
+  stringLiteral: 'string',
+  unionStringLiteral: 'string' | 'literal',
 };
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -430,20 +432,20 @@ export class StringLiteral extends ImmutableModel {
     };
   }
 
-  get stringLiteral(): \'string\' {
-    return this._state.get(\'stringLiteral\');
+  get stringLiteral(): 'string' {
+    return this._state.get('stringLiteral');
   }
 
-  setStringLiteral(stringLiteral: \'string\'): this {
-    return this.clone(this._state.set(\'stringLiteral\', stringLiteral));
+  setStringLiteral(stringLiteral: 'string'): this {
+    return this.clone(this._state.set('stringLiteral', stringLiteral));
   }
 
-  get unionStringLiteral(): \'string\' | \'literal\' {
-    return this._state.get(\'unionStringLiteral\');
+  get unionStringLiteral(): 'string' | 'literal' {
+    return this._state.get('unionStringLiteral');
   }
 
-  setUnionStringLiteral(unionStringLiteral: \'string\' | \'literal\'): this {
-    return this.clone(this._state.set(\'unionStringLiteral\', unionStringLiteral));
+  setUnionStringLiteral(unionStringLiteral: 'string' | 'literal'): this {
+    return this.clone(this._state.set('unionStringLiteral', unionStringLiteral));
   }
 }
 "
@@ -451,8 +453,8 @@ export class StringLiteral extends ImmutableModel {
 
 exports[`transform does not instantiate imported types 1`] = `
 "// @flow
-import ImmutableModel from \'../../../src/ImmutableModel\';
-import type { Comparator } from \'./Comparator\';
+import ImmutableModel from '../../../src/ImmutableModel';
+import type { Comparator } from './Comparator';
 
 export type NonClassImportedModelType = {
   comparator: Comparator,
@@ -479,11 +481,11 @@ export class NonClassImported extends ImmutableModel {
   }
 
   get comparator(): Comparator {
-    return this._state.get(\'comparator\');
+    return this._state.get('comparator');
   }
 
   setComparator(comparator: Comparator): this {
-    return this.clone(this._state.set(\'comparator\', comparator));
+    return this.clone(this._state.set('comparator', comparator));
   }
 }
 "
@@ -491,10 +493,10 @@ export class NonClassImported extends ImmutableModel {
 
 exports[`transform does not instantiate inline non-class props 1`] = `
 "// @flow
-import ImmutableModel from \'../../../src/ImmutableModel\';
+import ImmutableModel from '../../../src/ImmutableModel';
 
-type Operator = \"*\" | \"/\" | \"+\" | \"-\";
-export type Comparator = \"<\" | \">\" | \"=\" | \"!=\";
+type Operator = \\"*\\" | \\"/\\" | \\"+\\" | \\"-\\";
+export type Comparator = \\"<\\" | \\">\\" | \\"=\\" | \\"!=\\";
 
 export type NonClassModelType = {
   operator: Operator,
@@ -523,19 +525,19 @@ export class NonClass extends ImmutableModel {
   }
 
   get operator(): Operator {
-    return this._state.get(\'operator\');
+    return this._state.get('operator');
   }
 
   setOperator(operator: Operator): this {
-    return this.clone(this._state.set(\'operator\', operator));
+    return this.clone(this._state.set('operator', operator));
   }
 
   get comparator(): Comparator {
-    return this._state.get(\'comparator\');
+    return this._state.get('comparator');
   }
 
   setComparator(comparator: Comparator): this {
-    return this.clone(this._state.set(\'comparator\', comparator));
+    return this.clone(this._state.set('comparator', comparator));
   }
 }
 "
@@ -543,9 +545,9 @@ export class NonClass extends ImmutableModel {
 
 exports[`transform initializes arrays of other model types 1`] = `
 "// @flow
-import ImmutableModel from \'../../../src/ImmutableModel\';
-import { Bar } from \'./bar\';
-import type { BarModelType } from \'./bar\';
+import ImmutableModel from '../../../src/ImmutableModel';
+import { Bar } from './bar';
+import type { BarModelType } from './bar';
 
 export type ArrModelType = {
   arr: Array<BarModelType>,
@@ -573,11 +575,11 @@ export class Arr extends ImmutableModel {
   }
 
   get arr(): Immutable.List<Bar> {
-    return this._state.get(\'arr\');
+    return this._state.get('arr');
   }
 
   setArr(arr: Immutable.List<Bar>): this {
-    return this.clone(this._state.set(\'arr\', arr));
+    return this.clone(this._state.set('arr', arr));
   }
 }
 "
