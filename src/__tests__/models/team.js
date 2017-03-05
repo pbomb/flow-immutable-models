@@ -26,10 +26,8 @@ export const defaultTeamValues: $Shape<TeamModelType> = {
 //
 // /////////////////////////////////////////////////////////////////////////////
 export class Team extends ImmutableModel {
-  static fromJS(json: $Diff<TeamModelType, typeof defaultTeamValues>): Team {
-    // $FlowFixMe
+  static fromJS(json: TeamFromJSType): Team {
     const state: Object = Object.assign({}, defaultTeamValues, json);
-
     state.players = Immutable.Map(state.players);
     state.strengths = Immutable.List(state.strengths);
     return new this(Immutable.Map(state));
@@ -94,3 +92,16 @@ export class Team extends ImmutableModel {
     return this.clone(this._state.set('strengths', strengths));
   }
 }
+
+type TeamOptionalArguments = typeof defaultTeamValues;
+
+type TeamRequiredArguments = {
+  location: string,
+  nickname: string,
+  hasWonStanleyCup: boolean,
+  lastCupWin: ?number,
+  strengths: Array<Strength>,
+};
+
+type TeamFullType = TeamOptionalArguments & TeamRequiredArguments;
+type TeamFromJSType = $Shape<TeamFullType> & TeamRequiredArguments;

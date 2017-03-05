@@ -17,10 +17,23 @@ export type MaybePropsModelType = {
 // and re-run the flow-immutable-models codemod
 //
 // /////////////////////////////////////////////////////////////////////////////
+{
+}
+
+// /////////////////////////////////////////////////////////////////////////////
+//
+// NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.
+//
+// If you need to update this class, update the corresponding flow type above
+// and re-run the flow-immutable-models codemod
+//
+// /////////////////////////////////////////////////////////////////////////////
 export class MaybeProps extends ImmutableModel {
   static fromJS(json: MaybePropsModelType): MaybeProps {
     const state: Object = Object.assign({}, json);
-    state.maybePropArr = (state.maybePropArr ? Immutable.List(state.maybePropArr) : state.maybePropArr);
+    state.maybePropArr = state.maybePropArr
+      ? Immutable.List(state.maybePropArr)
+      : state.maybePropArr;
     return new this(Immutable.Map(state));
   }
 
@@ -36,7 +49,7 @@ export class MaybeProps extends ImmutableModel {
     }
 
     if (this.maybePropArr != null) {
-      js.maybePropArr = (this.maybePropArr ? this.maybePropArr.toArray() : this.maybePropArr);
+      js.maybePropArr = this.maybePropArr ? this.maybePropArr.toArray() : this.maybePropArr;
     }
 
     return js;

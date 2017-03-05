@@ -22,10 +22,8 @@ const defaultDivisionValues: $Shape<DivisionModelType> = {
 //
 // /////////////////////////////////////////////////////////////////////////////
 export class Division extends ImmutableModel {
-  static fromJS(json: $Diff<DivisionModelType, typeof defaultDivisionValues>): Division {
-    // $FlowFixMe
+  static fromJS(json: DivisionFromJSType): Division {
     const state: Object = Object.assign({}, defaultDivisionValues, json);
-
     state.teams = Immutable.Map(state.teams).map(item => Team.fromJS(item));
     return new this(Immutable.Map(state));
   }
@@ -53,3 +51,8 @@ export class Division extends ImmutableModel {
     return this.clone(this._state.set('teams', teams));
   }
 }
+
+type DivisionOptionalArguments = typeof defaultDivisionValues;
+type DivisionRequiredArguments = { name: 'Atlantic' | 'Metropolitan' | 'Central' | 'Pacific' };
+type DivisionFullType = DivisionOptionalArguments & DivisionRequiredArguments;
+type DivisionFromJSType = $Shape<DivisionFullType> & DivisionRequiredArguments;

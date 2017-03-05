@@ -22,10 +22,8 @@ const defaultLeagueValues: $Shape<LeagueModelType> = {
 //
 // /////////////////////////////////////////////////////////////////////////////
 export class League extends ImmutableModel {
-  static fromJS(json: $Diff<LeagueModelType, typeof defaultLeagueValues>): League {
-    // $FlowFixMe
+  static fromJS(json: LeagueFromJSType): League {
     const state: Object = Object.assign({}, defaultLeagueValues, json);
-
     state.divisions = Immutable.List(state.divisions).map(item => Division.fromJS(item));
     return new this(Immutable.Map(state));
   }
@@ -53,3 +51,8 @@ export class League extends ImmutableModel {
     return this.clone(this._state.set('divisions', divisions));
   }
 }
+
+type LeagueOptionalArguments = typeof defaultLeagueValues;
+type LeagueRequiredArguments = { name: string };
+type LeagueFullType = LeagueOptionalArguments & LeagueRequiredArguments;
+type LeagueFromJSType = $Shape<LeagueFullType> & LeagueRequiredArguments;

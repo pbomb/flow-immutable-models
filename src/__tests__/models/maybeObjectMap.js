@@ -17,13 +17,13 @@ export type MaybeObjectMapModelType = {
 export class MaybeObjectMap extends ImmutableModel {
   static fromJS(json: MaybeObjectMapModelType): MaybeObjectMap {
     const state: Object = Object.assign({}, json);
-    state.maap = (state.maap ? Immutable.Map(state.maap) : state.maap);
+    state.maap = state.maap ? Immutable.Map(state.maap) : state.maap;
     return new this(Immutable.Map(state));
   }
 
   toJS(): MaybeObjectMapModelType {
     return {
-      maap: (this.maap ? this.maap.toObject() : this.maap),
+      maap: this.maap ? this.maap.toObject() : this.maap,
     };
   }
 

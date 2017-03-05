@@ -17,13 +17,13 @@ export type MaybeArrayModelType = {
 export class MaybeArray extends ImmutableModel {
   static fromJS(json: MaybeArrayModelType): MaybeArray {
     const state: Object = Object.assign({}, json);
-    state.ary = (state.ary ? Immutable.List(state.ary) : state.ary);
+    state.ary = state.ary ? Immutable.List(state.ary) : state.ary;
     return new this(Immutable.Map(state));
   }
 
   toJS(): MaybeArrayModelType {
     return {
-      ary: (this.ary ? this.ary.toArray() : this.ary),
+      ary: this.ary ? this.ary.toArray() : this.ary,
     };
   }
 

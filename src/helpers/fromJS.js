@@ -4,14 +4,9 @@ import typeToExpression from './typeToExpression';
 import { endsWithModelType, withoutModelTypeSuffix } from './withoutModelTypeSuffix';
 import { isArray, isImmutableType, isObjectMap } from './flowTypes';
 
-function getParamTypeAnnotation(j: Object, className: string, defaultValues: string | null) {
+function getParamTypeAnnotation(j: Object, className: string, defaultValues: Object | null) {
   if (defaultValues) {
-    return j.typeAnnotation(
-      j.genericTypeAnnotation(
-        j.identifier(`$Diff<${className}ModelType, typeof ${defaultValues}>`),
-        null,
-      ),
-    );
+    return j.typeAnnotation(j.genericTypeAnnotation(j.identifier(`${className}FromJSType`), null));
   }
   return j.typeAnnotation(j.genericTypeAnnotation(j.identifier(`${className}ModelType`), null));
 }
@@ -65,7 +60,7 @@ function initializeObject(j: Object, typeAlias: Object, propExpression: Object):
 export default function fromJS(
   j: Object,
   className: string,
-  defaultValues: string | null,
+  defaultValues: Object | null,
   referenceProps: Object[],
 ) {
   const jsonIdentifier = j.identifier('json');
@@ -134,9 +129,6 @@ export default function fromJS(
     ),
   );
   const assignExpression = j.variableDeclaration('const', [stateVariable]);
-  if (defaultValues) {
-    assignExpression.comments = [j.commentLine(' $FlowFixMe')];
-  }
   assignExpressions.push(assignExpression);
   const param = Object.assign({}, jsonIdentifier, { typeAnnotation: paramTypeAnnotation });
   const func = j.functionExpression(

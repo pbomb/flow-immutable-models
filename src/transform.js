@@ -1,6 +1,12 @@
 // @flow
 import capitalize from './helpers/capitalize';
 import fromJS from './helpers/fromJS';
+import {
+  getFromJSTypeStatement,
+  getFullTypeStatement,
+  getOptionalTypeStatement,
+  getRequiredTypeStatement,
+} from './helpers/getDefaultValueTypeStatements';
 import getter from './helpers/getter';
 import setter from './helpers/setter';
 import toJS from './helpers/toJS';
@@ -9,7 +15,7 @@ import { endsWithModelType, withoutModelTypeSuffix } from './helpers/withoutMode
 const defaultPrintOptions = { quote: 'single', trailingComma: true };
 
 export default function(file: Object, api: Object, options: Object) {
-  const j = api.jscodeshift;
+  const j: any = api.jscodeshift;
 
   const printOptions = options.printOptions || defaultPrintOptions;
 
@@ -19,7 +25,11 @@ export default function(file: Object, api: Object, options: Object) {
 
   const classes: Array<{|
     className: string,
-    classDef: Array<Object>,
+    classDef: Object,
+    fromJSType: Object | null,
+    fullType: Object | null,
+    optionalType: Object | null,
+    requiredType: Object | null,
   |}> = [];
 
   function makeClass(className, type, defaultValues) {
@@ -51,7 +61,7 @@ export default function(file: Object, api: Object, options: Object) {
       ' /////////////////////////////////////////////////////////////////////////////',
     ];
     classDeclaration.comments = comments.map(comment => j.commentLine(comment));
-    return [classDeclaration];
+    return classDeclaration;
   }
 
   function parseType<T: Object | string>(td: T): T {
@@ -96,10 +106,10 @@ export default function(file: Object, api: Object, options: Object) {
     .forEach(p => {
       const identifier = p.node.declaration.id.name;
       const className = withoutModelTypeSuffix(identifier);
-      const parsed = parseType(p.node.declaration.right);
-      if (parsed.type !== 'ObjectTypeAnnotation') {
+      const parsedType: Object = parseType(p.node.declaration.right);
+      if (parsedType.type !== 'ObjectTypeAnnotation') {
         throw new Error(
-          `Expected ${identifier} to be of type ObjectTypeAnnotation. Instead it was of type ${parsed.type}.
+          `Expected ${identifier} to be of type ObjectTypeAnnotation. Instead it was of type ${parsedType.type}.
 
 All types ending with "ModelType" are expected to be defined as object literals with properties.
 Perhaps you didn't mean for ${identifier} to be a ModelType.
@@ -107,34 +117,65 @@ Perhaps you didn't mean for ${identifier} to be a ModelType.
         );
       }
       const defaultValuesName = `default${capitalize(className)}Values`;
-      const defaultValues = root
-        .find(j.VariableDeclaration)
-        .filter(path => path.node.declarations.some(dec => dec.id.name === defaultValuesName));
+      let defaultValues: Object | null = null;
+      root.find(j.VariableDeclaration).filter(path => path.node.declarations.forEach(dec => {
+        if (dec.id.name === defaultValuesName) {
+          defaultValues = dec;
+        }
+      }));
 
       classes.push({
         className,
-        classDef: makeClass(
-          className,
-          parsed,
-          defaultValues.size() === 1 ? defaultValuesName : null,
-        ),
+        classDef: makeClass(className, parsedType, defaultValues),
+        optionalType: getOptionalTypeStatement(j, className, defaultValues),
+        requiredType: getRequiredTypeStatement(j, className, defaultValues, parsedType.properties),
+        fromJSType: getFromJSTypeStatement(j, className, defaultValues),
+        fullType: getFullTypeStatement(j, className, defaultValues),
       });
     });
 
-  classes.forEach(({ className, classDef }) => {
-    const alreadyExportedClass = root
-      .find(j.ExportNamedDeclaration)
-      .filter(
-        path =>
-          path.node.declaration.type === 'ClassDeclaration' &&
-          path.node.declaration.id.name === className,
-      );
+  const replaceOrAddStatement = (
+    tokenType: Object,
+    filterFn: (path: Object) => boolean,
+    statement: Object | null,
+  ) => {
+    const existingStatement = root.find(tokenType).filter(filterFn);
 
-    if (alreadyExportedClass.size() === 1) {
-      alreadyExportedClass.replaceWith(classDef);
+    if (existingStatement.size() === 1) {
+      existingStatement.replaceWith(statement);
     } else {
-      body.push(...classDef);
+      body.push(statement);
     }
+  };
+
+  classes.forEach(({ className, classDef, fromJSType, fullType, optionalType, requiredType }) => {
+    replaceOrAddStatement(
+      j.ExportNamedDeclaration,
+      path =>
+        path.node.declaration.type === 'ClassDeclaration' &&
+        path.node.declaration.id.name === className,
+      classDef,
+    );
+    replaceOrAddStatement(
+      j.TypeAlias,
+      path => path.node.id.name === `${className}OptionalArguments`,
+      optionalType,
+    );
+    replaceOrAddStatement(
+      j.TypeAlias,
+      path => path.node.id.name === `${className}RequiredArguments`,
+      requiredType,
+    );
+    replaceOrAddStatement(
+      j.TypeAlias,
+      path => path.node.id.name === `${className}FullType`,
+      fullType,
+    );
+    replaceOrAddStatement(
+      j.TypeAlias,
+      path => path.node.id.name === `${className}FromJSType`,
+      fromJSType,
+    );
   });
 
   return root.toSource(printOptions);
