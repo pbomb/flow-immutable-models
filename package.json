@@ -13,7 +13,7 @@
     "eslint": "eslint src",
     "gen-models": "npm run build && jscodeshift src/__tests__/models -t lib/transform.js",
     "lint:staged": "lint-staged",
-    "prepublish": "npm run eslint && npm run flow && npm test",
+    "prepublish": "npm run eslint && npm run flow && npm test && npm run prettier",
     "prettier": "prettier --write --print-width=100 --single-quote=true --trailing-comma=all --parser=flow 'src/**/*.js'",
     "test": "npm run gen-models && jest"
   },
