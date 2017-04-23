@@ -10,12 +10,12 @@ export default function getter(j: Object, prop: Object) {
         j.callExpression(
           j.memberExpression(
             j.memberExpression(j.thisExpression(), j.identifier('_state')),
-            j.identifier('get'),
+            j.identifier('get')
           ),
-          [j.literal(prop.key.name)],
-        ),
+          [j.literal(prop.key.name)]
+        )
       ),
-    ]),
+    ])
   );
   let returnType = getTypeAnnotationWithoutModelType(j, prop.value, true);
   if (prop.optional && returnType.type !== 'NullableTypeAnnotation') {

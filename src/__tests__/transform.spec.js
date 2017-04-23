@@ -56,7 +56,7 @@ describe('transform', () => {
 
 All types ending with "ModelType" are expected to be defined as object literals with properties.
 Perhaps you didn't mean for CellModelType to be a ModelType.
-`,
+`
       );
     }
     throw new Error('Expected error to be thrown');

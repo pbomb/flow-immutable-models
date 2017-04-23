@@ -42,7 +42,7 @@ export default class ImmutableModel {
   updateIn<TProp>(
     properties: Array<string | number>,
     notSetValue: TProp | Updater<TProp>,
-    updater?: Updater<TProp>,
+    updater?: Updater<TProp>
   ): this {
     return this.clone(this._state.updateIn(properties, notSetValue, updater));
   }

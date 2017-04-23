@@ -26,8 +26,8 @@ function initializeReferencesStatements(j: Object, referenceProps: Object[], roo
           j.callExpression(j.memberExpression(j.identifier('state'), j.identifier('set')), [
             j.literal(prop.key.name),
             valueExpression,
-          ]),
-        ),
+          ])
+        )
       );
     });
 }
@@ -36,13 +36,13 @@ export default function initialize(
   j: Object,
   referenceProps: Object[],
   initialValues: string | null,
-  root: Object,
+  root: Object
 ) {
   const mapTypeAnnotation = j.typeAnnotation(
     j.genericTypeAnnotation(
       j.identifier('Immutable.Map'),
-      j.typeParameterInstantiation([j.stringTypeAnnotation(), j.anyTypeAnnotation()]),
-    ),
+      j.typeParameterInstantiation([j.stringTypeAnnotation(), j.anyTypeAnnotation()])
+    )
   );
   const blockStatements = [
     j.variableDeclaration('let', [
@@ -50,8 +50,8 @@ export default function initialize(
         j.identifier('state'),
         j.callExpression(
           j.memberExpression(j.identifier('Immutable'), j.identifier('Map')),
-          initialValues ? [j.identifier(initialValues)] : [],
-        ),
+          initialValues ? [j.identifier(initialValues)] : []
+        )
       ),
     ]),
     ...initializeReferencesStatements(j, referenceProps, root),

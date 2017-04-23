@@ -22,7 +22,7 @@ describe('update', () => {
         lastCupWin: null,
         strengths: ['defense'],
       },
-      defaultTeamValues,
+      defaultTeamValues
     );
     const division = Division.fromJS({
       name: 'Metropolitan',
@@ -37,7 +37,7 @@ describe('update', () => {
       strengths: ['goaltending'],
     });
     const nextDivision = division.update('teams', (teams: Immutable.Map<string, Team>) =>
-      teams.set('NYR', rangers),
+      teams.set('NYR', rangers)
     );
     expect(nextDivision).not.toBe(division);
     expect(nextDivision.name).toBe('Metropolitan');
@@ -61,7 +61,7 @@ describe('udpateIn', () => {
             lastCupWin: null,
             strengths: ['defense'],
           },
-          defaultTeamValues,
+          defaultTeamValues
         ),
         NYR: Object.assign(
           {},
@@ -72,14 +72,14 @@ describe('udpateIn', () => {
             lastCupWin: 1994,
             strengths: ['goaltending'],
           },
-          defaultTeamValues,
+          defaultTeamValues
         ),
       },
     });
     const blueJackets = division.teams.get('CBJ');
     const rangers = division.teams.get('NYR');
     const nextDivision = division.updateIn(['teams', 'NYR'], (team: Team) =>
-      team.setLocation('New York City'),
+      team.setLocation('New York City')
     );
     expect(nextDivision).not.toBe(division);
     expect(nextDivision.name).toBe('Metropolitan');

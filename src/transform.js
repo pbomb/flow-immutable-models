@@ -40,15 +40,15 @@ export default function(file: Object, api: Object, options: Object) {
         methods.push(getter(j, prop), setter(j, prop));
         return methods;
       },
-      [toJS(j, className, type.properties)],
+      [toJS(j, className, type.properties)]
     );
 
     const classDeclaration = j.exportNamedDeclaration(
       j.classDeclaration(
         classNameIdentifier,
         j.classBody(staticMethods.concat(instanceMethods)),
-        j.identifier('ImmutableModel'),
-      ),
+        j.identifier('ImmutableModel')
+      )
     );
     const comments = [
       ' /////////////////////////////////////////////////////////////////////////////',
@@ -113,7 +113,7 @@ export default function(file: Object, api: Object, options: Object) {
 
 All types ending with "ModelType" are expected to be defined as object literals with properties.
 Perhaps you didn't mean for ${identifier} to be a ModelType.
-`,
+`
         );
       }
       const defaultValuesName = `default${capitalize(className)}Values`;
@@ -123,7 +123,7 @@ Perhaps you didn't mean for ${identifier} to be a ModelType.
           if (dec.id.name === defaultValuesName) {
             defaultValues = dec;
           }
-        }),
+        })
       );
 
       classes.push({
@@ -139,7 +139,7 @@ Perhaps you didn't mean for ${identifier} to be a ModelType.
   const replaceOrAddStatement = (
     tokenType: Object,
     filterFn: (path: Object) => boolean,
-    statement: Object | null,
+    statement: Object | null
   ) => {
     const existingStatement = root.find(tokenType).filter(filterFn);
 
@@ -156,27 +156,27 @@ Perhaps you didn't mean for ${identifier} to be a ModelType.
       path =>
         path.node.declaration.type === 'ClassDeclaration' &&
         path.node.declaration.id.name === className,
-      classDef,
+      classDef
     );
     replaceOrAddStatement(
       j.TypeAlias,
       path => path.node.id.name === `${className}OptionalArguments`,
-      optionalType,
+      optionalType
     );
     replaceOrAddStatement(
       j.TypeAlias,
       path => path.node.id.name === `${className}RequiredArguments`,
-      requiredType,
+      requiredType
     );
     replaceOrAddStatement(
       j.TypeAlias,
       path => path.node.id.name === `${className}FullType`,
-      fullType,
+      fullType
     );
     replaceOrAddStatement(
       j.TypeAlias,
       path => path.node.id.name === `${className}FromJSType`,
-      fromJSType,
+      fromJSType
     );
   });
 

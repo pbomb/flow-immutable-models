@@ -16,7 +16,7 @@ function modelMapFn(j: Object, nonModelType: string): Object {
     [j.identifier('item')],
     j.callExpression(j.memberExpression(j.identifier(nonModelType), j.identifier('fromJS')), [
       j.identifier('item'),
-    ]),
+    ])
   );
 }
 
@@ -25,7 +25,7 @@ function initializeArray(j: Object, typeAlias: Object, propExpression: Object): 
   const arrayType = firstParamType.type;
   const createListExpression = j.callExpression(
     j.memberExpression(j.identifier('Immutable'), j.identifier('List')),
-    [propExpression],
+    [propExpression]
   );
   let valueExpression = createListExpression;
   if (arrayType === 'GenericTypeAnnotation') {
@@ -34,7 +34,7 @@ function initializeArray(j: Object, typeAlias: Object, propExpression: Object): 
     if (nonModelType !== modelType) {
       valueExpression = j.callExpression(
         j.memberExpression(createListExpression, j.identifier('map')),
-        [modelMapFn(j, nonModelType)],
+        [modelMapFn(j, nonModelType)]
       );
     }
   }
@@ -44,7 +44,7 @@ function initializeArray(j: Object, typeAlias: Object, propExpression: Object): 
 function initializeObject(j: Object, typeAlias: Object, propExpression: Object): Object {
   let valueExpression = j.callExpression(
     j.memberExpression(j.identifier('Immutable'), j.identifier('Map')),
-    [propExpression],
+    [propExpression]
   );
   const propIndexer = typeAlias.indexers[0];
   const modelType = propIndexer && propIndexer.value.id && propIndexer.value.id.name;
@@ -61,7 +61,7 @@ export default function fromJS(
   j: Object,
   className: string,
   defaultValues: Object | null,
-  referenceProps: Object[],
+  referenceProps: Object[]
 ) {
   const jsonIdentifier = j.identifier('json');
   const stateIdentifier = j.identifier('state');
@@ -116,7 +116,7 @@ export default function fromJS(
     argumentArray = [j.objectExpression([]), j.identifier('json')];
   }
   const stateObjectTypeAnnotation = j.typeAnnotation(
-    j.genericTypeAnnotation(j.identifier('Object'), null),
+    j.genericTypeAnnotation(j.identifier('Object'), null)
   );
   const stateVariableIdentifier = Object.assign({}, j.identifier('state'), {
     typeAnnotation: stateObjectTypeAnnotation,
@@ -125,8 +125,8 @@ export default function fromJS(
     stateVariableIdentifier,
     j.callExpression(
       j.memberExpression(j.identifier('Object'), j.identifier('assign')),
-      argumentArray,
-    ),
+      argumentArray
+    )
   );
   const assignExpression = j.variableDeclaration('const', [stateVariable]);
   assignExpressions.push(assignExpression);
@@ -142,9 +142,9 @@ export default function fromJS(
           j.callExpression(j.memberExpression(j.identifier('Immutable'), j.identifier('Map')), [
             stateIdentifier,
           ]),
-        ]),
+        ])
       ),
-    ]),
+    ])
   );
   func.returnType = j.typeAnnotation(j.genericTypeAnnotation(j.identifier(className), null));
 

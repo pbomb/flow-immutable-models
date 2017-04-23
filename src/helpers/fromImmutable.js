@@ -5,8 +5,8 @@ export default function fromImmutable(j: Object, className: string) {
   const mapTypeAnnotation = j.typeAnnotation(
     j.genericTypeAnnotation(
       j.identifier('Immutable.Map'),
-      j.typeParameterInstantiation([j.stringTypeAnnotation(), j.anyTypeAnnotation()]),
-    ),
+      j.typeParameterInstantiation([j.stringTypeAnnotation(), j.anyTypeAnnotation()])
+    )
   );
   const param = Object.assign({}, immutableStateIdentifier, { typeAnnotation: mapTypeAnnotation });
   const func = j.functionExpression(
@@ -14,7 +14,7 @@ export default function fromImmutable(j: Object, className: string) {
     [param],
     j.blockStatement([
       j.returnStatement(j.newExpression(j.identifier(className), [immutableStateIdentifier])),
-    ]),
+    ])
   );
   func.returnType = j.typeAnnotation(j.genericTypeAnnotation(j.identifier(className), null));
 

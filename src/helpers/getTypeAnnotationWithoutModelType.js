@@ -5,7 +5,7 @@ import { withoutModelTypeSuffix } from './withoutModelTypeSuffix';
 export default function getTypeAnnotationWithoutModelType(
   j: Object,
   value: Object,
-  convertToImmutable: boolean = false,
+  convertToImmutable: boolean = false
 ): Object {
   const type: string = value.type;
 
@@ -24,30 +24,30 @@ export default function getTypeAnnotationWithoutModelType(
           value.typeParameters
             ? j.typeParameterInstantiation(
                 value.typeParameters.params.map(typeParam =>
-                  getTypeAnnotationWithoutModelType(j, typeParam),
-                ),
+                  getTypeAnnotationWithoutModelType(j, typeParam)
+                )
               )
-            : null,
+            : null
         );
       }
       if (value.id.type === 'QualifiedTypeIdentifier') {
         return j.genericTypeAnnotation(
           j.qualifiedTypeIdentifier(
             value.id.qualification,
-            j.identifier(withoutModelTypeSuffix(value.id.id.name)),
+            j.identifier(withoutModelTypeSuffix(value.id.id.name))
           ),
           j.typeParameterInstantiation(
             value.typeParameters.params.map(typeParam =>
-              getTypeAnnotationWithoutModelType(j, typeParam),
-            ),
-          ),
+              getTypeAnnotationWithoutModelType(j, typeParam)
+            )
+          )
         );
       }
       return value;
     }
     case 'NullableTypeAnnotation':
       return j.nullableTypeAnnotation(
-        getTypeAnnotationWithoutModelType(j, value.typeAnnotation, convertToImmutable),
+        getTypeAnnotationWithoutModelType(j, value.typeAnnotation, convertToImmutable)
       );
     case 'ObjectTypeAnnotation':
       if (value.indexers.length > 0) {
@@ -57,7 +57,7 @@ export default function getTypeAnnotationWithoutModelType(
           j.typeParameterInstantiation([
             getTypeAnnotationWithoutModelType(j, propIndexer.key),
             getTypeAnnotationWithoutModelType(j, propIndexer.value, true),
-          ]),
+          ])
         );
       }
       return value;

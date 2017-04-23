@@ -19,13 +19,13 @@ export default function setterBody(j: Object, prop: Object) {
           j.callExpression(
             j.memberExpression(
               j.memberExpression(j.thisExpression(), j.identifier('_state')),
-              j.identifier('set'),
+              j.identifier('set')
             ),
-            [j.literal(propName), j.identifier(propName)],
+            [j.literal(propName), j.identifier(propName)]
           ),
-        ]),
+        ])
       ),
-    ]),
+    ])
   );
   func.returnType = j.typeAnnotation(j.genericTypeAnnotation(j.identifier('this'), null));
 
