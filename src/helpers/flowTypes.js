@@ -1,8 +1,9 @@
 // @flow
 
 export function isArray(typeAlias: Object): boolean {
-  return typeAlias.type === 'ArrayTypeAnnotation' ||
-    (typeAlias.id && typeAlias.id.name === 'Array');
+  return (
+    typeAlias.type === 'ArrayTypeAnnotation' || (typeAlias.id && typeAlias.id.name === 'Array')
+  );
 }
 
 export function isObjectMap(typeAlias: Object): boolean {

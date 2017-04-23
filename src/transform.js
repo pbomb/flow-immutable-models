@@ -118,11 +118,13 @@ Perhaps you didn't mean for ${identifier} to be a ModelType.
       }
       const defaultValuesName = `default${capitalize(className)}Values`;
       let defaultValues: Object | null = null;
-      root.find(j.VariableDeclaration).filter(path => path.node.declarations.forEach(dec => {
-        if (dec.id.name === defaultValuesName) {
-          defaultValues = dec;
-        }
-      }));
+      root.find(j.VariableDeclaration).filter(path =>
+        path.node.declarations.forEach(dec => {
+          if (dec.id.name === defaultValuesName) {
+            defaultValues = dec;
+          }
+        }),
+      );
 
       classes.push({
         className,

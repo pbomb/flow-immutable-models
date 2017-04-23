@@ -39,8 +39,10 @@ function getReturnObjectProp(j: Object, prop: Object) {
   let valueExpression = memberExpression;
 
   if (isReference) {
-    valueExpression = j.callExpression(j.memberExpression(memberExpression, j.identifier('toJS')), [
-    ]);
+    valueExpression = j.callExpression(
+      j.memberExpression(memberExpression, j.identifier('toJS')),
+      [],
+    );
   } else {
     valueExpression = memberExpression;
   }
@@ -66,7 +68,8 @@ export default function toJS(j: Object, className: string, props: Object[]) {
   const notMaybeProps = props.filter(prop => !prop.optional);
   const objExpression = j.objectExpression(
     notMaybeProps.map(prop =>
-      j.property('init', j.identifier(prop.key.name), getReturnObjectProp(j, prop))),
+      j.property('init', j.identifier(prop.key.name), getReturnObjectProp(j, prop)),
+    ),
   );
   let blockStatements: Array<Object>;
   if (maybeProps.length === 0) {

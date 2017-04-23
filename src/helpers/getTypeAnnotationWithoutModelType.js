@@ -24,7 +24,8 @@ export default function getTypeAnnotationWithoutModelType(
           value.typeParameters
             ? j.typeParameterInstantiation(
                 value.typeParameters.params.map(typeParam =>
-                  getTypeAnnotationWithoutModelType(j, typeParam)),
+                  getTypeAnnotationWithoutModelType(j, typeParam),
+                ),
               )
             : null,
         );
@@ -37,7 +38,8 @@ export default function getTypeAnnotationWithoutModelType(
           ),
           j.typeParameterInstantiation(
             value.typeParameters.params.map(typeParam =>
-              getTypeAnnotationWithoutModelType(j, typeParam)),
+              getTypeAnnotationWithoutModelType(j, typeParam),
+            ),
           ),
         );
       }

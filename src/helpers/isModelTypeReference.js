@@ -3,10 +3,12 @@ import { endsWithModelType } from './withoutModelTypeSuffix';
 import { isArray, isObjectMap } from './flowTypes';
 
 function isArrayOfModelType(typeAlias: Object): boolean {
-  return isArray(typeAlias) &&
+  return (
+    isArray(typeAlias) &&
     Boolean(typeAlias.typeParameters) &&
     typeAlias.typeParameters.params[0].type === 'GenericTypeAnnotation' &&
-    endsWithModelType(typeAlias.typeParameters.params[0].id.name);
+    endsWithModelType(typeAlias.typeParameters.params[0].id.name)
+  );
 }
 
 function isObjectMapOfModelType(typeAlias: Object): boolean {
@@ -19,7 +21,9 @@ function isObjectMapOfModelType(typeAlias: Object): boolean {
 
 export default function isModelTypeReference(typeAlias: Object): boolean {
   const alias = typeAlias.type === 'NullableTypeAnnotation' ? typeAlias.typeAnnotation : typeAlias;
-  return endsWithModelType(alias.id && alias.id.name) ||
+  return (
+    endsWithModelType(alias.id && alias.id.name) ||
     isArrayOfModelType(alias) ||
-    isObjectMapOfModelType(alias);
+    isObjectMapOfModelType(alias)
+  );
 }

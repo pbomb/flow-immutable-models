@@ -3,9 +3,11 @@
 const modelTypeLength = 'ModelType'.length;
 
 export function endsWithModelType(str: ?string): boolean {
-  return !!str &&
+  return (
+    !!str &&
     str.length > modelTypeLength &&
-    str.indexOf('ModelType') === str.length - modelTypeLength;
+    str.indexOf('ModelType') === str.length - modelTypeLength
+  );
 }
 
 export function withoutModelTypeSuffix(str: string): string {
