@@ -2,6 +2,7 @@
 0.44.1
 
 [ignore]
+flow-typed
 node_modules
 ; src/__tests__/fixtures
 
