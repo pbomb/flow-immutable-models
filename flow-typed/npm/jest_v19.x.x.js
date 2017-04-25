@@ -1,5 +1,5 @@
-// flow-typed signature: 269340ea4ca4555368bd144efc3753b4
-// flow-typed version: 2b78d73874/jest_v17.x.x/flow_>=v0.33.x
+// flow-typed signature: b3ed97c44539e6cdbaf9032b315a2b31
+// flow-typed version: ea7ac31527/jest_v19.x.x/flow_>=v0.33.x
 
 type JestMockFn = {
   (...args: Array<any>): any,
@@ -55,14 +55,14 @@ type JestMockFn = {
    * Sugar for only returning a value once inside your mock
    */
   mockReturnValueOnce(value: any): JestMockFn,
-}
+};
 
 type JestAsymmetricEqualityType = {
   /**
    * A custom Jasmine equality tester
    */
   asymmetricMatch(value: mixed): boolean,
-}
+};
 
 type JestCallsType = {
   allArgs(): mixed,
@@ -72,19 +72,19 @@ type JestCallsType = {
   first(): mixed,
   mostRecent(): mixed,
   reset(): void,
-}
+};
 
 type JestClockType = {
   install(): void,
   mockDate(date: Date): void,
   tick(): void,
   uninstall(): void,
-}
+};
 
 type JestMatcherResult = {
-  message?: string | ()=>string,
+  message?: string | (() => string),
   pass: boolean,
-}
+};
 
 type JestMatcher = (actual: any, expected: any) => JestMatcherResult;
 
@@ -190,13 +190,26 @@ type JestExpectType = {
    */
   toHaveBeenCalledWith(...args: Array<any>): void,
   /**
+   * Check that an object has a .length property and it is set to a certain
+   * numeric value.
+   */
+  toHaveLength(number: number): void,
+  /**
+   *
+   */
+  toHaveProperty(propPath: string, value?: any): void,
+  /**
    * Use .toMatch to check that a string matches a regular expression.
    */
   toMatch(regexp: RegExp): void,
   /**
+   * Use .toMatchObject to check that a javascript object matches a subset of the properties of an object.
+   */
+  toMatchObject(object: Object): void,
+  /**
    * This ensures that a React component matches the most recent snapshot.
    */
-  toMatchSnapshot(): void,
+  toMatchSnapshot(name?: string): void,
   /**
    * Use .toThrow to test that a function throws when it is called.
    */
@@ -212,7 +225,7 @@ type JestExpectType = {
    * matching the most recent snapshot when it is called.
    */
   toThrowErrorMatchingSnapshot(): void,
-}
+};
 
 type JestObjectType = {
   /**
@@ -234,6 +247,11 @@ type JestObjectType = {
    * An un-hoisted version of enableAutomock
    */
   autoMockOn(): JestObjectType,
+  /**
+   * Clears the mock.calls and mock.instances properties of all mocks.
+   * Equivalent to calling .mockClear() on every mocked function.
+   */
+  clearAllMocks(): JestObjectType,
   /**
    * Resets the state of all mocks. Equivalent to calling .mockReset() on every
    * mocked function.
@@ -329,11 +347,16 @@ type JestObjectType = {
    * Instructs Jest to use the real versions of the standard timer functions.
    */
   useRealTimers(): JestObjectType,
-}
+  /**
+   * Creates a mock function similar to jest.fn but also tracks calls to
+   * object[methodName].
+   */
+  spyOn(object: Object, methodName: string): JestMockFn,
+};
 
 type JestSpyType = {
   calls: JestCallsType,
-}
+};
 
 /** Runs this function after every test inside this context */
 declare function afterEach(fn: Function): void;
@@ -369,6 +392,13 @@ declare var it: {
    * @param {Function} Test
    */
   skip(name: string, fn?: Function): ?Promise<void>,
+  /**
+   * Run the test concurrently
+   *
+   * @param {string} Name of Test
+   * @param {Function} Test
+   */
+  concurrent(name: string, fn?: Function): ?Promise<void>,
 };
 declare function fit(name: string, fn: Function): ?Promise<void>;
 /** An individual test unit */
@@ -387,7 +417,17 @@ declare var expect: {
   /** The object that you want to make assertions against */
   (value: any): JestExpectType,
   /** Add additional Jasmine matchers to Jest's roster */
-  extend(matchers: {[name:string]: JestMatcher}): void,
+  extend(matchers: { [name: string]: JestMatcher }): void,
+  /** Add a module that formats application-specific data structures. */
+  addSnapshotSerializer(serializer: (input: Object) => string): void,
+  assertions(expectedAssertions: number): void,
+  any(value: mixed): JestAsymmetricEqualityType,
+  anything(): void,
+  arrayContaining(value: Array<mixed>): void,
+  objectContaining(value: Object): void,
+  /** Matches any received string that contains the exact expected string. */
+  stringContaining(value: string): void,
+  stringMatching(value: string | RegExp): void,
 };
 
 // TODO handle return type
@@ -395,7 +435,7 @@ declare var expect: {
 declare function spyOn(value: mixed, method: string): Object;
 
 /** Holds all functions related to manipulating test runner */
-declare var jest: JestObjectType
+declare var jest: JestObjectType;
 
 /**
  * The global Jamine object, this is generally not exposed as the public API,
@@ -408,6 +448,7 @@ declare var jasmine: {
   arrayContaining(value: Array<mixed>): void,
   clock(): JestClockType,
   createSpy(name: string): JestSpyType,
+  createSpyObj(baseName: string, methodNames: Array<string>): { [methodName: string]: JestSpyType },
   objectContaining(value: Object): void,
   stringMatching(value: string): void,
-}
+};
