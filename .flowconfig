@@ -1,9 +1,9 @@
 [version]
-0.44.1
+0.46.0
 
 [ignore]
 flow-typed
-node_modules
+<PROJECT_ROOT>/node_modules/eslint-plugin-jsx-a11y/.*
 ; src/__tests__/fixtures
 
 [include]
