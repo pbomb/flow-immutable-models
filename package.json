@@ -2,13 +2,13 @@
   "name": "flow-immutable-models",
   "version": "0.11.6",
   "description": "Generates model classes from Flow types using Immutable.js",
-  "main": "src/ImmutableModel.js",
+  "main": "lib/ImmutableModel.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/pbomb/flow-immutable-models.git"
   },
   "scripts": {
-    "build": "babel src -d lib --ignore __tests__",
+    "build": "babel src -d lib --ignore __tests__ && flow-copy-source src lib",
     "flow": "flow",
     "eslint": "eslint src",
     "gen-models": "npm run build && jscodeshift src/__tests__/models -t lib/transform.js",
@@ -39,6 +39,7 @@
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.0.1",
     "flow-bin": "^0.46.0",
+    "flow-copy-source": "^1.2.0",
     "jest": "^20.0.3",
     "lint-staged": "^3.4.2",
     "pre-commit": "1.2.2",
