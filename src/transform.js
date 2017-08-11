@@ -1,184 +1,137 @@
 // @flow
-import capitalize from './helpers/capitalize';
-import fromJS from './helpers/fromJS';
+import makeClass from './helpers/makeClass';
+import parseType from './helpers/parseType';
 import {
   getFromJSTypeStatement,
   getFullTypeStatement,
   getOptionalTypeStatement,
   getRequiredTypeStatement,
 } from './helpers/getDefaultValueTypeStatements';
-import getter from './helpers/getter';
-import setter from './helpers/setter';
-import toJS from './helpers/toJS';
 import { endsWithModelType, withoutModelTypeSuffix } from './helpers/withoutModelTypeSuffix';
 
-const defaultPrintOptions = { quote: 'single', trailingComma: true };
+// const defaultPrintOptions = { quote: 'single', trailingComma: true };
 
-export default function(file: Object, api: Object, options: Object) {
-  const j: any = api.jscodeshift;
+const getDefaultValuesClassName = (name: string) => {
+  const valuesIndex = name.indexOf('Values');
+  const defaultIndex = name.indexOf('default');
+  if (
+    name.length > 'defaultValues'.length &&
+    defaultIndex === 0 &&
+    valuesIndex === name.length - 'Values'.length
+  ) {
+    return name.substring('default'.length, valuesIndex);
+  }
+  return null;
+};
 
-  const printOptions = options.printOptions || defaultPrintOptions;
+export default function(babel: any) {
+  const { types: t } = babel;
 
-  const root = j(file.source);
-  const { program } = root.get().value;
-  const { body } = program;
-
-  const classes: Array<{|
+  let classes: Array<{|
     className: string,
-    classDef: Object,
-    fromJSType: Object | null,
-    fullType: Object | null,
-    optionalType: Object | null,
-    requiredType: Object | null,
+    parsedType: Object,
+    path: any,
   |}> = [];
+  let classDefaultValues = {};
+  let existingClasses = {};
+  let existingTypeAliases = {};
 
-  function makeClass(className, type, defaultValues) {
-    const classNameIdentifier = j.identifier(className);
-    const staticMethods = [fromJS(j, className, defaultValues, type.properties)];
-    const instanceMethods = type.properties.reduce(
-      (methods, prop) => {
-        methods.push(getter(j, prop), setter(j, prop));
-        return methods;
-      },
-      [toJS(j, className, type.properties)]
-    );
-
-    const classDeclaration = j.exportNamedDeclaration(
-      j.classDeclaration(
-        classNameIdentifier,
-        j.classBody(staticMethods.concat(instanceMethods)),
-        j.identifier('ImmutableModel')
-      )
-    );
-    const comments = [
-      ' /////////////////////////////////////////////////////////////////////////////',
-      '',
-      ' NOTE: THIS CLASS IS GENERATED. DO NOT MAKE CHANGES HERE.',
-      '',
-      ' If you need to update this class, update the corresponding flow type above',
-      ' and re-run the flow-immutable-models codemod',
-      '',
-      ' /////////////////////////////////////////////////////////////////////////////',
-    ];
-    classDeclaration.comments = comments.map(comment => j.commentLine(comment));
-    return classDeclaration;
-  }
-
-  function parseType<T: Object | string>(td: T): T {
-    if (typeof td === 'string') {
-      return td;
-    }
-    const typeDef = Object.assign({}, td);
-    delete typeDef.start;
-    delete typeDef.end;
-    delete typeDef.loc;
-    delete typeDef.extra;
-
-    if (typeDef.id) {
-      typeDef.id = parseType(typeDef.id);
-    }
-    if (typeDef.key) {
-      typeDef.key = parseType(typeDef.key);
-    }
-    if (typeDef.value) {
-      typeDef.value = parseType(typeDef.value);
-    }
-
-    if (typeDef.types) {
-      typeDef.types = typeDef.types.map(parseType);
-    }
-    if (typeDef.properties) {
-      typeDef.properties = typeDef.properties.map(parseType);
-    }
-
-    return typeDef;
-  }
-
-  root
-    .find(j.ExportNamedDeclaration)
-    .filter(p => {
-      if (p.node.exportKind === 'type') {
-        const identifier = p.node.declaration.id.name;
-        return endsWithModelType(identifier);
+  const replaceOrAddStatement = (programPath: any, existingPath: any, statement: Object | null) => {
+    if (existingPath) {
+      if (statement) {
+        existingPath.replaceWith(statement);
+      } else {
+        existingPath.remove();
       }
-      return false;
-    })
-    .forEach(p => {
-      const identifier = p.node.declaration.id.name;
-      const className = withoutModelTypeSuffix(identifier);
-      const parsedType: Object = parseType(p.node.declaration.right);
-      if (parsedType.type !== 'ObjectTypeAnnotation') {
-        throw new Error(
-          `Expected ${identifier} to be of type ObjectTypeAnnotation. Instead it was of type ${parsedType.type}.
-
-All types ending with "ModelType" are expected to be defined as object literals with properties.
-Perhaps you didn't mean for ${identifier} to be a ModelType.
-`
-        );
-      }
-      const defaultValuesName = `default${capitalize(className)}Values`;
-      let defaultValues: Object | null = null;
-      root.find(j.VariableDeclaration).filter(path =>
-        path.node.declarations.forEach(dec => {
-          if (dec.id.name === defaultValuesName) {
-            defaultValues = dec;
-          }
-        })
-      );
-
-      classes.push({
-        className,
-        classDef: makeClass(className, parsedType, defaultValues),
-        optionalType: getOptionalTypeStatement(j, className, defaultValues),
-        requiredType: getRequiredTypeStatement(j, className, defaultValues, parsedType.properties),
-        fromJSType: getFromJSTypeStatement(j, className, defaultValues),
-        fullType: getFullTypeStatement(j, className, defaultValues),
-      });
-    });
-
-  const replaceOrAddStatement = (
-    tokenType: Object,
-    filterFn: (path: Object) => boolean,
-    statement: Object | null
-  ) => {
-    const existingStatement = root.find(tokenType).filter(filterFn);
-
-    if (existingStatement.size() === 1) {
-      existingStatement.replaceWith(statement);
-    } else {
-      body.push(statement);
+    } else if (statement) {
+      programPath.pushContainer('body', statement);
     }
   };
 
-  classes.forEach(({ className, classDef, fromJSType, fullType, optionalType, requiredType }) => {
-    replaceOrAddStatement(
-      j.ExportNamedDeclaration,
-      path =>
-        path.node.declaration.type === 'ClassDeclaration' &&
-        path.node.declaration.id.name === className,
-      classDef
-    );
-    replaceOrAddStatement(
-      j.TypeAlias,
-      path => path.node.id.name === `${className}OptionalArguments`,
-      optionalType
-    );
-    replaceOrAddStatement(
-      j.TypeAlias,
-      path => path.node.id.name === `${className}RequiredArguments`,
-      requiredType
-    );
-    replaceOrAddStatement(
-      j.TypeAlias,
-      path => path.node.id.name === `${className}FullType`,
-      fullType
-    );
-    replaceOrAddStatement(
-      j.TypeAlias,
-      path => path.node.id.name === `${className}FromJSType`,
-      fromJSType
-    );
-  });
+  return {
+    name: 'flow-immutable-models',
+    visitor: {
+      Program(p: any) {
+        classes = [];
+        classDefaultValues = {};
+        existingClasses = {};
+        existingTypeAliases = {};
 
-  return root.toSource(printOptions);
+        p.traverse({
+          ExportNamedDeclaration(path: any) {
+            let isExportedModelType = false;
+            const declaration = path.node.declaration;
+            if (path.node.exportKind === 'type') {
+              const identifier = declaration.id.name;
+              isExportedModelType = endsWithModelType(identifier);
+            }
+
+            if (isExportedModelType) {
+              const identifier = declaration.id.name;
+              const className = withoutModelTypeSuffix(identifier);
+              const parsedType: Object = parseType(declaration.right);
+              if (parsedType.type !== 'ObjectTypeAnnotation') {
+                throw new Error(
+                  `Expected ${identifier} to be of type ObjectTypeAnnotation. Instead it was of type ${parsedType.type}.
+
+        All types ending with "ModelType" are expected to be defined as object literals with properties.
+        Perhaps you didn't mean for ${identifier} to be a ModelType.
+        `
+                );
+              }
+              classes.push({
+                className,
+                parsedType,
+                path,
+              });
+            } else if (declaration.type === 'ClassDeclaration') {
+              const className = declaration.id.name;
+              existingClasses[className] = path;
+            }
+          },
+          VariableDeclaration(path: any) {
+            path.node.declarations.forEach(dec => {
+              const name = dec.id.name;
+              const className = getDefaultValuesClassName(name);
+              if (className) {
+                classDefaultValues[className] = dec;
+              }
+            });
+          },
+          TypeAlias(path: any) {
+            const typeName = path.node.id.name;
+            existingTypeAliases[typeName] = path;
+          },
+        });
+
+        classes.forEach(({ className, parsedType }) => {
+          const defaultValues = classDefaultValues[className];
+          const classDef = makeClass(t, className, parsedType, defaultValues);
+          const optionalType = getOptionalTypeStatement(t, className, defaultValues);
+          const requiredType = getRequiredTypeStatement(
+            t,
+            className,
+            defaultValues,
+            parsedType.properties
+          );
+          const fromJSType = getFromJSTypeStatement(t, className, defaultValues);
+          const fullType = getFullTypeStatement(t, className, defaultValues);
+
+          replaceOrAddStatement(p, existingClasses[className], classDef);
+          replaceOrAddStatement(
+            p,
+            existingTypeAliases[`${className}OptionalArguments`],
+            optionalType
+          );
+          replaceOrAddStatement(
+            p,
+            existingTypeAliases[`${className}RequiredArguments`],
+            requiredType
+          );
+          replaceOrAddStatement(p, existingTypeAliases[`${className}FullType`], fullType);
+          replaceOrAddStatement(p, existingTypeAliases[`${className}FromJSType`], fromJSType);
+        });
+      },
+    },
+  };
 }

@@ -15,7 +15,7 @@ export default function getTypeAnnotationWithoutModelType(
         const nameWithoutSuffix = withoutModelTypeSuffix(value.id.name);
         let typeId;
         if (nameWithoutSuffix === 'Array' && convertToImmutable) {
-          typeId = j.qualifiedTypeIdentifier(j.identifier('Immutable'), j.identifier('List'));
+          typeId = j.qualifiedTypeIdentifier(j.identifier('List'), j.identifier('Immutable'));
         } else {
           typeId = j.identifier(nameWithoutSuffix);
         }
@@ -53,7 +53,7 @@ export default function getTypeAnnotationWithoutModelType(
       if (value.indexers.length > 0) {
         const propIndexer = value.indexers[0];
         return j.genericTypeAnnotation(
-          j.qualifiedTypeIdentifier(j.identifier('Immutable'), j.identifier('Map')),
+          j.qualifiedTypeIdentifier(j.identifier('Map'), j.identifier('Immutable')),
           j.typeParameterInstantiation([
             getTypeAnnotationWithoutModelType(j, propIndexer.key),
             getTypeAnnotationWithoutModelType(j, propIndexer.value, true),

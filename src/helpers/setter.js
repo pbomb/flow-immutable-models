@@ -10,24 +10,27 @@ export default function setterBody(j: Object, prop: Object) {
   }
   const typeAnnotation = j.typeAnnotation(propType);
   const param = Object.assign(j.identifier(propName), { typeAnnotation });
-  const func = j.functionExpression(
-    null,
-    [param],
-    j.blockStatement([
-      j.returnStatement(
-        j.callExpression(j.memberExpression(j.thisExpression(), j.identifier('clone')), [
-          j.callExpression(
-            j.memberExpression(
-              j.memberExpression(j.thisExpression(), j.identifier('_state')),
-              j.identifier('set')
-            ),
-            [j.literal(propName), j.identifier(propName)]
+  const func = j.blockStatement([
+    j.returnStatement(
+      j.callExpression(j.memberExpression(j.thisExpression(), j.identifier('clone')), [
+        j.callExpression(
+          j.memberExpression(
+            j.memberExpression(j.thisExpression(), j.identifier('_state')),
+            j.identifier('set')
           ),
-        ])
-      ),
-    ])
-  );
-  func.returnType = j.typeAnnotation(j.genericTypeAnnotation(j.identifier('this'), null));
+          [j.stringLiteral(propName), j.identifier(propName)]
+        ),
+      ])
+    ),
+  ]);
 
-  return j.methodDefinition('method', j.identifier(`set${capitalize(propName)}`), func);
+  const className = j.classMethod(
+    'method',
+    j.identifier(`set${capitalize(propName)}`),
+    [param],
+    func
+  );
+  className.returnType = j.typeAnnotation(j.genericTypeAnnotation(j.identifier('this'), null));
+
+  return className;
 }

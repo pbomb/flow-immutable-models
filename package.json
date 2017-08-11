@@ -9,9 +9,10 @@
   },
   "scripts": {
     "build": "babel src -d lib --ignore __tests__ && flow-copy-source src lib",
-    "flow": "flow",
+    "codemod": "codemod -p lib/transform.js src/__tests__/models",
     "eslint": "eslint src",
-    "gen-models": "npm run build && jscodeshift src/__tests__/models -t lib/transform.js",
+    "flow": "flow",
+    "gen-models": "npm run build && npm run codemod",
     "lint:staged": "lint-staged",
     "prepublish": "npm run eslint && npm run flow && npm test && npm run prettier",
     "prettier": "prettier --write --print-width=100 --single-quote=true --trailing-comma=es5 'src/**/*.js'",
@@ -46,6 +47,7 @@
     "prettier": "^1.3.1"
   },
   "dependencies": {
+    "babel-codemod": "^1.2.0",
     "immutable": "3.8.1",
     "jscodeshift": "0.3.30"
   },

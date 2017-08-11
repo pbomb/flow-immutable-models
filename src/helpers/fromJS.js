@@ -131,22 +131,21 @@ export default function fromJS(
   const assignExpression = j.variableDeclaration('const', [stateVariable]);
   assignExpressions.push(assignExpression);
   const param = Object.assign({}, jsonIdentifier, { typeAnnotation: paramTypeAnnotation });
-  const func = j.functionExpression(
-    null,
-    [param],
-    j.blockStatement([
-      ...assignExpressions,
-      ...referenceInitializationStatements,
-      j.returnStatement(
-        j.newExpression(j.identifier('this'), [
-          j.callExpression(j.memberExpression(j.identifier('Immutable'), j.identifier('Map')), [
-            stateIdentifier,
-          ]),
-        ])
-      ),
-    ])
-  );
-  func.returnType = j.typeAnnotation(j.genericTypeAnnotation(j.identifier(className), null));
+  const func = j.blockStatement([
+    ...assignExpressions,
+    ...referenceInitializationStatements,
+    j.returnStatement(
+      j.newExpression(j.identifier('this'), [
+        j.callExpression(j.memberExpression(j.identifier('Immutable'), j.identifier('Map')), [
+          stateIdentifier,
+        ]),
+      ])
+    ),
+  ]);
+  const returnType = j.typeAnnotation(j.genericTypeAnnotation(j.identifier(className), null));
+  const classMethod = j.classMethod('method', fromJSIdentifier, [param], func);
+  classMethod.returnType = returnType;
+  classMethod.static = true;
 
-  return j.methodDefinition('method', fromJSIdentifier, func, true);
+  return classMethod;
 }

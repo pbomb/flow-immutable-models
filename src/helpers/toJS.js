@@ -68,7 +68,7 @@ export default function toJS(j: Object, className: string, props: Object[]) {
   const notMaybeProps = props.filter(prop => !prop.optional);
   const objExpression = j.objectExpression(
     notMaybeProps.map(prop =>
-      j.property('init', j.identifier(prop.key.name), getReturnObjectProp(j, prop))
+      j.objectProperty(j.identifier(prop.key.name), getReturnObjectProp(j, prop))
     )
   );
   let blockStatements: Array<Object>;
@@ -103,7 +103,14 @@ export default function toJS(j: Object, className: string, props: Object[]) {
       j.returnStatement(j.identifier('js')),
     ];
   }
-  const func = j.functionExpression(null, [], j.blockStatement(blockStatements));
-  func.returnType = modelTypeAnnotation;
-  return j.methodDefinition('method', toJSIdentifier, func, false);
+  const returnType = modelTypeAnnotation;
+  const classMethod = j.classMethod(
+    'method',
+    toJSIdentifier,
+    [],
+    j.blockStatement(blockStatements)
+  );
+  classMethod.returnType = returnType;
+
+  return classMethod;
 }

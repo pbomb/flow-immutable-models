@@ -18,5 +18,5 @@ export default function fromImmutable(j: Object, className: string) {
   );
   func.returnType = j.typeAnnotation(j.genericTypeAnnotation(j.identifier(className), null));
 
-  return j.methodDefinition('method', fromImmutableIdentifier, func, true);
+  return j.classMethod('method', fromImmutableIdentifier, func, true);
 }

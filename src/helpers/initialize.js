@@ -24,7 +24,7 @@ function initializeReferencesStatements(j: Object, referenceProps: Object[], roo
           '=',
           j.identifier('state'),
           j.callExpression(j.memberExpression(j.identifier('state'), j.identifier('set')), [
-            j.literal(prop.key.name),
+            j.stringLiteral(prop.key.name),
             valueExpression,
           ])
         )
@@ -60,5 +60,5 @@ export default function initialize(
   const func = j.functionExpression(null, [], j.blockStatement(blockStatements));
   func.returnType = mapTypeAnnotation;
 
-  return j.methodDefinition('method', j.identifier('initialize'), func, false);
+  return j.classMethod('method', j.identifier('initialize'), func, false);
 }

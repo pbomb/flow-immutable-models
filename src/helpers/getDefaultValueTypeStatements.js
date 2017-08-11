@@ -14,7 +14,7 @@ export function getRequiredTypeStatement(
   return j.typeAlias(
     j.identifier(`${className}RequiredArguments`),
     null,
-    j.objectTypeAnnotation(requiredProperties)
+    j.objectTypeAnnotation(requiredProperties, [], [])
   );
 }
 
